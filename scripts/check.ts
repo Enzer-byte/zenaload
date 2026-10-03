@@ -1,0 +1,86 @@
+import { createHmac } from "crypto";
+import { verifyPaystackSignature } from "../src/lib/paystackSignature";
+import { orderStore } from "../src/repositories/orderStore";
+import { handleChargeSuccess } from "../src/services/paymentEvents";
+import type { Order } from "../src/types";
+const ok = (c: boolean, m: string) => { console.log(c ? "PASS" : "FAIL", m); if (!c) process.exitCode = 1; };
+const body = '{"event":"charge.success"}', sig = createHmac("sha512", "sk_test").update(body).digest("hex");
+ok(verifyPaystackSignature(body, sig, "sk_test"), "valid signature accepted");
+ok(!verifyPaystackSignature(body + " ", sig, "sk_test"), "tampered body rejected");
+ok(!verifyPaystackSignature(body, null, "sk_test"), "missing signature rejected");
+const now = new Date().toISOString();
+const o: Order = { id: "GF-T-1", gameId: "free-fire", productId: "free-fire-1", playerFields: { playerId: "123456789" }, customer: { email: "a@b.co", phone: "08030000000" }, amount: 4500, currency: "NGN", payment: "PAYMENT_PENDING", fulfillment: "NOT_STARTED", paymentRef: "REF1", createdAt: now, updatedAt: now, events: [] };
+(async () => {
+  await orderStore.create(o);
+  const r = await Promise.all([handleChargeSuccess("e1", "REF1", 450000), handleChargeSuccess("e1", "REF1", 450000)]);
+  ok(r.filter((x) => x === "queued").length === 1 && r.includes("duplicate"), `duplicate event ignored (${r})`);
+  ok((await handleChargeSuccess("e2", "REF1", 450000)) === "already_paid", "replay with new event id does not re-fulfil");
+  await new Promise((s) => setTimeout(s, 3500));
+  ok(o.fulfillment === "SUCCESSFUL" && o.supplierTxId === "SUP-GF-T-1", `fulfilled once (${o.fulfillment}, ${o.supplierTxId})`);
+  const o2 = { ...o, id: "GF-T-2", payment: "PAYMENT_PENDING" as const, paymentRef: "REF2", events: [] }; await orderStore.create(o2);
+  ok((await handleChargeSuccess("e3", "REF2", 100)) === "amount_mismatch", "amount mismatch rejected");
+})();
+import { PaystackProvider } from "../src/lib/providers/payment/paystack";
+(async () => {
+  process.env.PAYSTACK_API_KEY = "sk_test_REPLACE_ME";
+  try { await PaystackProvider.initializePayment({ orderId: "ZL-1", amount: 4500, email: "a@b.co" }); ok(false, "placeholder key should block"); } catch (e) { ok((e as Error).message.includes("isn't available yet"), "placeholder key gives friendly error"); }
+  process.env.PAYSTACK_API_KEY = "sk_test_abc123def"; let seen: { i: { body: string; headers: Record<string, string> } } | undefined;
+  globalThis.fetch = (async (_u: unknown, i: never) => { seen = { i }; return new Response(JSON.stringify({ status: true, data: { reference: "R1", authorization_url: "https://checkout.paystack.com/x", status: "success" } }), { status: 200 }); }) as typeof fetch;
+  const r = await PaystackProvider.initializePayment({ orderId: "ZL-1", amount: 4500, email: "a@b.co" });
+  ok(r.redirectUrl === "https://checkout.paystack.com/x" && JSON.parse(seen!.i.body).amount === 450000 && seen!.i.headers.Authorization === "Bearer sk_test_abc123def", "initialize sends kobo amount + auth header");
+  ok(await PaystackProvider.verifyPayment("R1"), "verify parses success");
+})();
+import { adminAction } from "../src/services/adminService";
+(async () => {
+  const mk = (id: string, ful: Order["fulfillment"], tx?: string): Order => ({ ...o, id, payment: "PAID", fulfillment: ful, paymentRef: "R-" + id, supplierTxId: tx, events: [] });
+  await orderStore.create(mk("ZL-A-1", "SUCCESSFUL", "SUP-X")); await orderStore.create(mk("ZL-A-2", "FAILED", "SUP-OLD"));
+  ok(!(await adminAction("ZL-A-1", "retry")).ok, "admin retry blocked on delivered order");
+  ok(!(await adminAction("ZL-A-1", "refund")).ok, "admin refund blocked on delivered order");
+  ok((await adminAction("ZL-A-2", "retry")).ok, "admin retry allowed on failed paid order");
+  await new Promise((s) => setTimeout(s, 3500));
+  const a2 = (await orderStore.get("ZL-A-2"))!; ok(a2.fulfillment === "SUCCESSFUL" && a2.supplierTxId === "SUP-ZL-A-2", `retry re-fulfilled once (${a2.fulfillment})`);
+})();
+import { catalogAdmin } from "../src/services/catalogAdmin";
+import { productService } from "../src/services/productService";
+(async () => {
+  const before = (await orderStore.get("ZL-A-1"))!.amount;
+  ok((await catalogAdmin({ type: "product.update", id: "free-fire-1", retailPrice: 5000 })).ok && (await productService.getProduct("free-fire-1"))!.retailPrice === 5000, "price edit updates catalogue");
+  ok((await orderStore.get("ZL-A-1"))!.amount === before, "price edit does not change existing orders");
+  ok(!(await catalogAdmin({ type: "product.update", id: "free-fire-1", supplierCost: 9999 })).ok, "cost above price rejected");
+  ok((await catalogAdmin({ type: "game.add", name: "Test Game", category: "FPS", fieldLabel: "UID" })).ok && !(await productService.getGame("test-game")), "new game added hidden");
+  ok(!(await catalogAdmin({ type: "game.update", id: "test-game", active: true })).ok, "cannot enable game without denomination");
+  ok(!(await catalogAdmin({ type: "game.add", name: "Test Game", category: "FPS", fieldLabel: "UID" })).ok, "duplicate slug rejected");
+  await catalogAdmin({ type: "product.add", gameId: "test-game", name: "50 Gems", denomination: 50, retailPrice: 1000, supplierCost: 900, supplierProductId: "SKU-PLACEHOLDER" });
+  ok((await catalogAdmin({ type: "game.update", id: "test-game", active: true })).ok && !!(await productService.getGame("test-game")), "game goes live once it has a denomination");
+  await catalogAdmin({ type: "product.update", id: "free-fire-1", active: false }); ok(!(await productService.getProduct("free-fire-1")), "disabled product not purchasable");
+})();
+import { toPublic } from "../src/lib/publicOrder";
+(async () => {
+  const x = { ...o, id: "ZL-P-1", customer: { email: "jane@doe.com", phone: "08031234567" }, paymentRef: "SECRET-REF", supplierTxId: "SUP-SECRET", events: [{ at: now, label: "Order created" }, { at: now, label: "Admin note: customer is VIP" }] };
+  const pub = JSON.stringify(await toPublic(x));
+  ok(!pub.includes("jane@doe.com") && !pub.includes("08031234567") && !pub.includes("123456789"), "public order masks email, phone and Player ID");
+  ok(!pub.includes("SECRET") && !pub.includes("VIP"), "public order hides gateway/supplier refs and admin notes");
+})();
+import { limited, record } from "../src/lib/rateLimit";
+import { routeTopup } from "../src/lib/supplierRouter";
+import { SupplierRejectedError, SupplierUnknownError } from "../src/lib/errors";
+import { createTicket } from "../src/services/opsService";
+import { opsStore } from "../src/repositories/opsStore";
+import { runContract } from "./contract";
+import { MockTopupProvider } from "../src/lib/providers/topup/mock";
+import { CodaProvider } from "../src/lib/providers/topup/coda";
+import type { TopupProvider } from "../src/types";
+(async () => {
+  for (let i = 0; i < 5; i++) record("k", 1000); ok(limited("k", 5, 1000) && !limited("other", 5, 1000), "rate limit blocks after 5 attempts");
+  const mk = (id: string, f: () => Promise<{ txId: string; status: "SUCCESSFUL" }>): TopupProvider => ({ ...MockTopupProvider, id, createTopup: f });
+  const inp = { idempotencyKey: "k", supplierProductId: "s", fields: {} }; let calledB = false;
+  const r = await routeTopup(inp, [mk("A", async () => { throw new SupplierRejectedError("no"); }), mk("B", async () => ({ txId: "B1", status: "SUCCESSFUL" }))]);
+  ok(r.provider === "B", "falls back to next supplier after a definitive rejection");
+  const e = await routeTopup(inp, [mk("A", async () => { throw new SupplierUnknownError("timeout"); }), mk("B", async () => { calledB = true; return { txId: "B2", status: "SUCCESSFUL" }; })]).catch((x) => x);
+  ok(e instanceof SupplierUnknownError && !calledB, "does NOT fall back after an ambiguous timeout");
+  const t = await createTicket({ email: "a@b.co", orderId: "zl-1", message: "My top-up is late" });
+  ok(t.orderId === "ZL-1" && (await opsStore.tickets()).length === 1 && (await opsStore.notices()).some((n) => n.title === "New support ticket"), "ticket created and admin notified");
+  await opsStore.setTicketOpen(t.id, false); ok(!(await opsStore.tickets())[0].open, "ticket can be resolved");
+  ok((await runContract(MockTopupProvider)).every(([, p]) => p), "mock supplier passes the contract suite");
+  ok(await CodaProvider.getBalance().then(() => false, (x) => /placeholders/.test((x as Error).message)), "Coda shell refuses to run on placeholder credentials");
+})();

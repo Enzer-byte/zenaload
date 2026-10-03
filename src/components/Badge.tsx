@@ -1,0 +1,2 @@
+const tone: Record<string, string> = { PAID: "text-green-400", SUCCESSFUL: "text-green-400", PAYMENT_FAILED: "text-red-400", FAILED: "text-red-400", REFUNDED: "text-amber-400", PENDING_REVIEW: "text-amber-400", PROCESSING: "text-amber-400", PAYMENT_PENDING: "text-amber-400" };
+export const Badge = ({ s }: { s: string }) => <span className={`rounded-full bg-elevated px-2.5 py-0.5 text-xs ${tone[s] ?? "text-ink2"}`}>{s}</span>;

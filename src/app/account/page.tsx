@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function Overview() { return (<div className="grid gap-4 md:grid-cols-2">{[["/account/orders", "Orders", "See and re-order past top-ups."], ["/account/player-ids", "Saved Player IDs", "One-tap repeat top-ups."], ["/account/loyalty", "Rewards", "Coming soon."], ["/account/referrals", "Referrals", "Coming soon."]].map(([h, t, d]) => <Link key={h} href={h} className="rounded-2xl border border-line bg-card p-5 hover:border-hi"><h2 className="font-medium">{t}</h2><p className="text-sm text-ink2">{d}</p></Link>)}</div>); }

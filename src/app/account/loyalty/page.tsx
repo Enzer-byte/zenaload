@@ -1,0 +1,2 @@
+import { config } from "@/config";
+export default function P() { return (<div className="max-w-md rounded-2xl border border-line bg-card p-6"><h2 className="text-xl font-semibold">{config.brand} Rewards</h2><p className="my-2 text-ink2">Earn points on every top-up and redeem them for discounts. Launching later; the rewards UI is ready and will switch on with accounts.</p><div className="h-2 rounded bg-elevated" aria-hidden /><p className="mt-2 text-xs text-mute">No points yet. Nothing shown here is real activity.</p></div>); }

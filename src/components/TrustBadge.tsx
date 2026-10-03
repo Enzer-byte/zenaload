@@ -1,0 +1,1 @@
+export const TrustBadge = ({ children }: { children: React.ReactNode }) => <span className="flex items-center gap-1.5 text-sm text-ink2"><span aria-hidden className="text-green-500">✓</span>{children}</span>;
