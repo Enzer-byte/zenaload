@@ -6,13 +6,13 @@ import { listGamesWithFrom } from "@/lib/gamesWithPrices";
 import { GameCardV2 } from "@/components/v2/GameCardV2";
 
 export const metadata = {
-  title: `All Games — ${config.brand}`,
+  title: `All Games — ${config.brand} (V2 Preview)`,
   description: "Browse all supported mobile games for instant Naira top-ups.",
 };
 
 const CATEGORIES = ["All", "Football", "Battle Royale", "FPS", "Mobile Games"];
 
-export default async function GamesPage({
+export default async function PreviewGamesPage({
   searchParams,
 }: {
   searchParams: Promise<{ cat?: string; q?: string }>;
@@ -24,10 +24,7 @@ export default async function GamesPage({
     const matchesCat =
       cat === "All" ||
       game.category.toLowerCase() === cat.toLowerCase() ||
-      (cat === "Mobile Games" &&
-        ["football", "battle royale", "fps", "mobile"].includes(
-          game.category.toLowerCase()
-        ));
+      (cat === "Mobile Games" && ["football", "battle royale", "fps", "mobile"].includes(game.category.toLowerCase()));
 
     const query = q.trim().toLowerCase();
     const matchesQuery =
@@ -45,8 +42,8 @@ export default async function GamesPage({
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between border-b border-white/10 pb-8">
         <div>
           <nav aria-label="Breadcrumb" className="mb-2 flex items-center gap-2 text-xs text-mute">
-            <Link href="/" className="hover:text-white transition-colors">
-              Home
+            <Link href="/preview" className="hover:text-white transition-colors">
+              Preview
             </Link>
             <span>/</span>
             <span className="text-white font-medium">Games</span>
@@ -60,17 +57,12 @@ export default async function GamesPage({
         </div>
 
         {/* Search input form */}
-        <form method="GET" action="/games" className="w-full md:w-80">
+        <form method="GET" action="/preview/games" className="w-full md:w-80">
           {cat !== "All" && <input type="hidden" name="cat" value={cat} />}
           <div className="relative flex items-center rounded-2xl border border-white/10 bg-card/80 p-1.5 backdrop-blur-md transition-all focus-within:border-brand/60 focus-within:ring-1 focus-within:ring-brand">
             <span className="pl-3 text-mute">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </span>
             <input
@@ -81,7 +73,7 @@ export default async function GamesPage({
             />
             {q && (
               <Link
-                href={`/games?cat=${encodeURIComponent(cat)}`}
+                href={`/preview/games?cat=${encodeURIComponent(cat)}`}
                 className="mr-2 text-xs text-mute hover:text-white"
                 title="Clear search"
               >
@@ -106,9 +98,7 @@ export default async function GamesPage({
             return (
               <Link
                 key={category}
-                href={`/games?cat=${encodeURIComponent(category)}${
-                  q ? `&q=${encodeURIComponent(q)}` : ""
-                }`}
+                href={`/preview/games?cat=${encodeURIComponent(category)}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
                 aria-current={isActive ? "page" : undefined}
                 className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-all duration-200 ${
                   isActive
@@ -129,7 +119,7 @@ export default async function GamesPage({
           {(cat !== "All" || q) && (
             <>
               <span>·</span>
-              <Link href="/games" className="text-hi hover:underline">
+              <Link href="/preview/games" className="text-hi hover:underline">
                 Reset filters
               </Link>
             </>
@@ -141,7 +131,7 @@ export default async function GamesPage({
       {filteredGames.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredGames.map(({ game, from }) => (
-            <GameCardV2 key={game.id} game={game} from={from} preview={false} />
+            <GameCardV2 key={game.id} game={game} from={from} preview={true} />
           ))}
         </div>
       ) : (
@@ -157,7 +147,7 @@ export default async function GamesPage({
           </div>
           <div className="pt-2">
             <Link
-              href="/games"
+              href="/preview/games"
               className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-xs font-semibold text-white shadow-md transition-all hover:brightness-110"
             >
               Reset All Filters

@@ -14,12 +14,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const game = await productService.getGame(slug);
   return {
-    title: game ? `${game.name} Top-Up in Naira — ${config.brand}` : "Game Top-Up",
+    title: game ? `${game.name} Top-Up in Naira — ${config.brand} (V2 Preview)` : "Game Top-Up",
     description: game?.description ?? `Instant top-up for ${game?.name} in Naira.`,
   };
 }
 
-export default async function GameDetailPage({
+export default async function PreviewGameDetailPage({
   params,
   searchParams,
 }: {
@@ -40,11 +40,11 @@ export default async function GameDetailPage({
     <div className="space-y-8">
       {/* Navigation Breadcrumbs */}
       <nav aria-label="Breadcrumbs" className="flex items-center gap-2 text-xs text-mute">
-        <Link href="/" className="hover:text-white transition-colors">
-          Home
+        <Link href="/preview" className="hover:text-white transition-colors">
+          Preview
         </Link>
         <span>/</span>
-        <Link href="/games" className="hover:text-white transition-colors">
+        <Link href="/preview/games" className="hover:text-white transition-colors">
           Games
         </Link>
         <span>/</span>

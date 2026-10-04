@@ -6,7 +6,7 @@ import { listGamesWithFrom } from "@/lib/gamesWithPrices";
 import { HeroV2 } from "@/components/v2/HeroV2";
 import { GameCardV2 } from "@/components/v2/GameCardV2";
 
-export default async function Home() {
+export default async function PreviewHomePage() {
   const games = await listGamesWithFrom();
 
   const trustFeatures = [
@@ -62,7 +62,7 @@ export default async function Home() {
   return (
     <div className="space-y-20">
       {/* V2 Hero Header */}
-      <HeroV2 preview={false} />
+      <HeroV2 preview={true} />
 
       {/* Section 1: Bento-grid Featured Top-Ups */}
       <section aria-labelledby="featured-heading" className="space-y-6">
@@ -81,7 +81,7 @@ export default async function Home() {
           </div>
 
           <Link
-            href="/games"
+            href="/preview/games"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-hi hover:text-white transition-colors"
           >
             <span>Browse All Games</span>
@@ -92,7 +92,7 @@ export default async function Home() {
         {games.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {games.map(({ game, from }) => (
-              <GameCardV2 key={game.id} game={game} from={from} preview={false} />
+              <GameCardV2 key={game.id} game={game} from={from} preview={true} />
             ))}
           </div>
         ) : (
