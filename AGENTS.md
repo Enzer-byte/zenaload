@@ -3,7 +3,7 @@
 Read this first. It is the single source of truth for any AI coding agent or developer picking up this repo (Antigravity, Cursor, Claude Code, etc.). Keep it updated when you change architecture. Also read `README.md`, `docs/PAYSTACK_SETUP.md`, `docs/SUPPLIERS.md`.
 
 ## 1. What this is
-**Zenaload** (formerly "GameFuel", only a working name) lets Nigerian gamers buy game credits (Free Fire Diamonds, CODM CP, DLS coins, etc.) in **Naira**, with **guest checkout** (no account), paid via **Paystack** (Flutterwave later), fulfilled automatically through third-party top-up suppliers (**Coda Payments** primary, **Reloadly** fallback).
+**Zenaload** (formerly "GameFuel", only a working name) lets Nigerian gamers buy game credits (Free Fire Diamonds, CODM CP, DLS coins, etc.) in **Naira**, with **guest checkout** (no account), paid via **Paystack** (Flutterwave later), fulfilled automatically through third-party top-up suppliers (**Shop2topup** primary, **Reloadly** fallback).
 Core flow: `Home → Game → Top-up → Player ID → Checkout → Pay → Processing → Success → Order tracking`. This flow is the priority; protect it.
 Audience: Nigerian students/young adults, mobile-first. Tone: clear, professional, friendly (Nigerian English, no heavy slang). Brand is a premium dark fintech/gaming look, NOT an SMM panel, crypto site or generic SaaS dashboard.
 Status: **prototype-complete, not production**. Everything runs on mocks until credentials arrive. Nothing here has handled real money.
@@ -40,7 +40,7 @@ Gotcha: Next 15 route/page `params` and `searchParams` are **Promises** (`await 
 ## 4. Modes (important)
 - **Storage**: no `DATABASE_URL` → in-memory stores (data lost on restart, shared via `globalThis`). With `DATABASE_URL` → Postgres repositories. The Postgres code has NEVER been run against a live database. Test it in a Supabase sandbox first.
 - **Payments**: `PAYMENT_PROVIDER=mock` (default) simulates a gateway and calls the same webhook handler. `paystack` uses the real provider, which refuses to run while `PAYSTACK_API_KEY` is a placeholder (customer sees "Online payment isn't available yet").
-- **Suppliers**: `TOPUP_PROVIDERS=mock` (default; comma list = priority, e.g. `coda,reloadly`). Suppliers with placeholder credentials are skipped. If real suppliers are listed but none are configured, customers get "Top-ups are temporarily unavailable. You have not been charged." and the mock is NOT used silently.
+- **Suppliers**: `TOPUP_PROVIDERS=mock` (default; comma list = priority, e.g. `shop2topup,reloadly`). Suppliers with placeholder credentials are skipped. If real suppliers are listed but none are configured, customers get "Top-ups are temporarily unavailable. You have not been charged." and the mock is NOT used silently.
 
 ## 5. Architecture map
 Layers: **UI (app/, components/) → API routes → services → repositories / providers**. UI never talks to providers or the DB directly.
@@ -51,7 +51,7 @@ src/data/mock.ts           MOCK catalogue only (seed source). src/data/content.t
 src/lib/                   orderStateMachine, paystackSignature, queue, supplierRouter, publicOrder,
                            adminAuth, rateLimit, errors, db, useLocal (client localStorage), gamesWithPrices
 src/lib/providers/payment  mock.ts, paystack.ts (real calls, placeholder-gated), index.ts (selector)
-src/lib/providers/topup    mock.ts, coda.ts + reloadly.ts (SHELLS with TODOs), http.ts (error classification), index.ts (registry)
+src/lib/providers/topup    mock.ts, shop2topup.ts + reloadly.ts, http.ts (error classification), index.ts (registry)
 src/repositories/          orderStore{,.memory,.pg}, catalogStore{,.memory,.pg}, opsStore, webhookEvents
 src/services/              orderService, paymentEvents, fulfilmentWorker, adminService, catalogAdmin, productService,
                            paymentService, topupService, opsService, notificationService (mock)
@@ -61,8 +61,8 @@ scripts/                   check.ts (tests), contract.ts (supplier contract), se
 ```
 ### Routes
 Public: `/` `/games` `/games/[slug]` (supports `?pid=` prefill) `/checkout` `/orders/[id]` `/track-order` `/faq` `/how-it-works` `/support` `/terms` `/privacy` `/refund-policy` `/account` (+ `orders`, `player-ids`, `loyalty`, `referrals`).
-Admin (cookie session): `/admin/login` then `/admin` (dashboard), `/admin/orders`, `/admin/orders/[id]`, `/admin/products`, `/admin/games`, `/admin/notifications`, `/admin/tickets`. Not linked publicly.
-API: `POST /api/orders`, `GET /api/orders/[id]` (masked), `POST /api/webhooks/paystack`, `GET /api/search`, `POST /api/support`, `POST /api/admin/login`, `POST /api/admin/orders/[id]`, `POST /api/admin/catalog`, `POST /api/admin/ops`.
+Admin (cookie session): `/admin/login` then `/admin` (dashboard), `/admin/orders`, `/admin/orders/[id]`, `/admin/products`, `/admin/games`, `/admin/suppliers/shop2topup`, `/admin/notifications`, `/admin/tickets`. Not linked publicly.
+API: `POST /api/orders`, `GET /api/orders/[id]` (masked), `POST /api/webhooks/paystack`, `POST /api/webhooks/shop2topup`, `GET /api/search`, `POST /api/support`, `POST /api/admin/login`, `POST /api/admin/orders/[id]`, `POST /api/admin/catalog`, `POST /api/admin/ops`, `POST /api/admin/supplier/shop2topup`.
 
 ## 6. Order lifecycle (two independent axes, never merge them)
 Payment: `UNPAID → PAYMENT_PENDING → PAID | PAYMENT_FAILED`; `PAID → REFUNDED`; `PAYMENT_FAILED → PAYMENT_PENDING` (retry).
@@ -77,15 +77,15 @@ Admin actions (`adminService`): Retry (blocked if unpaid/delivered/processing; F
 Tokens live in `tailwind.config.ts`: bg `#080B14`, bg2 `#0D111C`, card `#111827`, elevated `#151B2A`, brand `#6366F1`, brand2 `#7C3AED`, hi `#818CF8`, ink `#F8FAFC`, ink2 `#94A3B8`, mute `#64748B`, line `#1E293B`; success `#22C55E`, warning `#F59E0B`, error `#EF4444`. Use gradients sparingly (hero accent, primary CTA). Avoid neon, glassmorphism, cartoon visuals, heavy animation. Mobile-first; big tap targets; visible focus states; semantic HTML; aria-live for async status. Primary CTA wording: "Top Up Now". **Inter is specified but NOT loaded yet** (use `next/font/google`).
 
 ## 9. Testing
-`scripts/check.ts` is one file of independent async blocks that share in-memory state and run concurrently (some use `setTimeout` waits ~3.5s). When adding tests, use unique order ids/catalogue ids and don't depend on ordering. Covered: webhook signature, idempotent webhooks, no double fulfil, amount mismatch, admin retry/refund guards, catalogue editing rules, public-order masking, rate limit, supplier router fallback rules, ticket+notification, Paystack request shape (stubbed fetch), supplier contract on mock. NOT covered: Postgres repos, React components, e2e browser flow, accessibility, real Paystack/Coda/Reloadly.
+`scripts/check.ts` is one file of independent async blocks that share in-memory state and run concurrently (some use `setTimeout` waits ~3.5s). When adding tests, use unique order ids/catalogue ids and don't depend on ordering. Covered: webhook signature, idempotent webhooks, no double fulfil, amount mismatch, admin retry/refund guards, catalogue editing rules, public-order masking, rate limit, supplier router fallback rules, ticket+notification, Paystack request shape (stubbed fetch), supplier contract on mock. NOT covered: Postgres repos, React components, e2e browser flow, accessibility, real Paystack/Shop2topup/Reloadly.
 
 ## 10. Known gaps vs the original spec (backlog, roughly by priority)
-**Blocked on owner (cannot be done by an agent):** Paystack business approval + keys + webhook URL; Coda KYB + sandbox docs; Reloadly sandbox; Supabase project + `DATABASE_URL`; domain + hosting (Vercel); real WhatsApp number/support email; legal details + lawyer review; real game artwork/licences.
+**Blocked on owner (cannot be done by an agent):** Paystack business approval + keys + webhook URL; Shop2topup API keys; Reloadly sandbox; Supabase project + `DATABASE_URL`; domain + hosting (Vercel); real WhatsApp number/support email; legal details + lawyer review; real game artwork/licences.
 **Engineering, can do now:**
 1. Replace the in-process queue (`src/lib/queue.ts`, same `register/enqueue` API) with Inngest or BullMQ+Redis so retries survive restarts/serverless. Today background work is `void`-fired and not durable.
 2. Run + fix the Postgres repositories against a Supabase sandbox; add integration tests; add missing tables; consider transactions for multi-step writes.
 3. Move rate limits (`src/lib/rateLimit.ts`) to Redis/Upstash for multi-instance.
-4. Implement real Coda/Reloadly adapters (follow TODOs in `coda.ts`/`reloadly.ts`, `docs/SUPPLIERS.md`; confirm idempotency-key support; Reloadly returns codes, so build secure storage + order-page display). Fill real `supplierProductId` per product in admin.
+4. Reloadly fallback adapter (follow `docs/SUPPLIERS.md`; confirm idempotency-key support; Reloadly returns codes, so build secure storage + order-page display). Fill real `supplierProductId` per product in admin or import via `/admin/suppliers/shop2topup`.
 5. Flutterwave provider (`PaymentProvider` interface) + enable the checkout button.
 6. Load Inter via `next/font`; real hero/game artwork; Open Graph images, sitemap, robots; JSON-LD for products.
 7. Customer UX gaps vs spec: Player-ID help **modal** with screenshot (currently inline text); sticky mobile checkout CTA/bottom nav; rating/trust info on game page; designed loading/skeleton states on every async path; empty states audit; page transitions (subtle); full accessibility pass (keyboard, contrast, modal focus).
@@ -98,7 +98,7 @@ Tokens live in `tailwind.config.ts`: bg `#080B14`, bg2 `#0D111C`, card `#111827`
 ## 11. Go-live checklist
 1. Supabase project → apply `001_init.sql`, `002_ops.sql` → set `DATABASE_URL` → `npm run seed` → sandbox-test Postgres repos.
 2. Paystack: follow `docs/PAYSTACK_SETUP.md` (test keys first). Webhook URL = `<domain>/api/webhooks/paystack`. Verify: test card pays, order → Successful; replay the webhook, only ONE top-up.
-3. Suppliers: get sandbox access, implement adapters, run `npm run contract` until all PASS, set `TOPUP_PROVIDERS`.
+3. Suppliers: get Shop2topup credentials, import products in `/admin/suppliers/shop2topup`, run `npm run contract` until all PASS, set `TOPUP_PROVIDERS`.
 4. Kill-worker drill: stop the app mid-fulfilment, restart, confirm exactly one supplier transaction.
 5. Set `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `NEXT_PUBLIC_APP_URL`, WhatsApp/support env; fill `legal` config, finish legal pages, `legal.isDraft=false`.
 6. Decide catalogue at launch (see §12), real supplier SKUs, pricing/margins.
@@ -106,7 +106,7 @@ Tokens live in `tailwind.config.ts`: bg `#080B14`, bg2 `#0D111C`, card `#111827`
 
 ## 12. Decisions & context
 - **Launch catalogue**: the supplier roadmap recommends launching with Free Fire and CODM and EXCLUDING eFootball (reseller supply relied on credential-sharing that violates publisher terms and risks bans). The mock catalogue still includes eFootball (the original brief did). Owner must decide; the admin can hide it (`Games → Hidden`) or set `active:false` in seed.
-- Wholesale suppliers: Coda (primary, official, validates Player IDs), Reloadly (fallback, codes). Gray-market suppliers are prohibited.
+- Wholesale suppliers: Shop2topup (primary, official reseller API, validates Player IDs), Reloadly (fallback, codes). Gray-market suppliers are prohibited.
 - Naira amounts are integers in ₦ (Paystack gets kobo = ×100). Phone format: `+234` or `0` + `[789]` + 9 digits. Player ID: 6–12 digits (mock rule; per-game patterns live in `Game.playerFields`).
 - `config.topupProvider` and `.env` `PAYMENT_PROVIDER` naming: payment selection is `PAYMENT_PROVIDER`; supplier selection is `TOPUP_PROVIDERS`.
 - A separate clickable HTML prototype (single file, mock data, same brand) exists outside this repo: https://claude.ai/artifact/XH52YRnVXhEnCYZq39afgA. It is a design reference; it has a few demo-only features (outcome simulator, charts) the Next.js app lacks, and the app has real backend pieces the prototype lacks.

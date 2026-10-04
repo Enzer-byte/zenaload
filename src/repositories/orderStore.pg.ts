@@ -17,6 +17,7 @@ async function addEvents(o: Order) { // inserts only events not yet stored
 export const pgOrderStore: OrderStore = {
   get: async (id) => hydrate((await sql`select * from orders where order_reference = ${id.trim().toUpperCase()}`)[0]),
   getByPaymentRef: async (ref) => hydrate((await sql`select * from orders where payment_reference = ${ref}`)[0]),
+  getBySupplierTxId: async (txId) => hydrate((await sql`select * from orders where supplier_reference = ${txId}`)[0]),
   async list(limit = 200) { const rows = await sql`select * from orders order by created_at desc limit ${limit}`; return (await Promise.all(rows.map((r: any) => hydrate(r)))).filter(Boolean) as Order[]; },
   async create(o) {
     const p = (await catalogStore.products()).find((x) => x.id === o.productId)!;

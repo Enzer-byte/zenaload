@@ -5,6 +5,7 @@ const m: Map<string, Order> = (g.__orders ??= new Map()), locks: Set<string> = (
 export const memoryOrderStore: OrderStore = {
   get: async (id) => m.get(id.trim().toUpperCase()) ?? null,
   getByPaymentRef: async (ref) => [...m.values()].find((o) => o.paymentRef === ref) ?? null,
+  getBySupplierTxId: async (txId) => [...m.values()].find((o) => o.supplierTxId === txId) ?? null,
   create: async (o) => void m.set(o.id, o),
   list: async (limit = 200) => [...m.values()].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit),
   save: async (o) => void m.set(o.id, o),

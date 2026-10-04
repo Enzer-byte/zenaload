@@ -1,8 +1,8 @@
 export type PaymentStatus = "UNPAID" | "PAYMENT_PENDING" | "PAID" | "PAYMENT_FAILED" | "REFUNDED";
 export type FulfillmentStatus = "NOT_STARTED" | "PROCESSING" | "SUCCESSFUL" | "FAILED" | "PENDING_REVIEW";
 export interface PlayerField { key: string; label: string; pattern?: string; help: string }
-export interface Game { id: string; slug: string; name: string; category: string; description: string; playerFields: PlayerField[]; supplierId: string; active: boolean; featured: boolean; sortOrder: number }
-export interface Product { id: string; gameId: string; name: string; denomination: number; currency: "NGN"; retailPrice: number; supplierCost: number; supplierProductId: string; active: boolean; featured?: boolean; popular?: boolean }
+export interface Game { id: string; slug: string; name: string; category: string; description: string; playerFields: PlayerField[]; supplierId: string; active: boolean; featured: boolean; sortOrder: number; imageUrl?: string }
+export interface Product { id: string; gameId: string; name: string; denomination: number; currency: "NGN"; retailPrice: number; supplierCost: number; supplierProductId: string; active: boolean; featured?: boolean; popular?: boolean; originalPrice?: number }
 export interface Order {
   id: string; gameId: string; productId: string; playerFields: Record<string, string>;
   customer: { email: string; phone: string; whatsapp?: string };
@@ -30,6 +30,7 @@ export interface TopupProvider {
 export interface OrderStore {
   get(id: string): Promise<Order | null>;
   getByPaymentRef(ref: string): Promise<Order | null>;
+  getBySupplierTxId?(txId: string): Promise<Order | null>;
   create(o: Order): Promise<void>;
   save(o: Order): Promise<void>; // persists mutable fields + any new events
   claimPaid(ref: string, label: string): Promise<Order | null>; // atomic PAYMENT_PENDING -> PAID; null if someone else already did it

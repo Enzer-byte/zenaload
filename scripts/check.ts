@@ -52,6 +52,14 @@ import { productService } from "../src/services/productService";
   ok(!(await catalogAdmin({ type: "game.add", name: "Test Game", category: "FPS", fieldLabel: "UID" })).ok, "duplicate slug rejected");
   await catalogAdmin({ type: "product.add", gameId: "test-game", name: "50 Gems", denomination: 50, retailPrice: 1000, supplierCost: 900, supplierProductId: "SKU-PLACEHOLDER" });
   ok((await catalogAdmin({ type: "game.update", id: "test-game", active: true })).ok && !!(await productService.getGame("test-game")), "game goes live once it has a denomination");
+  await catalogAdmin({ type: "game.update", id: "free-fire", description: "Official Free Fire diamonds top up.", imageUrl: "/uploads/games/free-fire.png" });
+  const ffGame = await productService.getGame("free-fire");
+  ok(ffGame?.description === "Official Free Fire diamonds top up." && ffGame?.imageUrl === "/uploads/games/free-fire.png", "game description and image update reflected");
+  await catalogAdmin({ type: "product.update", id: "free-fire-0", retailPrice: 1450, supplierCost: 1300, originalPrice: 1600 });
+  const ffProds = await productService.getProducts("free-fire");
+  const ffP0 = ffProds.find((x) => x.id === "free-fire-0");
+  ok(ffP0?.retailPrice === 1450 && ffP0?.originalPrice === 1600 && !("supplierCost" in (ffP0 as Record<string, unknown>)), "discount originalPrice reflected and supplierCost hidden");
+  ok(!(await catalogAdmin({ type: "product.update", id: "free-fire-0", retailPrice: 2000, originalPrice: 1000 })).ok, "original price lower than retail rejected");
   await catalogAdmin({ type: "product.update", id: "free-fire-1", active: false }); ok(!(await productService.getProduct("free-fire-1")), "disabled product not purchasable");
 })();
 import { toPublic } from "../src/lib/publicOrder";
@@ -68,7 +76,6 @@ import { createTicket } from "../src/services/opsService";
 import { opsStore } from "../src/repositories/opsStore";
 import { runContract } from "./contract";
 import { MockTopupProvider } from "../src/lib/providers/topup/mock";
-import { CodaProvider } from "../src/lib/providers/topup/coda";
 import type { TopupProvider } from "../src/types";
 (async () => {
   for (let i = 0; i < 5; i++) record("k", 1000); ok(limited("k", 5, 1000) && !limited("other", 5, 1000), "rate limit blocks after 5 attempts");
@@ -82,5 +89,20 @@ import type { TopupProvider } from "../src/types";
   ok(t.orderId === "ZL-1" && (await opsStore.tickets()).length === 1 && (await opsStore.notices()).some((n) => n.title === "New support ticket"), "ticket created and admin notified");
   await opsStore.setTicketOpen(t.id, false); ok(!(await opsStore.tickets())[0].open, "ticket can be resolved");
   ok((await runContract(MockTopupProvider)).every(([, p]) => p), "mock supplier passes the contract suite");
-  ok(await CodaProvider.getBalance().then(() => false, (x) => /placeholders/.test((x as Error).message)), "Coda shell refuses to run on placeholder credentials");
+})();
+import { verifyShop2topupSignature } from "../src/lib/shop2topupSignature";
+import { Shop2topupProvider, toShop2topupOrderId } from "../src/lib/providers/topup/shop2topup";
+(async () => {
+  const secret = "shop2topup_secret_test";
+  const rawBody = JSON.stringify({ event: "order.completed", data: { order_id: "00000000-0000-0000-0000-000000000000", status: "completed" } });
+  const rawHmac = createHmac("sha256", secret).update(rawBody).digest("hex");
+  ok(verifyShop2topupSignature(rawBody, `sha256=${rawHmac}`, secret), "Shop2topup valid sha256 header accepted");
+  ok(verifyShop2topupSignature(rawBody, rawHmac, secret), "Shop2topup raw hex signature accepted");
+  ok(!verifyShop2topupSignature(rawBody + "x", rawHmac, secret), "Shop2topup tampered body rejected");
+  ok(!verifyShop2topupSignature(rawBody, null, secret), "Shop2topup missing signature rejected");
+
+  const uuid = toShop2topupOrderId("ZL-20261004-ABCD1234");
+  ok(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(uuid), "Shop2topup order id properly formatted as UUID v4");
+
+  ok(await Shop2topupProvider.getBalance().then(() => false, (x) => /placeholders/.test((x as Error).message)), "Shop2topup refuses to run on placeholder credentials");
 })();

@@ -5,6 +5,13 @@ const hue = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 
 // Artwork is a placeholder (no official logos). Replace with licensed assets later.
 export function GameCard({ game, from }: { game: Game; from?: number }) {
   return (<Link href={`/games/${game.slug}`} aria-label={`Top up ${game.name}`} className="group block overflow-hidden rounded-2xl border border-line bg-card transition hover:-translate-y-0.5 hover:border-hi">
-    <div className="flex aspect-[4/3] items-end p-3 text-xs text-white/60" style={{ background: `radial-gradient(circle at 70% 20%, hsl(${hue(game.slug)} 70% 45% / .5), transparent 60%), linear-gradient(160deg,#151B2A,#0D111C)` }}>Artwork placeholder</div>
+    {game.imageUrl ? (
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-bg2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={game.imageUrl} alt={game.name} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+      </div>
+    ) : (
+      <div className="flex aspect-[4/3] items-end p-3 text-xs text-white/60" style={{ background: `radial-gradient(circle at 70% 20%, hsl(${hue(game.slug)} 70% 45% / .5), transparent 60%), linear-gradient(160deg,#151B2A,#0D111C)` }}>Artwork placeholder</div>
+    )}
     <div className="p-4"><h3 className="font-medium">{game.name}</h3><p className="text-sm text-mute">{game.category}</p><p className="mt-1 font-semibold text-hi">{from ? `From ${ngn(from)}` : "Coming soon"}</p><span className="mt-3 inline-block rounded-lg bg-elevated px-3 py-1.5 text-sm transition group-hover:bg-brand">Top Up</span></div></Link>);
 }

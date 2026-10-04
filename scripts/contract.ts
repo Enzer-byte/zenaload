@@ -1,6 +1,6 @@
 import { getTopupProviders } from "../src/lib/providers/topup";
 import type { TopupProvider } from "../src/types";
-// Run against a supplier SANDBOX before going live:  TOPUP_PROVIDERS=coda CONTRACT_PLAYER_ID=... CONTRACT_SKU=... npm run contract
+// Run against a supplier before going live:  TOPUP_PROVIDERS=shop2topup CONTRACT_PLAYER_ID=... CONTRACT_SKU=... npm run contract
 const playerId = process.env.CONTRACT_PLAYER_ID ?? "123456789", sku = process.env.CONTRACT_SKU ?? "mock-test", game = process.env.CONTRACT_GAME_ID ?? "free-fire";
 export async function runContract(p: TopupProvider) {
   const out: [string, boolean][] = [], t = async (n: string, f: () => Promise<boolean>) => { try { out.push([n, await f()]); } catch (e) { out.push([`${n} (${(e as Error).message})`, false]); } };

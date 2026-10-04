@@ -9,7 +9,7 @@ TODO: /checkout step, /account/*, /admin/* (see the HTML prototype for the desig
 
 ## Payments safety (implemented)
 Webhook: raw-body HMAC-SHA512 check, event de-dup (`webhook_events` unique key), amount check, `handleChargeSuccess` is the only path to PAID, fulfilment runs in a queued worker with backoff, row-lock + idempotency key + status-check-before-create to prevent double top-ups. Schema: `supabase/migrations/001_init.sql`. Verify: `npm run check`.
-TODO: swap in-memory repositories for Postgres, queue for Inngest/BullMQ, add Coda/Reloadly adapters, Paystack initialize/verify.
+TODO: swap in-memory repositories for Postgres, queue for Inngest/BullMQ, add Reloadly adapter, Paystack initialize/verify.
 
 ## Database (Supabase/Postgres)
 1. Apply `supabase/migrations/001_init.sql`  2. Put `DATABASE_URL` in `.env.local`  3. `npm run seed`  4. `npm run dev`
@@ -19,8 +19,8 @@ Untested against a live database; run a sandbox pass (duplicate webhooks, killed
 ## Admin (/admin)
 Locked until you set `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` (placeholders in `.env.example`). Dashboard, orders (filters + search), order detail with Retry / Mark for Review / Refund / notes, read-only products. Not linked from the public site. TODO: IP rate-limit on login, editable products/games, multiple admin users.
 
-## Catalogue editing (/admin/products, /admin/games)
-Edit prices/supplier cost (margin shown live), enable/disable, featured/popular flags, game order; add games (hidden until they have an active denomination) and denominations. Catalogue reads/writes go through `repositories/catalogStore.{memory,pg}.ts`; with `DATABASE_URL` set, run `npm run seed` once, then edits persist. Price edits only affect new orders. Supplier SKUs on new denominations are placeholders until Coda/Reloadly are connected.
+## Catalogue editing (/admin/products, /admin/games, /admin/suppliers/shop2topup)
+Edit prices/supplier cost (margin shown live), enable/disable, featured/popular flags, game order; add games (hidden until they have an active denomination) and denominations. Catalogue reads/writes go through `repositories/catalogStore.{memory,pg}.ts`; with `DATABASE_URL` set, run `npm run seed` once, then edits persist. Price edits only affect new orders. Easily browse and 1-click import live wholesale games and products from Shop2topup (`/admin/suppliers/shop2topup`).
 
 ## Customer pages
 /faq (with FAQ schema), /how-it-works, search modal (nav), guest account at /account (orders, saved Player IDs on this device; rewards/referrals are "coming soon" placeholders with no fake data). Orders returned to browsers are masked (email, phone, Player ID; no gateway/supplier refs; admin notes hidden). Order IDs use 8 random hex chars so they can't be guessed.

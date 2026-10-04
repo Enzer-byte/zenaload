@@ -15,7 +15,13 @@ export const orderService = {
     const product = await productService.getProduct(input.productId);
     const game = product && (await catalogStore.games()).find((x) => x.id === product.gameId);
     if (!product || !game) throw new Error("Product not found");
-    if (!(await topupService.validate(game.supplierId, game.id, input.playerFields))) throw new Error("Please enter a valid Player ID (6–12 digits).");
+    for (const f of game.playerFields) {
+      const val = input.playerFields[f.key] ?? "";
+      if (f.pattern && !new RegExp(f.pattern).test(val)) {
+        throw new Error(`Please enter a valid ${f.label}.`);
+      }
+    }
+    if (!(await topupService.validate(game.supplierId, game.id, input.playerFields))) throw new Error("Please enter a valid Player ID.");
     const now = new Date().toISOString(), d = now.slice(0, 10).replace(/-/g, "");
     const order: Order = { id: `${config.orderPrefix}-${d}-${randomBytes(4).toString("hex").toUpperCase()}`, gameId: game.id, productId: product.id, playerFields: input.playerFields, customer: input.customer, amount: product.retailPrice, currency: config.currency, payment: "UNPAID", fulfillment: "NOT_STARTED", createdAt: now, updatedAt: now, events: [{ at: now, label: "Order created" }] };
     await orderStore.create(order);
