@@ -219,20 +219,20 @@ export function Shop2topupExplorer() {
   }
 
   if (loading) {
-    return <div className="p-8 text-center text-ink2">Connecting to Shop2topup...</div>;
+    return <div className="p-8 text-center text-slate-500">Connecting to Shop2topup...</div>;
   }
 
   return (
     <div className="space-y-6">
       {/* Account & Wallet Status Card */}
-      <div className="rounded-2xl border border-line bg-card p-5">
+      <div className="rounded-xl border border-[#E0E5F1] bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className={`inline-block h-2.5 w-2.5 rounded-full ${configured ? "bg-emerald-400" : "bg-amber-400"}`} />
-              <h2 className="text-lg font-semibold text-ink">Shop2topup Reseller Account</h2>
+              <span className={`inline-block h-2.5 w-2.5 rounded-full ${configured ? "bg-emerald-500" : "bg-amber-500"}`} />
+              <h2 className="text-lg font-semibold text-slate-900">Shop2topup Reseller Account</h2>
             </div>
-            <p className="mt-1 text-sm text-ink2">
+            <p className="mt-1 text-sm text-slate-500">
               {configured
                 ? account
                   ? `Connected as ${account.email}`
@@ -242,10 +242,10 @@ export function Shop2topupExplorer() {
           </div>
 
           {account && (
-            <div className="flex items-center gap-3 rounded-xl border border-line bg-bg2 px-4 py-2.5">
+            <div className="flex items-center gap-3 rounded-xl border border-[#E0E5F1] bg-[#F4F6FB] px-4 py-2.5">
               <div>
-                <div className="text-xs font-medium text-mute">WALLET BALANCE (USD)</div>
-                <div className="text-xl font-bold text-emerald-400">${parseFloat(account.wallet || "0").toFixed(2)}</div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">WALLET BALANCE (USD)</div>
+                <div className="text-xl font-bold text-emerald-600">${parseFloat(account.wallet || "0").toFixed(2)}</div>
               </div>
             </div>
           )}
@@ -253,23 +253,23 @@ export function Shop2topupExplorer() {
       </div>
 
       {statusMsg && (
-        <div className="rounded-xl border border-brand/40 bg-brand/10 p-4 text-sm text-hi">
+        <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-700 font-medium">
           {statusMsg}
         </div>
       )}
 
       {/* Pricing Conversion Settings */}
-      <div className="rounded-2xl border border-line bg-card p-5">
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-mute">Import Pricing & Currency Calculator</h3>
+      <div className="rounded-xl border border-[#E0E5F1] bg-white p-5 shadow-sm">
+        <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">Import Pricing & Currency Calculator</h3>
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           <div>
-            <label className="block text-xs text-ink2">USD to NGN Exchange Rate (₦/$)</label>
-            <div className="mt-1 flex items-center rounded-xl border border-line bg-bg2 px-3 py-2">
-              <span className="text-mute mr-1">₦</span>
+            <label className="block text-xs font-medium text-slate-600">USD to NGN Exchange Rate (₦/$)</label>
+            <div className="mt-1 flex items-center rounded-lg border border-[#E0E5F1] bg-[#F4F6FB] px-3 py-2 text-slate-900">
+              <span className="text-slate-400 mr-1">₦</span>
               <input
                 type="number"
                 aria-label="USD to NGN Exchange Rate"
-                className="w-full bg-transparent text-sm outline-none"
+                className="w-full bg-transparent text-sm outline-none font-medium"
                 value={usdRate}
                 onChange={(e) => {
                   const val = Number(e.target.value) || 1;
@@ -289,12 +289,12 @@ export function Shop2topupExplorer() {
           </div>
 
           <div>
-            <label className="block text-xs text-ink2">Default Profit Margin (%)</label>
-            <div className="mt-1 flex items-center rounded-xl border border-line bg-bg2 px-3 py-2">
+            <label className="block text-xs font-medium text-slate-600">Default Profit Margin (%)</label>
+            <div className="mt-1 flex items-center rounded-lg border border-[#E0E5F1] bg-[#F4F6FB] px-3 py-2 text-slate-900">
               <input
                 type="number"
                 aria-label="Default Profit Margin"
-                className="w-full bg-transparent text-sm outline-none"
+                className="w-full bg-transparent text-sm outline-none font-medium"
                 value={marginPercent}
                 onChange={(e) => {
                   const val = Number(e.target.value) || 0;
@@ -310,29 +310,29 @@ export function Shop2topupExplorer() {
                   });
                 }}
               />
-              <span className="text-mute ml-1">%</span>
+              <span className="text-slate-500 font-medium ml-1">%</span>
             </div>
           </div>
 
-          <div className="sm:col-span-2 flex items-center text-xs text-mute bg-bg2/50 rounded-xl p-3 border border-line">
+          <div className="sm:col-span-2 flex items-center text-xs text-slate-500 bg-[#F4F6FB] rounded-lg p-3 border border-[#E0E5F1]">
             Wholesale costs are calculated live from Shop2topup in USD and converted to Naira. Customers only ever see your retail Naira price.
           </div>
         </div>
       </div>
 
       {/* Catalogue Explorer & Selector */}
-      <div className="rounded-2xl border border-line bg-card p-5">
+      <div className="rounded-xl border border-[#E0E5F1] bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h3 className="text-lg font-semibold text-ink">Browse Shop2topup Catalogue</h3>
-            <p className="text-xs text-mute">Select games and denominations to import or update in Zenaload.</p>
+            <h3 className="text-lg font-semibold text-slate-900">Browse Shop2topup Catalogue</h3>
+            <p className="text-xs text-slate-500">Select games and denominations to import or update in Zenaload.</p>
           </div>
 
           {configured && (
             <button
               onClick={() => loadBrowse(selectedBigCatId, selectedCatId)}
               disabled={catalogLoading}
-              className="rounded-xl border border-line bg-bg2 px-3.5 py-1.5 text-xs text-ink hover:border-brand disabled:opacity-50"
+              className="rounded-lg border border-[#E0E5F1] bg-[#F4F6FB] px-3.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-50 transition-colors"
             >
               {catalogLoading ? "Refreshing..." : "↻ Refresh Live Data"}
             </button>
@@ -344,10 +344,10 @@ export function Shop2topupExplorer() {
             {/* Category Dropdowns */}
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label className="block text-xs text-mute mb-1">1. Choose Big Category</label>
+                <label className="block text-xs font-medium text-slate-600 mb-1">1. Choose Big Category</label>
                 <select
                   aria-label="Shop2topup Big Category"
-                  className="w-full rounded-xl border border-line bg-bg2 px-3 py-2 text-sm text-ink outline-none"
+                  className="w-full rounded-lg border border-[#E0E5F1] bg-[#F4F6FB] px-3 py-2 text-sm text-slate-900 outline-none focus:border-[#1E3BCB]"
                   value={selectedBigCatId ?? ""}
                   onChange={(e) => handleBigCatChange(Number(e.target.value))}
                 >
@@ -360,10 +360,10 @@ export function Shop2topupExplorer() {
               </div>
 
               <div>
-                <label className="block text-xs text-mute mb-1">2. Choose Game / Category</label>
+                <label className="block text-xs font-medium text-slate-600 mb-1">2. Choose Game / Category</label>
                 <select
                   aria-label="Shop2topup Game Category"
-                  className="w-full rounded-xl border border-line bg-bg2 px-3 py-2 text-sm text-ink outline-none"
+                  className="w-full rounded-lg border border-[#E0E5F1] bg-[#F4F6FB] px-3 py-2 text-sm text-slate-900 outline-none focus:border-[#1E3BCB]"
                   value={selectedCatId ?? ""}
                   onChange={(e) => handleCatChange(Number(e.target.value))}
                 >
@@ -378,38 +378,39 @@ export function Shop2topupExplorer() {
 
             {/* Requirements Info */}
             {requirements.length > 0 && (
-              <div className="rounded-xl border border-line/60 bg-bg2/60 p-3 text-xs text-ink2">
-                <span className="font-semibold text-ink">Required Player Input Fields for this Game: </span>
+              <div className="rounded-lg border border-[#E0E5F1] bg-[#F4F6FB] p-3 text-xs text-slate-600">
+                <span className="font-semibold text-slate-900">Required Player Input Fields for this Game: </span>
                 {requirements.map((r) => `${r.label || r.name} (${r.type})`).join(", ")}
               </div>
             )}
 
             {/* Denominations Table */}
             {catalogLoading ? (
-              <div className="py-12 text-center text-sm text-ink2">Loading live denominations from Shop2topup...</div>
+              <div className="py-12 text-center text-sm text-slate-500">Loading live denominations from Shop2topup...</div>
             ) : subcategories.length === 0 ? (
-              <div className="py-8 text-center text-sm text-mute">No products found in this category.</div>
+              <div className="py-8 text-center text-sm text-slate-500">No products found in this category.</div>
             ) : (
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs text-mute">
+                <div className="flex items-center justify-between text-xs text-slate-500">
                   <div className="flex gap-2">
-                    <button onClick={() => toggleAll(true)} className="hover:text-ink">Select All</button>
+                    <button onClick={() => toggleAll(true)} className="hover:text-slate-900 font-medium">Select All</button>
                     <span>|</span>
-                    <button onClick={() => toggleAll(false)} className="hover:text-ink">Deselect All</button>
+                    <button onClick={() => toggleAll(false)} className="hover:text-slate-900 font-medium">Deselect All</button>
                   </div>
                   <div>
                     {subcategories.filter((s) => selectedItems[s.id]).length} of {subcategories.length} selected
                   </div>
                 </div>
 
-                <div className="overflow-x-auto rounded-xl border border-line">
+                <div className="overflow-x-auto rounded-xl border border-[#E0E5F1]">
                   <table className="w-full min-w-[700px] text-sm">
-                    <thead className="bg-bg2 text-left text-xs text-mute">
+                    <thead className="bg-[#F4F6FB] text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                       <tr>
                         <th className="p-3 w-10">
                           <input
                             type="checkbox"
                             aria-label="Select all products"
+                            className="rounded border-[#E0E5F1] text-[#1E3BCB] focus:ring-[#1E3BCB]"
                             checked={subcategories.length > 0 && subcategories.every((s) => selectedItems[s.id])}
                             onChange={(e) => toggleAll(e.target.checked)}
                           />
@@ -422,7 +423,7 @@ export function Shop2topupExplorer() {
                         <th className="p-3">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-line">
+                    <tbody className="divide-y divide-[#E0E5F1] bg-white">
                       {subcategories.map((s) => {
                         const usd = parseFloat(s.unit_price);
                         const costNgn = Math.ceil(usd * usdRate);
@@ -431,42 +432,43 @@ export function Shop2topupExplorer() {
                         const isChecked = !!selectedItems[s.id];
 
                         return (
-                          <tr key={s.id} className={isChecked ? "bg-brand/5" : ""}>
+                          <tr key={s.id} className={isChecked ? "bg-blue-50/50" : "hover:bg-slate-50"}>
                             <td className="p-3">
                               <input
                                 type="checkbox"
                                 aria-label={`Select ${s.name}`}
+                                className="rounded border-[#E0E5F1] text-[#1E3BCB] focus:ring-[#1E3BCB]"
                                 checked={isChecked}
                                 onChange={() => toggleItem(s.id)}
                               />
                             </td>
-                            <td className="p-3 font-medium text-ink">
+                            <td className="p-3 font-medium text-slate-900">
                               <div>{s.name}</div>
-                              <span className="text-[11px] text-mute font-mono">SKU: {s.id}</span>
+                              <span className="text-[11px] text-slate-400 font-mono">SKU: {s.id}</span>
                             </td>
-                            <td className="p-3 text-ink2">${usd.toFixed(4)}</td>
-                            <td className="p-3 font-mono text-ink2">{ngn(costNgn)}</td>
+                            <td className="p-3 text-slate-600">${usd.toFixed(4)}</td>
+                            <td className="p-3 font-mono text-slate-700">{ngn(costNgn)}</td>
                             <td className="p-3">
                               <input
                                 type="number"
                                 aria-label={`Retail price for ${s.name}`}
-                                className="w-28 rounded-lg border border-line bg-bg2 px-2.5 py-1 text-xs text-ink outline-none focus:border-brand"
+                                className="w-28 rounded-lg border border-[#E0E5F1] bg-[#F4F6FB] px-2.5 py-1 text-xs text-slate-900 outline-none focus:border-[#1E3BCB]"
                                 value={retail}
                                 onChange={(e) => setPrice(s.id, Number(e.target.value) || 0)}
                               />
                             </td>
                             <td className="p-3">
-                              <span className={`text-xs font-medium ${marginVal >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                              <span className={`text-xs font-semibold ${marginVal >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
                                 {marginVal}%
                               </span>
                             </td>
                             <td className="p-3">
                               {s.isImported ? (
-                                <span className="inline-block rounded-md bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium text-emerald-400 border border-emerald-500/20">
+                                <span className="inline-block rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200">
                                   Imported
                                 </span>
                               ) : (
-                                <span className="inline-block rounded-md bg-zinc-700/30 px-2 py-0.5 text-[11px] font-medium text-zinc-400">
+                                <span className="inline-block rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600 border border-slate-200">
                                   New
                                 </span>
                               )}
@@ -483,7 +485,7 @@ export function Shop2topupExplorer() {
                   <button
                     onClick={handleImport}
                     disabled={importing || subcategories.filter((s) => selectedItems[s.id]).length === 0}
-                    className="rounded-xl bg-brand px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand/20 transition hover:opacity-90 disabled:opacity-40"
+                    className="rounded-lg bg-[#1E3BCB] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#18246B] disabled:opacity-40"
                   >
                     {importing
                       ? "Importing to Store..."
@@ -494,12 +496,12 @@ export function Shop2topupExplorer() {
             )}
           </div>
         ) : (
-          <div className="rounded-xl border border-dashed border-line p-8 text-center text-sm text-ink2">
-            <p className="font-semibold text-ink">Shop2topup API Credentials Required</p>
-            <p className="mt-1 text-xs text-mute">
-              To browse live wholesale categories and import top-up products, please add your keys to <code className="text-hi">.env.local</code>:
+          <div className="rounded-xl border border-dashed border-[#E0E5F1] p-8 text-center text-sm text-slate-600">
+            <p className="font-semibold text-slate-900">Shop2topup API Credentials Required</p>
+            <p className="mt-1 text-xs text-slate-500">
+              To browse live wholesale categories and import top-up products, please add your keys to <code className="text-[#1E3BCB]">.env.local</code>:
             </p>
-            <pre className="mx-auto mt-4 max-w-md rounded-lg bg-bg2 p-3 text-left font-mono text-xs text-ink2">
+            <pre className="mx-auto mt-4 max-w-md rounded-lg bg-[#F4F6FB] border border-[#E0E5F1] p-3 text-left font-mono text-xs text-slate-700">
               SHOP2TOPUP_KEY_ID=your_key_id{"\n"}
               SHOP2TOPUP_KEY_SECRET=your_key_secret{"\n"}
               TOPUP_PROVIDERS=shop2topup,mock

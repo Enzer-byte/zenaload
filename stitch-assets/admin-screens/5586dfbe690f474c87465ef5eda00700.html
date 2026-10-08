@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zenaload Admin - Suppliers &amp; Gateway Health</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed": "#000f5d",
+            "primary-fixed-dim": "#bbc3ff",
+            "on-primary-fixed-variant": "#0f31c3",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#b3bcff",
+            "on-surface-variant": "#444655",
+            "on-tertiary-container": "#bdb9ff",
+            "on-surface": "#11193c",
+            "on-primary": "#ffffff",
+            "secondary": "#006686",
+            "inverse-primary": "#bbc3ff",
+            "on-error": "#ffffff",
+            "tertiary-fixed": "#e3dfff",
+            "tertiary-fixed-dim": "#c4c0ff",
+            "on-secondary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#f0efff",
+            "background": "#fbf8ff",
+            "on-secondary-fixed-variant": "#004d66",
+            "on-background": "#11193c",
+            "primary-container": "#1e3bcb",
+            "on-tertiary-fixed-variant": "#330edd",
+            "surface-bright": "#fbf8ff",
+            "surface-container-low": "#f3f2ff",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "secondary-fixed": "#c0e8ff",
+            "outline-variant": "#c5c5d7",
+            "primary": "#0023a6",
+            "inverse-surface": "#272e53",
+            "surface-tint": "#344edb",
+            "surface-variant": "#dee1ff",
+            "on-secondary-container": "#004d66",
+            "tertiary-container": "#3c22e4",
+            "on-secondary-fixed": "#001e2b",
+            "secondary-container": "#05c4fe",
+            "surface": "#fbf8ff",
+            "on-error-container": "#93000a",
+            "on-tertiary-fixed": "#110068",
+            "primary-fixed": "#dee0ff",
+            "secondary-fixed-dim": "#70d2ff",
+            "outline": "#757686",
+            "tertiary": "#2600b9",
+            "surface-dim": "#d3d8ff",
+            "surface-container-highest": "#dee1ff",
+            "surface-container": "#ececff",
+            "surface-container-high": "#e5e6ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xl": "1.75rem",
+            "margin": "1.5rem",
+            "space-md": "0.875rem",
+            "space-lg": "1.25rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.25rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "label-md": ["Plus Jakarta Sans"],
+            "table-data": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "kpi-display": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-md": ["13px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "table-data": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "kpi-display": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.03em", "fontWeight": "800" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .tnum {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md min-h-screen flex selection:bg-primary-container selection:text-white">
+<!-- Fixed Left Sidebar Rail -->
+<aside class="fixed top-0 left-0 h-screen w-64 bg-on-background dark:bg-inverse-surface border-r border-outline-variant/20 dark:border-outline/30 flex flex-col justify-between py-space-lg px-space-md z-40">
+<div class="flex flex-col gap-6">
+<!-- Brand Anchor Header -->
+<div class="flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-xl overflow-hidden shadow-sm flex items-center justify-center bg-[#070e28] flex-shrink-0">
+<img alt="Zenaload Z logo mark" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VOFgqEf9RJagFErx2Kd_YEY4Z-oktKNnNMoWGKjdnO9GRutDbHOEdp-9seSmGIoFYEqZmxcXwHS4PPfrDeldTiOh_0NMgJpWIvk5bH0F-k66w3dGLJ1laXjq5X7X8ncByVApfXyT-PJkuJYbVxiaLqRq3lHzAv4_1L8gGUWmYHWU9-vA665unC5PfkJ3Daw3qmoGuKCcFUsn_SNp7hSdVTu3tbr6LCX9CYryxcmDmEScc9_PeTZ9I8f2Y"/>
+</div>
+<div class="flex flex-col overflow-hidden">
+<span class="text-headline-sm font-headline-sm font-extrabold text-surface-container-lowest tracking-tight">Zenaload</span>
+<span class="text-body-sm font-body-sm text-outline-variant truncate">Back Office Console</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-label-md font-label-md text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Orders with Pill Badge -->
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-label-md font-label-md text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer active:scale-[0.99]" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Orders</span>
+</div>
+<span class="bg-secondary-container text-on-background text-label-sm font-label-sm px-2 py-0.5 rounded-full font-bold tnum">2</span>
+</a>
+<!-- Products -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-label-md font-label-md text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Products</span>
+</a>
+<!-- Games -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-label-md font-label-md text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined" data-icon="sports_esports">sports_esports</span>
+<span>Games</span>
+</a>
+<!-- Suppliers (Active State via Mandatory Injected Tokens) -->
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-label-md font-label-md text-surface-container-lowest bg-primary-container/40 dark:bg-primary-container font-semibold border-l-4 border-secondary-container cursor-pointer active:scale-[0.99]" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-container" data-icon="handshake" style="font-variation-settings: 'FILL' 1;">handshake</span>
+<span>Suppliers</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+</a>
+<!-- Tickets -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-label-md font-label-md text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
+<span>Tickets</span>
+</a>
+<!-- Notifications -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-label-md font-label-md text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom Utilities & Auth Anchor -->
+<div class="flex flex-col gap-2 pt-4 border-t border-outline-variant/10">
+<a class="flex items-center gap-3 px-3 py-2 text-label-md font-label-md text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 rounded-lg transition-colors cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-label-md font-label-md text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 rounded-lg transition-colors cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>System Settings</span>
+</a>
+<!-- Operator Identity & Sign Out Hook -->
+<div class="mt-2 pt-3 border-t border-outline-variant/10 flex items-center justify-between px-2">
+<div class="flex items-center gap-2.5 overflow-hidden">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest/20 border border-outline-variant/30 flex items-center justify-center text-surface-container-lowest text-label-md font-bold uppercase">
+            TB
+          </div>
+<div class="flex flex-col overflow-hidden">
+<span class="text-label-md font-label-md text-surface-container-lowest truncate">Tunde Bakare</span>
+<span class="text-body-sm font-body-sm text-outline-variant truncate">Lead Ops</span>
+</div>
+</div>
+<button class="text-outline-variant hover:text-error transition-colors p-1 rounded-lg" title="Sign out">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Shell Frame Header and Content Canvas -->
+<div class="flex-1 ml-64 flex flex-col min-w-0">
+<!-- Top Fixed Utility Bar -->
+<header class="h-16 fixed top-0 right-0 left-64 bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant/40 dark:border-outline/30 px-margin flex items-center justify-between gap-gutter z-30">
+<!-- Search Component (on left) -->
+<div class="flex items-center gap-3 flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full h-10 pl-10 pr-4 bg-background dark:bg-inverse-surface border border-outline-variant/50 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all placeholder:text-outline/70" placeholder="Search SKUs, contract tests, gateway tags..." type="text"/>
+</div>
+</div>
+<!-- Live Indicators & Actions Cluster -->
+<div class="flex items-center gap-4">
+<!-- Live System Operational Status -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF9F1] border border-[#27AE60]/20 text-[#1B6D3D] text-label-sm font-label-sm tracking-wide">
+<span class="w-2 h-2 rounded-full bg-[#27AE60] animate-pulse"></span>
+<span>Gateway Live (99.8%)</span>
+</div>
+<div class="h-5 w-px bg-outline-variant/40"></div>
+<!-- Trailing Actions from Shared Anchor -->
+<div class="flex items-center gap-1.5">
+<button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors active:scale-95" title="Toggle Dark Mode">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors active:scale-95 relative" title="Notifications">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+<!-- Refresh Action Button -->
+<button class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary-container/90 text-white px-4 py-2 rounded-lg text-label-md font-label-md font-semibold transition-all active:scale-[0.98] shadow-sm">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+<span>Refresh all balances</span>
+</button>
+</div>
+</header>
+<!-- Main Operational Workspace -->
+<main class="flex-1 mt-16 p-margin max-w-7xl w-full mx-auto flex flex-col gap-6">
+<!-- Breadcrumb & Header Hub -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-outline-variant/30 pb-5">
+<div>
+<div class="flex items-center gap-2 text-body-sm font-body-sm text-outline mb-1">
+<span>Suppliers</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary-container font-semibold">Shop2Topup Node</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface">Suppliers &amp; fulfillment gateways</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-0.5">
+            Monitor supplier wallet balances, API response latency, and SKU mapping contract tests.
+          </p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-body-sm font-body-sm text-outline flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline" data-icon="schedule">schedule</span>
+<span>Last automated sync: <strong class="text-on-surface">3 mins ago</strong></span>
+</span>
+</div>
+</div>
+<!-- Top Summary Grid (3 Bento Cards) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Card 1: Primary Gateway Shop2Topup -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-lg flex flex-col justify-between hover:border-outline-variant transition-colors shadow-none">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-primary-container/10 text-primary-container flex items-center justify-center font-extrabold text-sm border border-primary-container/20">
+                  S2T
+                </div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Shop2Topup</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-primary-container/10 text-primary-container">Primary</span>
+</div>
+<span class="text-body-sm font-body-sm text-outline">Direct Telco &amp; Game Direct Route</span>
+</div>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-[#27AE60] border-2 border-white ring-1 ring-[#27AE60]/40"></span>
+</div>
+<!-- Balance Metric Display -->
+<div class="mt-5">
+<span class="text-body-sm font-body-sm font-semibold text-outline tracking-wider uppercase">Prepaid Wallet Balance</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-kpi-display font-kpi-display text-on-surface tnum">₦642,800</span>
+<span class="text-label-sm font-label-sm text-[#1B6D3D] bg-[#EBF9F1] px-2 py-0.5 rounded-full border border-[#27AE60]/20 font-bold">Healthy</span>
+</div>
+</div>
+<!-- Visual Meter / Threshold Gauge -->
+<div class="mt-4 flex flex-col gap-1.5">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="text-outline">Threshold Floor: ₦200,000</span>
+<span class="font-bold text-on-surface tnum">76% of Target</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary-container to-primary-container rounded-full" style="width: 76%"></div>
+</div>
+</div>
+</div>
+<!-- Actions Footer -->
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between gap-2">
+<button class="text-label-md font-label-md text-primary-container hover:text-primary flex items-center gap-1.5 font-semibold transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="refresh">refresh</span>
+<span>Refresh balance</span>
+</button>
+<button class="text-label-md font-label-md text-on-surface-variant hover:text-on-surface flex items-center gap-1 border border-outline-variant/40 hover:bg-surface-container-low px-2.5 py-1.5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="help_outline">help_outline</span>
+<span>Top-up guide</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Fallback Gateway Reloadly API -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-lg flex flex-col justify-between hover:border-outline-variant transition-colors shadow-none">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center font-extrabold text-sm border border-outline-variant/40">
+                  RLD
+                </div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Reloadly API</h3>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-surface-container-high text-on-surface-variant">Fallback</span>
+</div>
+<span class="text-body-sm font-body-sm text-outline">Global Aggregator Service</span>
+</div>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-secondary-fixed/50 text-on-secondary-fixed font-bold">
+                Standby / Configured
+              </span>
+</div>
+<!-- Balance Metric Display -->
+<div class="mt-5">
+<span class="text-body-sm font-body-sm font-semibold text-outline tracking-wider uppercase">USD Settlement Balance</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-kpi-display font-kpi-display text-on-surface tnum">$1,420.50</span>
+<span class="text-body-sm font-body-sm text-outline tnum">(≈ ₦2,272,800)</span>
+</div>
+</div>
+<!-- Route Circuit Policy Note -->
+<div class="mt-3.5 p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5" data-icon="info">info</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-snug">
+                Only triggered when an order is <strong class="text-on-surface">definitively rejected</strong>, never during gateway timeout states.
+              </p>
+</div>
+</div>
+<!-- Actions Footer -->
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-[#27AE60]" data-icon="bolt">bolt</span>
+<span>Avg latency: <strong class="text-on-surface tnum">320ms</strong></span>
+</span>
+<button class="text-label-md font-label-md text-primary-container hover:text-primary font-semibold transition-colors">
+              Configure rules
+            </button>
+</div>
+</div>
+<!-- Card 3: API Health & Latency Telemetry -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-lg flex flex-col justify-between hover:border-outline-variant transition-colors shadow-none">
+<div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="monitoring">monitoring</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">API Health &amp; Latency</h3>
+</div>
+<span class="text-label-sm font-label-sm text-outline bg-surface-container-low px-2 py-0.5 rounded border border-outline-variant/30 font-semibold">24h Window</span>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-4">
+<!-- Sub-metric 1 -->
+<div class="p-3 bg-surface-container-low/70 rounded-lg border border-outline-variant/20">
+<span class="text-body-sm font-body-sm text-outline">Paystack Webhooks</span>
+<div class="text-headline-md font-headline-md text-[#1B6D3D] tnum mt-0.5 flex items-center gap-1">
+                  100%
+                  <span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+</div>
+<span class="text-[11px] text-outline">0 dropped signals</span>
+</div>
+<!-- Sub-metric 2 -->
+<div class="p-3 bg-surface-container-low/70 rounded-lg border border-outline-variant/20">
+<span class="text-body-sm font-body-sm text-outline">Shop2Topup Ping</span>
+<div class="text-headline-md font-headline-md text-on-surface tnum mt-0.5">
+                  410ms
+                </div>
+<span class="text-[11px] text-[#1B6D3D] font-semibold">Within SLA (&lt;800ms)</span>
+</div>
+</div>
+<!-- Error Rate Banner -->
+<div class="mt-3 p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="error_outline">error_outline</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Order failure rate</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface font-bold tnum">
+                0.4% <span class="font-normal text-outline text-body-sm">(2 / 753)</span>
+</span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-[#1B6D3D] flex items-center gap-1 font-semibold">
+<span class="w-2 h-2 rounded-full bg-[#27AE60]"></span>
+              All nodes operating within SLA
+            </span>
+<button class="text-label-md font-label-md text-primary-container hover:text-primary font-semibold">
+              View traces
+            </button>
+</div>
+</div>
+</div>
+<!-- Contract Testing & SKU Mapping Section -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl overflow-hidden shadow-none flex flex-col">
+<!-- Table Control Toolbar -->
+<div class="p-4 border-b border-outline-variant/40 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-container-lowest">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="sync_alt">sync_alt</span>
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Contract Testing &amp; SKU Mappings</h2>
+</div>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container text-on-surface-variant font-bold tnum">
+              18 SKUs Configured
+            </span>
+</div>
+<!-- Quick-Filter Chips & Game Selectors -->
+<div class="flex items-center flex-wrap gap-2">
+<span class="text-body-sm font-body-sm text-outline mr-1">Filter Game:</span>
+<button class="h-8 px-3 rounded-full border border-primary-container bg-primary-container/10 text-primary-container text-label-md font-label-md transition-colors">
+              All Games
+            </button>
+<button class="h-8 px-3 rounded-full border border-outline-variant/40 bg-white text-on-surface-variant hover:bg-surface-container-low text-label-md font-label-md transition-colors">
+              Free Fire
+            </button>
+<button class="h-8 px-3 rounded-full border border-outline-variant/40 bg-white text-on-surface-variant hover:bg-surface-container-low text-label-md font-label-md transition-colors">
+              COD Mobile
+            </button>
+<button class="h-8 px-3 rounded-full border border-outline-variant/40 bg-white text-on-surface-variant hover:bg-surface-container-low text-label-md font-label-md transition-colors">
+              MLBB
+            </button>
+<button class="h-8 px-3 rounded-full border border-outline-variant/40 bg-white text-on-surface-variant hover:bg-surface-container-low text-label-md font-label-md transition-colors">
+              PUBG Mobile
+            </button>
+<div class="h-5 w-px bg-outline-variant/40 mx-1"></div>
+<button class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg border border-outline-variant/50 hover:bg-surface-container-low text-label-md font-label-md text-on-surface font-semibold transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[16px]" data-icon="filter_list">filter_list</span>
+<span>Filter Status</span>
+</button>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="h-10 bg-[#F4F6FB] text-outline text-[12px] font-bold uppercase tracking-wider border-b border-outline-variant/40">
+<th class="px-4 font-bold">Supplier SKU</th>
+<th class="px-4 font-bold">Zenaload Product</th>
+<th class="px-4 font-bold">Game</th>
+<th class="px-4 font-bold text-right">Unit Cost (₦)</th>
+<th class="px-4 font-bold">Gateway Status</th>
+<th class="px-4 font-bold">Last Ping</th>
+<th class="px-4 font-bold">Health / Contract Test</th>
+<th class="px-4 font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20 text-table-data font-table-data">
+<!-- Row 1: Free Fire 100 Diamonds -->
+<tr class="h-12 hover:bg-[#F8FAFD] transition-colors group">
+<td class="px-4 font-mono text-[13px] text-on-surface font-semibold">
+                  S2T-FF-100D
+                </td>
+<td class="px-4 text-on-surface">
+                  100 + 10 Bonus Diamonds
+                </td>
+<td class="px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#E67E22]"></span>
+<span class="font-medium text-on-surface">Free Fire</span>
+</div>
+</td>
+<td class="px-4 text-right tnum font-semibold text-on-surface">
+                  ₦850.00
+                </td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#27AE60]"></span>
+                    Live Direct
+                  </span>
+</td>
+<td class="px-4 text-outline text-body-sm tnum">
+                  380ms (4m ago)
+                </td>
+<td class="px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Contract Valid (200 OK)</span>
+</div>
+</td>
+<td class="px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 text-label-md font-label-md text-primary-container hover:bg-primary-container/10 rounded transition-colors active:scale-95 font-semibold">
+                      Run test
+                    </button>
+<button class="p-1 text-outline hover:text-on-surface rounded hover:bg-surface-container transition-colors" title="Edit mapping">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Free Fire 520 Diamonds -->
+<tr class="h-12 hover:bg-[#F8FAFD] transition-colors group">
+<td class="px-4 font-mono text-[13px] text-on-surface font-semibold">
+                  S2T-FF-520D
+                </td>
+<td class="px-4 text-on-surface">
+                  520 Diamonds Voucher
+                </td>
+<td class="px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#E67E22]"></span>
+<span class="font-medium text-on-surface">Free Fire</span>
+</div>
+</td>
+<td class="px-4 text-right tnum font-semibold text-on-surface">
+                  ₦4,200.00
+                </td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#27AE60]"></span>
+                    Live Direct
+                  </span>
+</td>
+<td class="px-4 text-outline text-body-sm tnum">
+                  415ms (12m ago)
+                </td>
+<td class="px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Contract Valid (200 OK)</span>
+</div>
+</td>
+<td class="px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 text-label-md font-label-md text-primary-container hover:bg-primary-container/10 rounded transition-colors active:scale-95 font-semibold">
+                      Run test
+                    </button>
+<button class="p-1 text-outline hover:text-on-surface rounded hover:bg-surface-container transition-colors" title="Edit mapping">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: COD Mobile 420 CP (Warning / Mismatch state) -->
+<tr class="h-12 hover:bg-[#F8FAFD] transition-colors group bg-error-container/10">
+<td class="px-4 font-mono text-[13px] text-error font-semibold">
+                  S2T-CODM-420CP
+                </td>
+<td class="px-4 text-on-surface font-medium">
+                  420 COD Points Direct
+                </td>
+<td class="px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#2980B9]"></span>
+<span class="font-medium text-on-surface">COD Mobile</span>
+</div>
+</td>
+<td class="px-4 text-right tnum font-semibold text-on-surface">
+                  ₦3,950.00
+                </td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#FEF3D6] text-[#8F6B00] border border-[#E5A800]/30 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#E5A800]"></span>
+                    Payload Drift
+                  </span>
+</td>
+<td class="px-4 text-outline text-body-sm tnum">
+                  920ms (1m ago)
+                </td>
+<td class="px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#FCE5E5] text-[#C93535] border border-error/20 font-bold" title="Upstream supplier response modified parameter 'player_tag' to 'uid'">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>Field Key Schema Drift</span>
+</div>
+</td>
+<td class="px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 text-label-md font-label-md text-error hover:bg-error-container/30 rounded transition-colors active:scale-95 font-bold">
+                      Resolve Drift
+                    </button>
+<button class="p-1 text-outline hover:text-on-surface rounded hover:bg-surface-container transition-colors" title="Edit mapping">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Mobile Legends 277 Diamonds -->
+<tr class="h-12 hover:bg-[#F8FAFD] transition-colors group">
+<td class="px-4 font-mono text-[13px] text-on-surface font-semibold">
+                  S2T-MLBB-277D
+                </td>
+<td class="px-4 text-on-surface">
+                  250 + 27 Diamonds Bundle
+                </td>
+<td class="px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#8E44AD]"></span>
+<span class="font-medium text-on-surface">MLBB</span>
+</div>
+</td>
+<td class="px-4 text-right tnum font-semibold text-on-surface">
+                  ₦2,650.00
+                </td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#27AE60]"></span>
+                    Live Direct
+                  </span>
+</td>
+<td class="px-4 text-outline text-body-sm tnum">
+                  320ms (8m ago)
+                </td>
+<td class="px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Contract Valid (200 OK)</span>
+</div>
+</td>
+<td class="px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 text-label-md font-label-md text-primary-container hover:bg-primary-container/10 rounded transition-colors active:scale-95 font-semibold">
+                      Run test
+                    </button>
+<button class="p-1 text-outline hover:text-on-surface rounded hover:bg-surface-container transition-colors" title="Edit mapping">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: PUBG Mobile 60 UC -->
+<tr class="h-12 hover:bg-[#F8FAFD] transition-colors group">
+<td class="px-4 font-mono text-[13px] text-on-surface font-semibold">
+                  S2T-PUBG-60UC
+                </td>
+<td class="px-4 text-on-surface">
+                  60 Unknown Cash (Global)
+                </td>
+<td class="px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#16A085]"></span>
+<span class="font-medium text-on-surface">PUBG Mobile</span>
+</div>
+</td>
+<td class="px-4 text-right tnum font-semibold text-on-surface">
+                  ₦1,150.00
+                </td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#27AE60]"></span>
+                    Live Direct
+                  </span>
+</td>
+<td class="px-4 text-outline text-body-sm tnum">
+                  490ms (14m ago)
+                </td>
+<td class="px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Contract Valid (200 OK)</span>
+</div>
+</td>
+<td class="px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 text-label-md font-label-md text-primary-container hover:bg-primary-container/10 rounded transition-colors active:scale-95 font-semibold">
+                      Run test
+                    </button>
+<button class="p-1 text-outline hover:text-on-surface rounded hover:bg-surface-container transition-colors" title="Edit mapping">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: PUBG Mobile 300+25 UC -->
+<tr class="h-12 hover:bg-[#F8FAFD] transition-colors group">
+<td class="px-4 font-mono text-[13px] text-on-surface font-semibold">
+                  S2T-PUBG-325UC
+                </td>
+<td class="px-4 text-on-surface">
+                  300 + 25 UC Voucher
+                </td>
+<td class="px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#16A085]"></span>
+<span class="font-medium text-on-surface">PUBG Mobile</span>
+</div>
+</td>
+<td class="px-4 text-right tnum font-semibold text-on-surface">
+                  ₦5,700.00
+                </td>
+<td class="px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#27AE60]"></span>
+                    Live Direct
+                  </span>
+</td>
+<td class="px-4 text-outline text-body-sm tnum">
+                  430ms (18m ago)
+                </td>
+<td class="px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EBF9F1] text-[#1B6D3D] border border-[#27AE60]/20 font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Contract Valid (200 OK)</span>
+</div>
+</td>
+<td class="px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2 py-1 text-label-md font-label-md text-primary-container hover:bg-primary-container/10 rounded transition-colors active:scale-95 font-semibold">
+                      Run test
+                    </button>
+<button class="p-1 text-outline hover:text-on-surface rounded hover:bg-surface-container transition-colors" title="Edit mapping">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination & Bulk Status Footer -->
+<div class="p-4 border-t border-outline-variant/30 bg-surface-container-low/40 flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-3 text-outline">
+<span>Showing <strong class="text-on-surface tnum">6</strong> of <strong class="text-on-surface tnum">18</strong> mapped SKUs</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="flex items-center gap-1 text-[#1B6D3D]">
+<span class="w-2 h-2 rounded-full bg-[#27AE60]"></span>
+              5 Healthy
+            </span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="flex items-center gap-1 text-error">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+              1 Requires Sync
+            </span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 border border-outline-variant/50 rounded-lg text-label-md font-label-md text-outline hover:text-on-surface disabled:opacity-40 transition-colors" disabled="">
+              Previous
+            </button>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-primary-container text-white text-label-md font-label-md font-bold">1</button>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container text-label-md font-label-md">2</button>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container text-label-md font-label-md">3</button>
+</div>
+<button class="px-3 py-1.5 border border-outline-variant/50 rounded-lg text-label-md font-label-md text-on-surface hover:bg-surface-container-low transition-colors">
+              Next
+            </button>
+</div>
+</div>
+</div>
+<!-- Manual Test Runner Drawer / Inline Preview Bar -->
+<div class="bg-surface-container-low border border-outline-variant/40 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-primary-container text-white flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+</div>
+<div>
+<span class="text-headline-sm font-headline-sm text-on-surface">Automated Contract Regression Suite</span>
+<p class="text-body-sm font-body-sm text-outline">Simulate full JSON response contracts for all 18 SKUs against the Shop2Topup sandbox endpoint.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 border border-outline-variant/60 rounded-lg text-label-md font-label-md font-semibold text-on-surface hover:bg-surface-container transition-colors">
+            Download Audit Logs (JSON)
+          </button>
+<button class="px-4 py-2 bg-gradient-to-r from-primary-container to-tertiary-container hover:opacity-95 text-white rounded-lg text-label-md font-label-md font-semibold transition-all active:scale-95 shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="play_arrow">play_arrow</span>
+<span>Run full SKU suite</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

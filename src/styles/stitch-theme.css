@@ -1,0 +1,101 @@
+/* Stitch Design Tokens & CSS Variables for Zenaload (Exact tokens from Stitch designMd) */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+:root {
+  /* Exact Stitch Colors from Design System */
+  --color-surface-container-lowest: #ffffff;
+  --color-on-background: #11193c;
+  --color-on-tertiary-fixed-variant: #330edd;
+  --color-surface-container-high: #e5e6ff;
+  --color-on-tertiary: #ffffff;
+  --color-on-surface: #11193c;
+  --color-error-container: #ffdad6;
+  --color-on-secondary-fixed: #001e2b;
+  --color-inverse-on-surface: #f0efff;
+  --color-on-primary-container: #efefff;
+  --color-tertiary-fixed-dim: #c4c0ff;
+  --color-surface-tint: #104af0;
+  --color-surface-container-low: #f3f2ff;
+  --color-surface-variant: #dee1ff;
+  --color-tertiary-container: #5e50ff;
+  --color-secondary-fixed-dim: #70d2ff;
+  --color-surface-bright: #fbf8ff;
+  --color-on-tertiary-fixed: #110068;
+  --color-primary-fixed-dim: #b8c3ff;
+  --color-primary-container: #2d5bff;
+  --color-inverse-surface: #272e53;
+  --color-surface-container-highest: #dee1ff;
+  --color-primary-fixed: #dde1ff;
+  --color-background: #fbf8ff;
+  --color-outline-variant: #c4c5d9;
+  --color-on-error-container: #93000a;
+  --color-tertiary-fixed: #e3dfff;
+  --color-on-primary: #ffffff;
+  --color-on-primary-fixed-variant: #0035bd;
+  --color-on-secondary-fixed-variant: #004d66;
+  --color-surface-dim: #d3d8ff;
+  --color-error: #ba1a1a;
+  --color-tertiary: #432dea;
+  --color-secondary: #006686;
+  --color-on-primary-fixed: #001355;
+  --color-outline: #747688;
+  --color-surface: #fbf8ff;
+  --color-on-error: #ffffff;
+  --color-on-secondary: #ffffff;
+  --color-on-tertiary-container: #f2eeff;
+  --color-inverse-primary: #b8c3ff;
+  --color-on-surface-variant: #434656;
+  --color-surface-container: #ececff;
+  --color-secondary-container: #05c4fe;
+  --color-primary: #0040df;
+  --color-on-secondary-container: #004d66;
+  --color-secondary-fixed: #c0e8ff;
+
+  /* Signature Brand Gradients & Accents */
+  --stitch-brand-gradient: linear-gradient(135deg, #0BC5FF 0%, #2D5BFF 50%, #5A4BFF 100%);
+  --stitch-brand-glow: 0px 8px 24px rgba(45, 91, 255, 0.35);
+  --stitch-electric-gradient: linear-gradient(135deg, #0BC5FF 0%, #2D5BFF 52%, #5A4BFF 100%);
+
+  /* Elevation Shadows */
+  --stitch-shadow-card-1: 0px 4px 16px rgba(10, 18, 54, 0.04);
+  --stitch-shadow-card-2: 0px 12px 32px rgba(10, 18, 54, 0.08);
+  --stitch-shadow-card-3: 0px 20px 48px rgba(10, 18, 54, 0.14);
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-electric-gradient, .custom-gradient-cta, .primary-gradient-cta, .stitch-brand-gradient {
+  background: linear-gradient(135deg, #0BC5FF 0%, #2D5BFF 50%, #5A4BFF 100%) !important;
+}
+
+.brand-glow, .stitch-brand-glow {
+  box-shadow: 0px 8px 24px rgba(45, 91, 255, 0.35) !important;
+}
+
+.card-elevation-1, .stitch-card-shadow-1 {
+  box-shadow: 0px 4px 16px rgba(10, 18, 54, 0.04) !important;
+}
+
+.card-elevation-2, .stitch-card-shadow-2 {
+  box-shadow: 0px 12px 32px rgba(10, 18, 54, 0.08) !important;
+}
+
+.card-elevation-3, .stitch-card-shadow-3 {
+  box-shadow: 0px 20px 48px rgba(10, 18, 54, 0.14) !important;
+}
+
+.hero-glow {
+  background-color: #0A1236 !important;
+  background-image: radial-gradient(circle at 50% 12%, rgba(11, 197, 255, 0.22) 0%, rgba(45, 91, 255, 0.12) 38%, transparent 70%) !important;
+}

@@ -8,98 +8,95 @@ interface GameCardV2Props {
   preview?: boolean;
 }
 
-const getCategoryColor = (category: string) => {
-  switch (category.toLowerCase()) {
-    case "battle royale":
-      return "from-amber-500/20 to-orange-500/10 text-amber-300 border-amber-500/30";
-    case "fps / shooter":
-    case "shooter":
-      return "from-red-500/20 to-rose-500/10 text-rose-300 border-rose-500/30";
-    case "sports":
-      return "from-emerald-500/20 to-teal-500/10 text-emerald-300 border-emerald-500/30";
-    case "moba":
-      return "from-purple-500/20 to-indigo-500/10 text-purple-300 border-purple-500/30";
-    default:
-      return "from-brand/20 to-brand2/10 text-hi border-brand/30";
-  }
-};
-
-const hashHue = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 360, 15);
-
 export function GameCardV2({ game, from, preview }: GameCardV2Props) {
-  const badgeStyle = getCategoryColor(game.category);
-  const hue = hashHue(game.slug);
   const targetHref = preview ? `/preview/games/${game.slug}` : `/games/${game.slug}`;
 
+  // Mapping game to representative badges matching Stitch screenshots
+  const isFreeFire = game.slug.includes("free-fire");
+  const isCodm = game.slug.includes("call-of-duty") || game.slug.includes("cod");
+  const isEfootball = game.slug.includes("efootball");
+
   return (
-    <Link
-      href={targetHref}
-      aria-label={`Top up ${game.name}`}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-card transition-all duration-300 hover:-translate-y-1 hover:border-brand hover:shadow-xl hover:shadow-brand/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-    >
-      {/* Top Media Artwork / Gradient Bento Cover */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg2">
-        {game.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={game.imageUrl}
-            alt={game.name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
-        ) : (
-          <div
-            className="relative flex h-full w-full items-end p-4"
-            style={{
-              background: `radial-gradient(circle at 75% 25%, hsl(${hue} 75% 55% / .35), transparent 70%), linear-gradient(150deg, #151B2A 0%, #0D111C 100%)`,
-            }}
-          >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-md">
-              <span className="text-xl font-bold text-white/80">{game.name.charAt(0)}</span>
+    <div className="bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-sm hover:shadow-xl hover:border-primary/40 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+      <div>
+        {/* Cover Artwork Container */}
+        <div className="relative w-full aspect-video rounded-t-2xl overflow-hidden bg-slate-900">
+          {game.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={game.imageUrl}
+              alt={game.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-on-background via-inverse-surface to-on-background text-surface-container-lowest">
+              <span className="text-3xl font-extrabold tracking-tight">{game.name.slice(0, 2).toUpperCase()}</span>
             </div>
+          )}
+
+          {/* Badges Overlay */}
+          <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+            {isFreeFire && (
+              <span className="px-2 py-0.5 rounded-md bg-amber-500 text-white font-extrabold text-[10px] tracking-wider uppercase shadow">
+                🔥 Most Popular
+              </span>
+            )}
+            {isCodm && (
+              <span className="px-2 py-0.5 rounded-md bg-cyan-600 text-white font-extrabold text-[10px] tracking-wider uppercase shadow">
+                🎯 Trending
+              </span>
+            )}
+            {isEfootball && (
+              <span className="px-2 py-0.5 rounded-md bg-emerald-600 text-white font-extrabold text-[10px] tracking-wider uppercase shadow">
+                ⚽ Live Event
+              </span>
+            )}
+            {!isFreeFire && !isCodm && !isEfootball && (
+              <span className="px-2 py-0.5 rounded-md bg-inverse-surface/80 text-surface-container-lowest font-bold text-[10px] backdrop-blur-sm">
+                {game.category}
+              </span>
+            )}
           </div>
-        )}
 
-        {/* Ambient bottom gradient shade */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card via-transparent to-black/20" />
-
-        {/* Publisher / Category pill & Active Server status indicator */}
-        <div className="absolute left-3 top-3 flex items-center gap-1.5">
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[10px] font-semibold backdrop-blur-md ${badgeStyle}`}
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            {game.category}
-          </span>
+          <div className="absolute top-2.5 right-2.5">
+            <span className="px-2 py-0.5 rounded-full bg-black/60 text-emerald-400 text-[10px] font-bold backdrop-blur-sm flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              ~24s Auto
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* Card Content & Action Area */}
-      <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
-        <div>
-          <h3 className="text-base font-semibold text-white tracking-tight group-hover:text-hi transition-colors">
+        {/* Card Body */}
+        <div className="p-4 sm:p-5">
+          <h3 className="font-title-md text-title-md font-extrabold text-on-surface group-hover:text-primary transition-colors">
             {game.name}
           </h3>
-          <p className="mt-1 line-clamp-1 text-xs text-mute">
-            {game.description || `Instant credits & top-ups for ${game.name}`}
+          <p className="mt-1 text-xs text-on-surface-variant line-clamp-1">
+            {game.description || `Instant automated top-up in Naira`}
           </p>
         </div>
+      </div>
 
-        <div className="mt-4 flex items-center justify-between gap-2 border-t border-line/60 pt-3">
-          <div>
-            <span className="block text-[10px] font-medium uppercase tracking-wider text-mute">
-              Starting at
-            </span>
-            <span className="text-sm font-bold text-ink">
-              {from ? ngn(from) : "Coming soon"}
-            </span>
-          </div>
-
-          <span className="inline-flex items-center justify-center rounded-lg border border-line bg-elevated px-3 py-1.5 text-xs font-semibold text-ink2 transition-all duration-200 group-hover:border-brand group-hover:bg-brand group-hover:text-white group-hover:shadow-md group-hover:shadow-brand/25">
-            Top Up
+      {/* Card Action & Price Row verbatim from Stitch */}
+      <div className="p-4 sm:p-5 pt-0 flex items-center justify-between border-t border-surface-variant/20 mt-2">
+        <div>
+          <span className="block text-[11px] font-semibold text-outline uppercase tracking-wider">
+            Price
+          </span>
+          <span className="font-title-md text-title-md font-extrabold text-on-surface">
+            {from ? `From ${ngn(from)}` : "Available"}
           </span>
         </div>
+
+        <Link
+          href={targetHref}
+          className="px-4 py-2 rounded-xl bg-primary text-white font-label-md text-xs font-bold hover:bg-primary-container active:scale-95 transition-all shadow-sm flex items-center gap-1"
+        >
+          <span>Top-up now</span>
+          <span className="material-symbols-outlined text-sm">arrow_forward</span>
+        </Link>
       </div>
-    </Link>
+    </div>
   );
 }

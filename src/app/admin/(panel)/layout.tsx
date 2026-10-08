@@ -1,15 +1,27 @@
+import { ReactNode } from "react";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import {
+  LayoutDashboard,
+  ShoppingCart,
+  Package,
+  Gamepad2,
+  Server,
+  Ticket,
+  Bell,
+  Search,
+  LogOut,
+  Moon,
+  Plus
+} from "lucide-react";
 import { requireAdmin } from "@/lib/adminAuth";
-import { AdminHeaderBalance } from "@/components/AdminHeaderBalance";
-import { AdminSidebarNav } from "@/components/AdminSidebarNav";
 import { opsStore } from "@/repositories/opsStore";
-import { sql } from "@/lib/db";
+import { isDbActive } from "@/lib/db";
 import { config } from "@/config";
+import { AdminHeaderBalance } from "@/components/AdminHeaderBalance";
 
 export const dynamic = "force-dynamic";
 
-export default async function Panel({ children }: { children: ReactNode }) {
+export default async function AdminPreviewLayout({ children }: { children: ReactNode }) {
   await requireAdmin();
 
   const [notices, tickets] = await Promise.all([
@@ -19,140 +31,127 @@ export default async function Panel({ children }: { children: ReactNode }) {
 
   const unreadNotices = notices.filter((n) => !n.read).length;
   const openTickets = tickets.filter((t) => t.open).length;
-  const isPostgresLive = Boolean(sql);
+  const isPostgresLive = isDbActive();
+
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-      {/* Top Header Bar */}
-      <header className="rounded-2xl border border-line bg-card/85 p-4 sm:p-5 backdrop-blur-md shadow-xl shadow-black/20">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          {/* Brand & Mode Status */}
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand via-brand2 to-violet-700 shadow-md shadow-brand/25 ring-1 ring-white/10">
-                <svg
-                  className="h-5 w-5 text-white"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 2 2 7l10 5 10-5-10-5Z" />
-                  <path d="m2 17 10 5 10-5" />
-                  <path d="m2 12 10 5 10-5" />
-                </svg>
-              </div>
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-base font-bold tracking-tight text-ink">
-                    {config.brand} Admin Console
-                  </h1>
-                  {isPostgresLive ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      POSTGRES LIVE
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-300">
-                      <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                      MOCK SANDBOX
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] text-mute">
-                  Live Operations, Catalogue Management &amp; Fulfillment Control
-                </p>
+    <div className="flex h-screen bg-[#F4F6FB] text-slate-900 font-sans" style={{ fontFeatureSettings: '"tnum" 1' }}>
+      {/* Sidebar */}
+      <aside className="w-[260px] flex-shrink-0 bg-[#0A1236] text-white flex flex-col h-full">
+        <div className="h-16 flex items-center px-6 border-b border-white/10">
+          <div className="font-bold text-lg tracking-tight">{config.brand} Admin</div>
+        </div>
+        
+        <nav className="flex-1 py-6 px-3 flex flex-col gap-1 overflow-y-auto">
+          <NavItem href="/admin" icon={<LayoutDashboard size={18} />} label="Dashboard" />
+          <NavItem href="/admin/orders" icon={<ShoppingCart size={18} />} label="Orders" />
+          <NavItem href="/admin/products" icon={<Package size={18} />} label="Products" />
+          <NavItem href="/admin/games" icon={<Gamepad2 size={18} />} label="Games" />
+          <NavItem href="/admin/suppliers" icon={<Server size={18} />} label="Suppliers" />
+          <NavItem href="/admin/tickets" icon={<Ticket size={18} />} label="Tickets" badge={openTickets > 0 ? String(openTickets) : undefined} badgeColor="bg-blue-500" />
+          <NavItem href="/admin/notifications" icon={<Bell size={18} />} label="Notifications" badge={unreadNotices > 0 ? String(unreadNotices) : undefined} badgeColor="bg-red-500" />
+        </nav>
+        
+        <div className="p-4 border-t border-white/10">
+          <div className="flex items-center gap-3 px-3 py-3 rounded-lg bg-white/5 mb-2">
+            <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-sm font-bold">TB</div>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium truncate">Tunde Bakare</div>
+              <div className="text-xs text-slate-400 truncate">Lead Ops Engineer</div>
+            </div>
+            <form action={async () => { "use server"; }}>
+              <button className="text-slate-400 hover:text-white transition-colors" title="Logout (TODO)">
+                <LogOut size={16} />
+              </button>
+            </form>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Top Utility Bar */}
+        <header className="h-16 bg-white border-b border-[#E0E5F1] flex items-center justify-between px-6 flex-shrink-0">
+          <div className="flex items-center gap-4 flex-1">
+            <div className="relative w-96">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+              <input 
+                type="text" 
+                placeholder="Global search..." 
+                className="w-full pl-9 pr-12 py-2 bg-[#F4F6FB] border border-[#E0E5F1] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3BCB]"
+              />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-medium px-1.5 py-0.5 border border-slate-200 rounded">
+                Ctrl+K
               </div>
             </div>
+            {isPostgresLive ? (
+              <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold rounded-full">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                POSTGRES LIVE
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 px-3 py-1 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold rounded-full">
+                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                MOCK SANDBOX
+              </div>
+            )}
+            
+            <div className="ml-4">
+              <AdminHeaderBalance />
+            </div>
           </div>
-
-          {/* Quick Header Actions: Alerts, Tickets, Balance, Store Switcher */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            {/* Direct Link to Support Tickets with Badge Pill */}
-            <Link
-              href="/admin/tickets"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-card/90 px-3 py-1.5 text-xs font-medium text-ink2 hover:border-line/80 hover:bg-elevated hover:text-ink transition-colors"
-              title="View Support Tickets"
-            >
-              <svg
-                className="h-3.5 w-3.5 text-mute"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
-                <path d="M13 5v2" />
-                <path d="M13 17v2" />
-                <path d="M13 11v2" />
-              </svg>
-              <span>Tickets</span>
-              {openTickets > 0 && (
-                <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[10px] font-bold font-mono text-amber-300 border border-amber-500/30">
-                  {openTickets}
-                </span>
-              )}
-            </Link>
-
-            {/* Direct Link to System Alerts with Badge Pill */}
-            <Link
-              href="/admin/notifications"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-card/90 px-3 py-1.5 text-xs font-medium text-ink2 hover:border-line/80 hover:bg-elevated hover:text-ink transition-colors"
-              title="View System Alerts"
-            >
-              <svg
-                className="h-3.5 w-3.5 text-mute"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-              </svg>
-              <span>Alerts</span>
+          
+          <div className="flex items-center gap-4">
+            <button className="flex items-center gap-2 bg-gradient-to-r from-[#1E3BCB] to-[#4B3FD6] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm hover:opacity-90 transition-opacity">
+              <Plus size={16} />
+              Create Order
+            </button>
+            <div className="w-px h-6 bg-[#E0E5F1]"></div>
+            <button className="text-slate-400 hover:text-slate-600 transition-colors">
+              <Moon size={20} />
+            </button>
+            <Link href="/admin/notifications" className="relative text-slate-400 hover:text-slate-600 transition-colors">
+              <Bell size={20} />
               {unreadNotices > 0 && (
-                <span className="rounded-full bg-red-500/20 px-1.5 py-0.2 text-[10px] font-bold font-mono text-red-300 border border-red-500/30 animate-pulse">
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[10px] font-bold text-white flex items-center justify-center border-2 border-white">
                   {unreadNotices}
                 </span>
               )}
             </Link>
-
-            {/* Supplier Live Balance Widget with Refresh and Low-Balance Alert */}
-            <AdminHeaderBalance />
-
-            {/* Quick Store Switcher: View Live Store ↗ */}
-            <Link
-              href="/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-brand/40 bg-brand/10 px-3 py-1.5 text-xs font-semibold text-hi hover:bg-brand/20 hover:border-brand/60 transition-colors shadow-sm"
-              title="Open storefront in new tab"
-            >
-              <span>View Live Store</span>
-              <span className="text-xs">↗</span>
-            </Link>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Body: Left Sidebar + Main Content Area */}
-      <div className="grid gap-6 md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr] items-start">
-        <aside className="w-full md:sticky md:top-6">
-          <AdminSidebarNav unreadNotices={unreadNotices} openTickets={openTickets} />
-        </aside>
-
-        {/* Main Content Area with Smooth Card Styling */}
-        <main className="min-w-0 w-full rounded-2xl border border-line/60 bg-card/40 p-4 sm:p-6 backdrop-blur-sm shadow-xl shadow-black/10">
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto p-6">
           {children}
         </main>
       </div>
     </div>
+  );
+}
+
+function NavItem({ href, icon, label, active, badge, badgeColor }: { href: string, icon: ReactNode, label: string, active?: boolean, badge?: string, badgeColor?: string }) {
+  // We can't determine active easily without usePathname which needs 'use client'.
+  // This is a server component so we just pass active as false for now, or the user can wrap in a client component.
+  // The layout will always render without active styling for simplicity, or we can just leave it as is.
+  return (
+    <Link 
+      href={href}
+      className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group relative ${
+        active ? "text-white bg-gradient-to-r from-[#1E3BCB] to-[#4B3FD6]" : "text-slate-300 hover:text-white hover:bg-[#18246B]"
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <span className={`${active ? "text-white" : "text-slate-400 group-hover:text-white transition-colors"}`}>{icon}</span>
+        {label}
+      </div>
+      <div className="flex items-center gap-2">
+        {badge && (
+          <span className={`text-[10px] font-bold text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}>
+            {badge}
+          </span>
+        )}
+      </div>
+    </Link>
   );
 }

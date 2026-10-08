@@ -1,12 +1,13 @@
 import "./globals.css";
 import type { ReactNode } from "react";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { config } from "@/config";
 import { CustomerShell } from "@/components/CustomerShell";
 
-const inter = Inter({
+const stitchFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-stitch",
   fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
 });
 
@@ -20,7 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} font-sans bg-bg text-ink min-h-screen flex flex-col antialiased selection:bg-brand selection:text-white`}
+        className={`${stitchFont.variable} font-stitch bg-surface text-on-surface min-h-screen flex flex-col antialiased selection:bg-secondary-container selection:text-on-background`}
         suppressHydrationWarning
       >
         <CustomerShell>{children}</CustomerShell>

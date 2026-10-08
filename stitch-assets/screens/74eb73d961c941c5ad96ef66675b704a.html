@@ -1,0 +1,545 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Zenaload - Instant Gaming Top-Up Guest Checkout</title>
+<!-- Plus Jakarta Sans Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS with Containers and Forms -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim from Design System -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#e3dfff",
+            "on-tertiary-fixed": "#110068",
+            "primary-fixed": "#dde1ff",
+            "surface-tint": "#104af0",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#05c4fe",
+            "background": "#fbf8ff",
+            "tertiary-fixed-dim": "#c4c0ff",
+            "on-error": "#ffffff",
+            "on-primary": "#ffffff",
+            "surface": "#fbf8ff",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "on-secondary-container": "#004d66",
+            "outline": "#747688",
+            "on-tertiary-fixed-variant": "#330edd",
+            "on-primary-fixed": "#001355",
+            "error": "#ba1a1a",
+            "primary-fixed-dim": "#b8c3ff",
+            "on-secondary-fixed-variant": "#004d66",
+            "surface-dim": "#d3d8ff",
+            "tertiary": "#432dea",
+            "primary": "#0040df",
+            "surface-container-low": "#f3f2ff",
+            "inverse-on-surface": "#f0efff",
+            "error-container": "#ffdad6",
+            "on-tertiary-container": "#f2eeff",
+            "surface-bright": "#fbf8ff",
+            "secondary-fixed": "#c0e8ff",
+            "secondary": "#006686",
+            "surface-variant": "#dee1ff",
+            "on-background": "#11193c",
+            "outline-variant": "#c4c5d9",
+            "primary-container": "#2d5bff",
+            "tertiary-container": "#5e50ff",
+            "surface-container-high": "#e5e6ff",
+            "on-primary-fixed-variant": "#0035bd",
+            "surface-container": "#ececff",
+            "surface-container-highest": "#dee1ff",
+            "inverse-primary": "#b8c3ff",
+            "secondary-fixed-dim": "#70d2ff",
+            "on-primary-container": "#efefff",
+            "inverse-surface": "#272e53",
+            "on-surface-variant": "#434656",
+            "on-secondary-fixed": "#001e2b",
+            "on-surface": "#11193c",
+            "surface-container-lowest": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-tablet": "2rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "margin": "1rem",
+            "space-xl": "2.25rem",
+            "space-sm": "0.5rem",
+            "margin-desktop": "3rem",
+            "gutter-desktop": "1.5rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "display-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.025em", "fontWeight": "800" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "display-lg-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "title-md": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "25px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-gradient-cta {
+      background: linear-gradient(135deg, #0BC5FF 0%, #2D5BFF 50%, #5A4BFF 100%);
+      box-shadow: 0px 8px 24px rgba(45, 91, 255, 0.35);
+    }
+    .custom-gradient-cta:hover {
+      box-shadow: 0px 12px 28px rgba(45, 91, 255, 0.45);
+    }
+    .ff-badge-gradient {
+      background: linear-gradient(135deg, #FF6B00 0%, #FF3D00 100%);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased font-body-md min-h-screen flex flex-col justify-between selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopAppBar: Derived from Shared Components JSON & Design System -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-margin md:px-gutter-desktop w-full h-16 bg-on-background shadow-sm border-b border-surface-variant/20">
+<div class="flex items-center gap-space-md">
+<a class="flex items-center gap-2 group" href="#">
+<!-- Folded ribbon Z logo mark -->
+<img src="https://lh3.googleusercontent.com/aida/AEtjO1VOFgqEf9RJagFErx2Kd_YEY4Z-oktKNnNMoWGKjdnO9GRutDbHOEdp-9seSmGIoFYEqZmxcXwHS4PPfrDeldTiOh_0NMgJpWIvk5bH0F-k66w3dGLJ1laXjq5X7X8ncByVApfXyT-PJkuJYbVxiaLqRq3lHzAv4_1L8gGUWmYHWU9-vA665unC5PfkJ3Daw3qmoGuKCcFUsn_SNp7hSdVTu3tbr6LCX9CYryxcmDmEScc9_PeTZ9I8f2Y" alt="Zenaload Logo" class="w-9 h-9 rounded-lg object-contain shrink-0 group-hover:scale-105 transition-transform duration-200 shadow-sm">
+<span class="font-headline-sm text-headline-sm font-extrabold text-surface-container-lowest tracking-tight">Zenaload</span>
+</a>
+<!-- Desktop Nav items -->
+<nav class="hidden lg:flex items-center space-x-6 ml-6">
+<a class="font-label-md text-label-md text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Games</a>
+<a class="font-label-md text-label-md text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">How it works</a>
+<a class="font-label-md text-label-md text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Track order</a>
+<a class="font-label-md text-label-md text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Support &amp; FAQ</a>
+</nav>
+</div>
+<!-- Right Utility Cluster -->
+<div class="flex items-center gap-space-sm sm:gap-space-md">
+<!-- Currency Badge -->
+<div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-inverse-surface border border-outline-variant/30 text-surface-container-lowest font-label-sm text-label-sm">
+<span class="">Nigeria 🇳🇬 (NGN)</span>
+</div>
+<!-- Security Guarantee -->
+<div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container/10 border border-secondary-container/30 text-secondary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="hidden xs:inline">256-bit SSL encrypted</span>
+</div>
+<!-- Mobile menu trigger -->
+<button aria-label="Open menu" class="lg:hidden p-2 text-outline-variant hover:text-surface-container-lowest transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full flex-grow max-w-[1240px] mx-auto px-margin md:px-gutter-desktop py-space-md md:py-space-lg">
+<!-- Breadcrumb Path -->
+<nav class="flex items-center space-x-2 text-outline mb-space-md md:mb-space-lg font-label-md text-label-md overflow-x-auto whitespace-nowrap py-1">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span class="">Home</span>
+</a>
+<span class="text-outline-variant">/</span>
+<a class="hover:text-primary transition-colors" href="#">Free Fire</a>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-bold">Checkout</span>
+</nav>
+<!-- Page Title & Micro Status -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md mb-space-md border-b border-surface-variant gap-2">
+<div>
+<h1 class="font-headline-lg text-headline-lg sm:font-headline-lg text-on-surface tracking-tight">Direct Guest Checkout</h1>
+<p class="font-body-md text-body-md text-outline mt-0.5">Zero account registration needed. Powered by instant bank-grade settlement.</p>
+</div>
+<div class="flex items-center gap-2 self-start sm:self-auto bg-surface-container-low px-3 py-1.5 rounded-xl border border-surface-variant">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Direct API Connection: <strong class="text-primary font-bold">Live</strong></span>
+</div>
+</div>
+<!-- 2-Column Responsive Layout: 12-col grid (Desktop 7/5 or 8/4) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+<!-- LEFT COLUMN: Checkout Details Form (lg:col-span-7 or 8) -->
+<section class="lg:col-span-7 space-y-space-md">
+<!-- Step A: Contact Information Card -->
+<div class="bg-surface-container-lowest rounded-xl p-5 md:p-6 border border-surface-variant shadow-[0px_4px_16px_rgba(10,18,54,0.04)]">
+<div class="flex items-center gap-3 pb-4 mb-4 border-b border-surface-variant/50">
+<div class="w-7 h-7 rounded-full bg-primary text-surface-container-lowest flex items-center justify-center font-label-md text-label-md font-bold">
+              1
+            </div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Contact Information</h2>
+<p class="font-label-sm text-label-sm text-outline">Order receipt, confirmation, and status notifications</p>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Email Input Field -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="checkout-email">
+                Email Address <span class="text-error">*</span>
+</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<input class="block w-full h-[52px] pl-11 pr-4 rounded-xl border border-surface-variant bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none" id="checkout-email" placeholder="Enter email for delivery receipt" required="" type="email" value="samuel.adebayo@gmail.com">
+
+</div>
+<p class="font-label-sm text-label-sm text-outline mt-1.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                Your digital payment receipt and order reference will be sent here
+              </p>
+</div>
+<!-- Phone Number Input with +234 Country Prefix -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="checkout-phone">
+                Nigerian Phone Number <span class="text-error">*</span>
+</label>
+<div class="flex rounded-xl shadow-xs">
+<div class="inline-flex items-center gap-1.5 px-3.5 bg-surface-container-low border border-r-0 border-surface-variant rounded-l-xl font-label-md text-label-md text-on-surface select-none">
+<span class="">🇳🇬</span>
+<span class="font-bold">+234</span>
+</div>
+<div class="relative flex-grow">
+
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center text-primary pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</div>
+</div>
+</div>
+</div>
+<!-- WhatsApp Notification Toggle Switch -->
+<div class="pt-2">
+<label class="flex items-start gap-3 p-3 rounded-xl bg-surface-container-low/60 border border-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="pt-0.5">
+<input checked="" class="w-5 h-5 rounded-md border-surface-variant text-primary focus:ring-primary-container" type="checkbox">
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-green-600">chat</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">Send instant delivery updates and order status on WhatsApp</span>
+</div>
+<p class="font-label-sm text-label-sm text-outline mt-0.5">Receive automated message when your diamonds reflect in-game</p>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Step B: Payment Method Selection (Powered by Paystack) -->
+<div class="bg-surface-container-lowest rounded-xl p-5 md:p-6 border border-surface-variant shadow-[0px_4px_16px_rgba(10,18,54,0.04)]">
+<div class="flex items-center justify-between pb-4 mb-4 border-b border-surface-variant/50">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-full bg-primary text-surface-container-lowest flex items-center justify-center font-label-md text-label-md font-bold">
+                2
+              </div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Payment Method</h2>
+<p class="font-label-sm text-label-sm text-outline">Fast settlement via Paystack payment rails</p>
+</div>
+</div>
+<!-- Paystack Indicator -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container font-label-sm text-label-sm text-on-surface-variant border border-surface-variant">
+<span class="">Secured by</span>
+<strong class="text-on-surface tracking-wide">paystack</strong>
+</div>
+</div>
+<!-- Payment Channel Cards / Radio Group -->
+<div class="space-y-3" role="radiogroup">
+<!-- Option 1: Instant Bank Transfer (Recommended) -->
+<label class="block relative rounded-xl border-2 border-primary-container bg-surface-container-lowest p-4 cursor-pointer shadow-[0px_8px_20px_rgba(45,91,255,0.08)] transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-3">
+<div class="pt-0.5">
+<input checked="" class="w-5 h-5 text-primary-container focus:ring-primary-container" name="payment_channel" type="radio" value="bank_transfer">
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-title-md text-title-md text-on-surface font-bold">Bank Transfer</span>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-bold tracking-wide bg-secondary-container/20 text-on-secondary-container">
+                        FASTEST • RECOMMENDED
+                      </span>
+</div>
+<p class="font-body-md text-body-md text-outline mt-1">Automated virtual account via Paystack. Confirms in ~10 seconds without card OTP delays.</p>
+<!-- Live Bank Partner Chips -->
+<div class="flex items-center gap-2 mt-3 flex-wrap">
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant text-[11px] font-bold rounded-lg">Kuda</span>
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant text-[11px] font-bold rounded-lg">GTBank</span>
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant text-[11px] font-bold rounded-lg">Zenith Bank</span>
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant text-[11px] font-bold rounded-lg">OPay</span>
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant text-[11px] font-bold rounded-lg">PalmPay</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+</label>
+<!-- Option 2: Debit Card -->
+<label class="block relative rounded-xl border border-surface-variant hover:border-outline-variant bg-surface-container-lowest p-4 cursor-pointer transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-3">
+<div class="pt-0.5">
+<input class="w-5 h-5 text-primary-container focus:ring-primary-container" name="payment_channel" type="radio" value="card">
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-bold">Debit / Credit Card</span>
+</div>
+<p class="font-body-md text-body-md text-outline mt-0.5">Instant processing for Verve, Mastercard, and Visa issued by Nigerian banks.</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 bg-surface-container-low text-outline text-[11px] font-bold rounded border border-surface-variant">Mastercard</span>
+<span class="px-2 py-0.5 bg-surface-container-low text-outline text-[11px] font-bold rounded border border-surface-variant">Visa</span>
+<span class="px-2 py-0.5 bg-surface-container-low text-outline text-[11px] font-bold rounded border border-surface-variant">Verve</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">credit_card</span>
+</div>
+</label>
+<!-- Option 3: USSD / Bank Code -->
+<label class="block relative rounded-xl border border-surface-variant hover:border-outline-variant bg-surface-container-lowest p-4 cursor-pointer transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-3">
+<div class="pt-0.5">
+<input class="w-5 h-5 text-primary-container focus:ring-primary-container" name="payment_channel" type="radio" value="ussd">
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-bold">USSD / Bank Code</span>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-surface-container text-on-surface-variant">
+                        Low Data / Offline
+                      </span>
+</div>
+<p class="font-body-md text-body-md text-outline mt-0.5">Dial direct codes: GTB *737#, Zenith *966#, UBA *919#, FirstBank *894#.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">dialpad</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Step C: Irreversible Notice & Confirmation -->
+<div class="space-y-4">
+<!-- Prominent Warning Notice -->
+<div class="p-4 rounded-xl bg-amber-50 border border-amber-200/80 flex items-start gap-3">
+<span class="material-symbols-outlined text-amber-700 mt-0.5 text-[22px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<p class="font-label-md text-label-md text-amber-900 font-bold">Irreversible Delivery Notice</p>
+<p class="font-body-md text-body-md text-amber-800 mt-0.5">
+                In-game diamonds are sent directly to UID <strong class="font-bold text-amber-950">2938471924</strong> within ~24s after payment. Top-ups cannot be reversed or transferred once delivered.
+              </p>
+</div>
+</div>
+<!-- Primary Pay CTA Button -->
+<button class="custom-gradient-cta w-full min-h-[54px] rounded-xl text-surface-container-lowest font-headline-sm text-headline-sm font-extrabold flex items-center justify-center gap-3 active:scale-[0.98] transition-all cursor-pointer px-6" type="button">
+<span class="material-symbols-outlined text-[22px]">lock</span>
+<span class="">Proceed to pay ₦5,800 →</span>
+</button>
+<!-- Loading / Transition Indicator Preview -->
+<div class="flex items-center justify-center gap-2 text-outline font-label-sm text-label-sm pt-1">
+<span class="material-symbols-outlined animate-spin text-[16px]">sync</span>
+<span class="">Redirecting to Paystack secure checkout on click...</span>
+</div>
+<!-- Trust & Compliance Badges Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-center">
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-variant/70">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<p class="font-label-sm text-label-sm text-on-surface font-bold mt-1">Paystack Verified</p>
+<p class="text-[10px] text-outline">Tier-1 Merchant</p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-variant/70">
+<span class="material-symbols-outlined text-primary text-[20px]">shield</span>
+<p class="font-label-sm text-label-sm text-on-surface font-bold mt-1">Bank Grade</p>
+<p class="text-[10px] text-outline">256-bit SSL Data</p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-variant/70">
+<span class="material-symbols-outlined text-primary text-[20px]">credit_card_off</span>
+<p class="font-label-sm text-label-sm text-on-surface font-bold mt-1">Zero Card Storage</p>
+<p class="text-[10px] text-outline">Zero liability risk</p>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-variant/70">
+<span class="material-symbols-outlined text-primary text-[20px]">currency_exchange</span>
+<p class="font-label-sm text-label-sm text-on-surface font-bold mt-1">Money-Back</p>
+<p class="text-[10px] text-outline">If undelivered</p>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Immutable Order Summary Card (lg:col-span-5, sticky) -->
+<aside class="lg:col-span-5 lg:sticky lg:top-20 space-y-4">
+<div class="bg-surface-container-lowest rounded-xl p-5 md:p-6 border border-surface-variant shadow-[0px_4px_16px_rgba(10,18,54,0.06)]">
+<!-- Summary Header -->
+<div class="flex items-center justify-between pb-4 border-b border-surface-variant">
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Order Summary</h2>
+<span class="font-label-sm text-label-sm text-outline">Ref: ZL-20261005-A1B2</span>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-container/15 text-on-secondary-container font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+              Live Queue
+            </span>
+</div>
+<!-- Game Item Header Card -->
+<div class="flex items-center gap-3.5 my-4 p-3 bg-surface-container-low rounded-xl border border-surface-variant">
+<!-- Monogram Free Fire Tile -->
+<div class="w-12 h-12 rounded-lg ff-badge-gradient flex items-center justify-center text-surface-container-lowest font-headline-md text-headline-md font-extrabold shadow-sm shrink-0">
+              FF
+            </div>
+<div class="min-w-0 flex-grow">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate">Garena Free Fire: Diamonds Top-Up</h3>
+<p class="font-label-sm text-label-sm text-outline flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">public</span>
+<span class="">Server: Nigeria / Sub-Saharan Africa</span>
+</p>
+</div>
+</div>
+<!-- Breakdown List with Hairline Dividers -->
+<div class="space-y-3 pt-1 text-label-md font-label-md">
+<div class="flex items-center justify-between py-1 border-b border-surface-variant/40">
+<span class="text-outline">Player ID (UID)</span>
+<div class="text-right">
+<div class="flex items-center gap-1 font-bold text-on-surface">
+<span class="">2938471924</span>
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="text-[11px] text-outline font-normal">Nick: ★ShadowSniper★</div>
+</div>
+</div>
+<div class="flex items-center justify-between py-1 border-b border-surface-variant/40">
+<span class="text-outline">Selected Package</span>
+<div class="text-right font-bold text-on-surface">
+<span class="">520 Diamonds</span>
+<span class="text-primary text-[11px] block font-semibold">+15 Bonus Diamonds</span>
+</div>
+</div>
+<div class="flex items-center justify-between py-1 border-b border-surface-variant/40">
+<span class="text-outline">Delivery Method</span>
+<span class="font-semibold text-on-surface">Direct automated API link (~24s)</span>
+</div>
+<div class="flex items-center justify-between py-1 border-b border-surface-variant/40">
+<span class="text-outline">Subtotal</span>
+<span class="font-bold text-on-surface">₦5,800</span>
+</div>
+<div class="flex items-center justify-between py-1 border-b border-surface-variant/40">
+<span class="text-outline">Payment Processing Fee</span>
+<span class="font-bold text-green-600">₦0.00 (FREE)</span>
+</div>
+<div class="flex items-center justify-between py-1">
+<span class="text-outline">Value Added Tax (VAT 7.5%)</span>
+<span class="text-on-surface">Included</span>
+</div>
+</div>
+<!-- Total Payable Highlight -->
+<div class="mt-4 pt-4 border-t-2 border-surface-variant bg-surface-container/30 -mx-5 -mb-5 p-5 rounded-b-xl">
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-md text-label-md text-outline block">Total Payable</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Guaranteed 100% in-game credit</span>
+</div>
+<div class="text-right">
+<span class="font-display-lg-mobile md:font-headline-lg text-display-lg-mobile md:text-headline-lg font-extrabold text-on-surface tracking-tight">
+                  ₦5,800
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Fast-help WhatsApp Support Box -->
+<div class="rounded-xl border border-surface-variant p-4 bg-surface-container-lowest flex items-center justify-between gap-3 shadow-xs">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-green-500/10 text-green-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">chat</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-bold">Need help before paying?</p>
+<p class="font-label-sm text-label-sm text-outline">Chat with our Lagos support desk</p>
+</div>
+</div>
+<a class="px-3 py-1.5 rounded-lg border border-surface-variant hover:border-primary font-label-sm text-label-sm font-bold text-primary hover:bg-primary/5 transition-all text-center shrink-0" href="#">
+            Chat Now
+          </a>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-outline">
+            WhatsApp support: <strong>+234 800 000 0000</strong>
+</p>
+</div>
+</aside>
+</div>
+</main>
+<!-- Mobile Sticky Bar for quick CTA access (on smaller screens) -->
+<div class="md:hidden sticky bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-surface-variant p-3 shadow-lg z-40">
+<div class="flex items-center justify-between gap-3 max-w-[600px] mx-auto">
+<div>
+<span class="text-[11px] text-outline block font-medium">Total to Pay</span>
+<span class="font-headline-sm text-headline-sm font-extrabold text-on-surface">₦5,800</span>
+</div>
+<button class="custom-gradient-cta flex-grow min-h-[48px] rounded-xl text-surface-container-lowest font-label-lg text-label-lg font-extrabold flex items-center justify-center gap-2 active:scale-95 transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span class="">Pay ₦5,800</span>
+</button>
+</div>
+</div>
+<!-- Footer: Derived from Shared Components JSON -->
+<footer class="w-full py-space-xl px-margin md:px-gutter-desktop pb-24 md:pb-space-xl bg-on-background text-outline-variant border-t border-surface-variant/20 mt-12">
+<div class="max-w-[1240px] mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-surface-variant/10">
+<div>
+<span class="font-headline-md text-headline-md font-extrabold text-surface-container-lowest tracking-tight">Zenaload</span>
+<p class="font-body-md text-body-md text-outline-variant mt-1">Instant gaming top-ups across Nigeria. Powered by Paystack.</p>
+</div>
+<!-- Footer Nav Links from JSON -->
+<nav class="flex flex-wrap gap-4 md:gap-6 font-label-md text-label-md">
+<a class="text-outline-variant hover:text-surface-container-lowest hover:text-secondary-container transition-colors duration-150" href="#">Terms of Service</a>
+<a class="text-outline-variant hover:text-surface-container-lowest hover:text-secondary-container transition-colors duration-150" href="#">Privacy Policy</a>
+<a class="text-outline-variant hover:text-surface-container-lowest hover:text-secondary-container transition-colors duration-150" href="#">Refund Policy</a>
+<a class="text-outline-variant hover:text-surface-container-lowest hover:text-secondary-container transition-colors duration-150" href="#">FAQ</a>
+<a class="text-outline-variant hover:text-surface-container-lowest hover:text-secondary-container transition-colors duration-150" href="#">Contact Support</a>
+</nav>
+</div>
+<div class="flex flex-col sm:flex-row justify-between items-center pt-6 gap-3 font-label-sm text-label-sm text-outline-variant">
+<p class="">© 2025 Zenaload. Instant gaming top-ups across Nigeria. Powered by Paystack.</p>
+<div class="flex items-center gap-2 text-outline-variant/80">
+<span class="">WhatsApp support: +234 800 000 0000</span>
+<span class="">•</span>
+<span class="">Paystack business name: Zenaload Technologies</span>
+</div>
+</div>
+</div>
+</footer>
+
+
+</body></html>

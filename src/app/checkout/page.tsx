@@ -7,11 +7,11 @@ import { productService } from "@/services/productService";
 import { CheckoutForm } from "@/components/CheckoutForm";
 
 export const metadata = {
-  title: `Checkout — ${config.brand}`,
+  title: `Direct Guest Checkout — ${config.brand}`,
   description: "Complete your game top-up securely via Paystack.",
 };
 
-export default async function Checkout({
+export default async function CheckoutPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string>>;
@@ -21,67 +21,76 @@ export default async function Checkout({
   const game =
     product && (await catalogStore.games()).find((g) => g.id === product.gameId);
 
-  if (!product || !game) {
-    return (
-      <div className="flex flex-col items-center justify-center py-16 text-center max-w-lg mx-auto">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-card/60 text-3xl shadow-xl">
-          🎮
-        </div>
-        <h1 className="mt-6 text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-          Your Order is Empty
-        </h1>
-        <p className="mt-2 text-sm text-mute leading-relaxed">
-          Please select a game credit package and enter your Player ID to proceed to checkout.
-        </p>
-        <Link
-          href="/games"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand to-brand2 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-brand/30 hover:brightness-110 transition active:scale-95"
-        >
-          <span>Browse Supported Games</span>
-          <span>&rarr;</span>
-        </Link>
-      </div>
-    );
-  }
-
-  const fields: Record<string, string> = {};
-  game.playerFields.forEach((f) => {
-    fields[f.key] = sp[`f_${f.key}`] ?? "";
-  });
-
   return (
-    <div className="space-y-6">
-      {/* Navigation Breadcrumbs */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-mute">
-        <Link href="/" className="hover:text-white transition-colors">
-          Home
+    <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 md:px-12 py-4 md:py-8">
+      {/* Breadcrumb Path verbatim from Stitch 74eb73d961c941c5ad96ef66675b704a.html */}
+      <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-outline mb-4 text-xs overflow-x-auto whitespace-nowrap py-1">
+        <Link href="/" className="hover:text-primary transition-colors flex items-center gap-1">
+          <span className="material-symbols-outlined text-[16px]">home</span>
+          <span>Home</span>
         </Link>
-        <span>/</span>
-        <Link href="/games" className="hover:text-white transition-colors">
-          Games
+        <span className="text-outline-variant">/</span>
+        <Link href="/games" className="hover:text-primary transition-colors">
+          {game ? game.name : "Games"}
         </Link>
-        <span>/</span>
-        <Link href={`/games/${game.slug}`} className="hover:text-white transition-colors">
-          {game.name}
-        </Link>
-        <span>/</span>
-        <span className="text-white font-medium">Checkout</span>
+        <span className="text-outline-variant">/</span>
+        <span className="text-on-surface font-bold">Checkout</span>
       </nav>
 
-      <CheckoutForm
-        productId={product.id}
-        fields={fields}
-        summary={{
-          game: game.name,
-          product: product.name,
-          amount: product.retailPrice,
-          originalAmount: product.originalPrice,
-          ids: game.playerFields.map((f) => ({
-            label: f.label,
-            value: fields[f.key] || "—",
-          })),
-        }}
-      />
+      {/* Page Title & Micro Status verbatim from Stitch */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-surface-variant gap-2">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight">
+            Direct Guest Checkout
+          </h1>
+          <p className="text-xs sm:text-sm text-outline mt-0.5">
+            Zero account registration needed. Powered by instant bank-grade settlement.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 self-start sm:self-auto bg-surface-container-low px-3 py-1.5 rounded-xl border border-surface-variant">
+          <span className="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+          <span className="text-xs text-on-surface-variant">
+            Direct API Connection: <strong className="text-primary font-bold">Live (~24s avg)</strong>
+          </span>
+        </div>
+      </div>
+
+      {!product || !game ? (
+        <div className="bg-surface-container-lowest rounded-2xl p-8 sm:p-12 text-center border border-surface-variant card-elevation-1 max-w-xl mx-auto space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center mx-auto text-3xl">
+            🎮
+          </div>
+          <h2 className="text-lg font-bold text-on-surface">No Top-Up Package Selected</h2>
+          <p className="text-xs text-outline">
+            Please pick a supported game and select your diamond or credit package first.
+          </p>
+          <div className="pt-2">
+            <Link
+              href="/games"
+              className="px-6 py-3 rounded-xl bg-electric-gradient text-white text-xs font-bold brand-glow shadow-md inline-block active:scale-95 transition-transform"
+            >
+              Browse Supported Games &rarr;
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <CheckoutForm
+          productId={product.id}
+          fields={Object.fromEntries(
+            game.playerFields.map((f) => [f.key, sp[`f_${f.key}`] ?? ""])
+          )}
+          summary={{
+            game: game.name,
+            product: product.name,
+            amount: product.retailPrice,
+            originalAmount: product.originalPrice,
+            ids: game.playerFields.map((f) => ({
+              label: f.label,
+              value: sp[`f_${f.key}`] || "—",
+            })),
+          }}
+        />
+      )}
     </div>
   );
 }

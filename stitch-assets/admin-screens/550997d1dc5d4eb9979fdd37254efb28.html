@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zenaload Admin - System Notifications &amp; Alerts</title>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-fixed": "#dee0ff",
+            "surface-variant": "#dee1ff",
+            "surface-bright": "#fbf8ff",
+            "surface-container-highest": "#dee1ff",
+            "secondary-container": "#05c4fe",
+            "on-background": "#11193c",
+            "primary-container": "#1e3bcb",
+            "outline": "#757686",
+            "on-error": "#ffffff",
+            "tertiary-fixed-dim": "#c4c0ff",
+            "on-tertiary-fixed": "#110068",
+            "on-surface-variant": "#444655",
+            "on-primary-container": "#b3bcff",
+            "outline-variant": "#c5c5d7",
+            "on-secondary-fixed-variant": "#004d66",
+            "primary-fixed-dim": "#bbc3ff",
+            "surface-container-high": "#e5e6ff",
+            "surface-tint": "#344edb",
+            "on-primary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-container": "#ececff",
+            "tertiary-container": "#3c22e4",
+            "on-tertiary-container": "#bdb9ff",
+            "on-primary-fixed-variant": "#0f31c3",
+            "tertiary": "#2600b9",
+            "secondary-fixed": "#c0e8ff",
+            "secondary-fixed-dim": "#70d2ff",
+            "on-secondary-fixed": "#001e2b",
+            "on-surface": "#11193c",
+            "inverse-on-surface": "#f0efff",
+            "primary": "#0023a6",
+            "inverse-primary": "#bbc3ff",
+            "on-primary-fixed": "#000f5d",
+            "background": "#fbf8ff",
+            "on-error-container": "#93000a",
+            "secondary": "#006686",
+            "on-tertiary-fixed-variant": "#330edd",
+            "tertiary-fixed": "#e3dfff",
+            "surface": "#fbf8ff",
+            "error": "#ba1a1a",
+            "inverse-surface": "#272e53",
+            "on-secondary-container": "#004d66",
+            "surface-dim": "#d3d8ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-low": "#f3f2ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "0.875rem",
+            "gutter": "1.25rem",
+            "margin": "1.5rem",
+            "space-xl": "1.75rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "table-data": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "kpi-display": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-md": ["13px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "table-data": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "headline-lg": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "kpi-display": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.03em", "fontWeight": "800" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #F4F6FB;
+      color: #11193c;
+    }
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Hairline border utility conforming to design system */
+    .border-hairline {
+      border-color: #E0E5F1;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #c5c5d7;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex antialiased selection:bg-primary selection:text-white">
+<!-- SIDEBAR: Shared Component SideNavBar mapped from JSON & Style Specs -->
+<aside class="fixed top-0 left-0 h-screen w-64 flex flex-col justify-between bg-on-background dark:bg-inverse-surface border-r border-outline-variant/20 dark:border-outline/30 z-40 select-none">
+<!-- Top Header & Brand -->
+<div>
+<div class="px-space-md pt-5 pb-4 flex items-center gap-3 border-b border-white/10">
+<div class="w-9 h-9 rounded-lg flex items-center justify-center bg-white/5 p-1 border border-white/10">
+<img alt="Zenaload Z logo mark" class="w-7 h-7 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U4eHPAz_DidanCtDnGI8WcFwGb-4tUrRRa9SHmRr4WlHL4aMTj62g7K1LjBL8nZm1kaBhbwSB5muta3Ley_dxyIidTc0i4cSaOYK0UKr_jPBTT7V8yZNCV51Nkt_cgte66xm401YQrCjlAZPga8-MAdpnA3VzyToXiFmXOpdmKTKsLf2aOYFTn82wpG7iSci0z1CqJCSAKyOPuXtcMABvcsP31GCWLTmHyRMX2jHXvFkkiIXS6BiQSobg"/>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm text-surface-container-lowest tracking-tight leading-tight">Zenaload</span>
+<span class="text-body-sm font-body-sm text-outline-variant leading-tight">Back Office Console</span>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav class="mt-4 px-2 space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-surface-container-lowest text-[20px]">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<!-- Orders -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-surface-container-lowest text-[20px]">receipt_long</span>
+<span class="text-label-md font-label-md">Orders</span>
+</a>
+<!-- Products -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-surface-container-lowest text-[20px]">inventory_2</span>
+<span class="text-label-md font-label-md">Products</span>
+</a>
+<!-- Games -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-surface-container-lowest text-[20px]">sports_esports</span>
+<span class="text-label-md font-label-md">Games</span>
+</a>
+<!-- Suppliers -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-surface-container-lowest text-[20px]">handshake</span>
+<span class="text-label-md font-label-md">Suppliers</span>
+</a>
+<!-- Tickets -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-surface-container-lowest text-[20px]">confirmation_number</span>
+<span class="text-label-md font-label-md">Tickets</span>
+</a>
+<!-- Notifications (ACTIVE MAPPING) -->
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-surface-container-lowest bg-gradient-to-r from-[#1E3BCB] to-[#4B3FD6] font-semibold border-l-4 border-secondary-container shadow-sm cursor-pointer" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-container text-[20px]">notifications</span>
+<span class="text-label-md font-label-md">Notifications</span>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-bold tracking-wider bg-white/20 text-white rounded-full">3</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Footer / Bottom Actions -->
+<div class="px-2 py-4 border-t border-white/10 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-outline-variant hover:text-surface-container-lowest hover:bg-surface-container-highest/10 transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span>System Settings</span>
+</a>
+<div class="pt-3 px-1">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-body-sm font-body-sm text-outline-variant hover:text-white bg-white/5 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[16px]">logout</span>
+<span>Sign out</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- MAIN CANVAS WRAPPER -->
+<div class="pl-64 flex-1 flex flex-col min-w-0">
+<!-- TOP BAR: Shared Component TopNavBar mapped from JSON -->
+<header class="h-16 px-margin bg-surface-container-lowest border-b border-hairline flex items-center justify-between sticky top-0 z-30">
+<!-- Search on Left -->
+<div class="flex items-center gap-4 w-96">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 text-body-md font-body-md rounded-xl bg-[#F4F6FB] border border-hairline focus:outline-none focus:border-[#2D5BFF] focus:ring-2 focus:ring-[#2D5BFF]/10 text-on-surface placeholder:text-outline/70 transition-all" placeholder="Search alerts, orders, or suppliers (⌘+K)..." type="text"/>
+</div>
+</div>
+<!-- Right Trailing Actions & Profile -->
+<div class="flex items-center gap-3">
+<!-- Live Environment Pill Indicator -->
+<div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-label-sm font-label-sm text-emerald-800">Production Node: Lagos</span>
+</div>
+<div class="h-5 w-px bg-hairline"></div>
+<!-- Trailing action buttons -->
+<button class="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-[#F4F6FB] transition-colors" title="Refresh Feed">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+<button class="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-[#F4F6FB] transition-colors" title="Toggle Theme">
+<span class="material-symbols-outlined text-[20px]">dark_mode</span>
+</button>
+<button class="relative p-2 rounded-lg text-outline hover:text-on-surface hover:bg-[#F4F6FB] transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<!-- Primary CTA from TopNavBar -->
+<button class="hidden lg:flex items-center gap-2 bg-gradient-to-r from-[#1E3BCB] to-[#4B3FD6] text-white px-3.5 py-2 rounded-lg text-label-md font-label-md shadow-sm hover:brightness-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Create Order</span>
+</button>
+<div class="h-5 w-px bg-hairline"></div>
+<!-- Profile Hook -->
+<div class="flex items-center gap-2.5 pl-1 cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">
+            TB
+          </div>
+<div class="hidden md:flex flex-col text-left">
+<span class="text-body-sm font-body-sm font-semibold text-on-surface leading-none">Tunde Bakare</span>
+<span class="text-[11px] text-outline font-medium">Lead Ops Officer</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[16px]">expand_more</span>
+</div>
+</div>
+</header>
+<!-- MAIN OPERATIONAL VIEWPORT -->
+<main class="flex-1 p-margin space-y-6 max-w-[1600px] w-full mx-auto">
+<!-- BREADCRUMBS & CONSOLE HEADER -->
+<section class="space-y-2">
+<nav class="flex items-center gap-2 text-body-sm font-body-sm text-outline">
+<span class="hover:text-primary cursor-pointer">Admin</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-primary cursor-pointer">System</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Notifications &amp; alerts</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+<div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface">Notifications &amp; system alerts</h1>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-3xl">
+              Real-time operational alerts for stuck orders, fulfillment gateway timeouts, wallet threshold warnings, and webhook drops.
+            </p>
+</div>
+<!-- Header Actions -->
+<div class="flex items-center gap-2.5 shrink-0">
+<button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-lowest border border-hairline text-on-surface text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+<span>Mark all as read</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-lowest border border-hairline text-on-surface text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Alert settings</span>
+</button>
+</div>
+</div>
+</section>
+<!-- TABS / FILTER CHIPS -->
+<section class="flex flex-wrap items-center gap-2 border-b border-hairline pb-4">
+<!-- Selected Tab -->
+<button class="h-8 px-4 rounded-full border border-[#1E3BCB] bg-[#E6ECFF] text-[#1E3BCB] text-label-md font-label-md flex items-center gap-1.5 shadow-sm">
+<span>All alerts (14)</span>
+</button>
+<button class="h-8 px-4 rounded-full border border-hairline bg-surface-container-lowest text-outline hover:text-on-surface hover:bg-[#F4F6FB] text-label-md font-label-md flex items-center gap-1.5 transition-colors">
+<span>Stuck orders (2)</span>
+</button>
+<button class="h-8 px-4 rounded-full border border-hairline bg-surface-container-lowest text-outline hover:text-on-surface hover:bg-[#F4F6FB] text-label-md font-label-md flex items-center gap-1.5 transition-colors">
+<span>Supplier &amp; Gateway (1)</span>
+</button>
+<button class="h-8 px-4 rounded-full border border-hairline bg-surface-container-lowest text-outline hover:text-on-surface hover:bg-[#F4F6FB] text-label-md font-label-md flex items-center gap-1.5 transition-colors">
+<span>Financial &amp; Margin (1)</span>
+</button>
+<button class="h-8 px-4 rounded-full border border-hairline bg-surface-container-lowest text-outline hover:text-on-surface hover:bg-[#F4F6FB] text-label-md font-label-md flex items-center gap-1.5 transition-colors">
+<span>Resolved / Read (10)</span>
+</button>
+<div class="ml-auto flex items-center gap-2 text-body-sm font-body-sm text-outline">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Live Socket Connected</span>
+</div>
+</section>
+<!-- TWO-COLUMN WORKSPACE: Alerts Feed (Left) & Preferences / Insights (Right) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter items-start">
+<!-- MAIN ALERTS FEED (8 Columns) -->
+<section class="xl:col-span-8 space-y-4">
+<!-- 1. Critical Alert: Order Stuck in Pending Review -->
+<div class="bg-surface-container-lowest border border-red-200 rounded-xl p-5 shadow-sm hover:border-red-400 transition-all border-l-4 border-l-red-600">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">error</span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Order ZL-20261005-B9F4E1 stuck in Pending Review</h2>
+<span class="h-6 inline-flex items-center gap-1.5 px-2.5 rounded-full bg-red-100 text-red-800 text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                      Requires Attention
+                    </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Reported 8 mins ago • Gateway Node #Shop2Topup-NG</p>
+</div>
+</div>
+<span class="text-body-sm font-body-sm text-outline shrink-0">8 mins ago</span>
+</div>
+<div class="mt-3.5 pl-12">
+<p class="text-body-md font-body-md text-on-surface-variant bg-[#F8FAFD] p-3 rounded-lg border border-hairline font-mono text-[13px]">
+                Shop2Topup gateway timed out (HTTP 504) after 45s for Free Fire 1,080 Diamonds (₦5,800). Customer Damola Adeleke paid via Paystack.
+              </p>
+<!-- Action buttons -->
+<div class="mt-3 flex items-center gap-2.5 flex-wrap">
+<button class="bg-gradient-to-r from-[#1E3BCB] to-[#4B3FD6] text-white px-3.5 py-1.5 rounded-lg text-label-md font-label-md hover:brightness-105 active:scale-95 transition-all shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                  Review in Drawer
+                </button>
+<button class="bg-surface-container-lowest border border-hairline text-on-surface px-3 py-1.5 rounded-lg text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                  Retry Fulfillment
+                </button>
+<button class="text-outline hover:text-error px-2.5 py-1.5 rounded-lg text-label-md font-label-md hover:bg-red-50 transition-colors">
+                  Dismiss
+                </button>
+</div>
+</div>
+</div>
+<!-- 2. Warning Alert: Supplier Wallet Floor -->
+<div class="bg-surface-container-lowest border border-amber-200 rounded-xl p-5 shadow-sm hover:border-amber-400 transition-all border-l-4 border-l-amber-500">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Shop2Topup prepaid wallet balance nearing warning floor</h2>
+<span class="h-6 inline-flex items-center gap-1.5 px-2.5 rounded-full bg-amber-100 text-amber-900 text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                      Threshold Warning
+                    </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Reported 24 mins ago • Supplier Balance Monitor</p>
+</div>
+</div>
+<span class="text-body-sm font-body-sm text-outline shrink-0">24 mins ago</span>
+</div>
+<div class="mt-3.5 pl-12">
+<p class="text-body-md font-body-md text-on-surface-variant bg-[#F8FAFD] p-3 rounded-lg border border-hairline">
+                Current balance is <strong class="text-on-surface font-semibold">₦642,800</strong>. Threshold warning set at ₦200,000. Projected exhaustion in <span class="text-amber-800 font-semibold">~3.8 hours</span> at current order volume.
+              </p>
+<div class="mt-3 flex items-center gap-2.5">
+<button class="bg-surface-container-lowest border border-hairline text-on-surface px-3 py-1.5 rounded-lg text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+                  Top-up Wallet Guide
+                </button>
+<button class="text-outline hover:text-on-surface px-2.5 py-1.5 rounded-lg text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors">
+                  Acknowledge
+                </button>
+</div>
+</div>
+</div>
+<!-- 3. Warning Alert: Low Gross Margin -->
+<div class="bg-surface-container-lowest border border-amber-200 rounded-xl p-5 shadow-sm hover:border-amber-400 transition-all border-l-4 border-l-amber-500">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">trending_down</span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Low gross margin detected on SKU #PUBG-660UC</h2>
+<span class="h-6 inline-flex items-center gap-1.5 px-2.5 rounded-full bg-amber-100 text-amber-900 text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                      Margin Alert
+                    </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Reported 1 hour ago • Automated Pricing Engine</p>
+</div>
+</div>
+<span class="text-body-sm font-body-sm text-outline shrink-0">1 hour ago</span>
+</div>
+<div class="mt-3.5 pl-12">
+<p class="text-body-md font-body-md text-on-surface-variant bg-[#F8FAFD] p-3 rounded-lg border border-hairline">
+                Gross margin dropped to <span class="text-error font-semibold">2.9%</span> (below 5.0% policy floor) following supplier wholesale price change to ₦5,050. Retail price is currently set to ₦5,200.
+              </p>
+<div class="mt-3 flex items-center gap-2.5">
+<button class="bg-gradient-to-r from-[#1E3BCB] to-[#4B3FD6] text-white px-3.5 py-1.5 rounded-lg text-label-md font-label-md hover:brightness-105 active:scale-95 transition-all shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+                  Adjust Retail Price
+                </button>
+<button class="text-outline hover:text-on-surface px-2.5 py-1.5 rounded-lg text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors">
+                  Ignore
+                </button>
+</div>
+</div>
+</div>
+<!-- 4. Critical Alert: Supplier Validation Failure -->
+<div class="bg-surface-container-lowest border border-red-200 rounded-xl p-5 shadow-sm hover:border-red-400 transition-all border-l-4 border-l-red-600">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Order ZL-20261005-C3D7A9 supplier validation failure</h2>
+<span class="h-6 inline-flex items-center gap-1.5 px-2.5 rounded-full bg-red-100 text-red-800 text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                      Validation Error
+                    </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Reported 1.5 hours ago • Gateway Parser</p>
+</div>
+</div>
+<span class="text-body-sm font-body-sm text-outline shrink-0">1.5 hours ago</span>
+</div>
+<div class="mt-3.5 pl-12">
+<p class="text-body-md font-body-md text-on-surface-variant bg-[#F8FAFD] p-3 rounded-lg border border-hairline font-mono text-[13px]">
+                Call of Duty Mobile Player ID format rejected by Shop2Topup node. Customer provided 7 digits, requirement is 12-19 digits.
+              </p>
+<div class="mt-3 flex items-center gap-2.5">
+<button class="bg-surface-container-lowest border border-hairline text-on-surface px-3 py-1.5 rounded-lg text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">call</span>
+                  Contact Customer
+                </button>
+<button class="bg-surface-container-lowest border border-hairline text-on-surface px-3 py-1.5 rounded-lg text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">mark_email_read</span>
+                  Request ID Correction
+                </button>
+</div>
+</div>
+</div>
+<!-- 5. Info Alert: Paystack Webhook Latency -->
+<div class="bg-surface-container-lowest border border-blue-200 rounded-xl p-5 shadow-sm hover:border-blue-400 transition-all border-l-4 border-l-blue-600">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">speed</span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Paystack Webhook latency restored to baseline</h2>
+<span class="h-6 inline-flex items-center gap-1.5 px-2.5 rounded-full bg-blue-100 text-blue-800 text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                      Gateway Info
+                    </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Reported 3 hours ago • Payment Ingestion Service</p>
+</div>
+</div>
+<span class="text-body-sm font-body-sm text-outline shrink-0">3 hours ago</span>
+</div>
+<div class="mt-3.5 pl-12">
+<p class="text-body-md font-body-md text-on-surface-variant bg-[#F8FAFD] p-3 rounded-lg border border-hairline">
+                Average webhook roundtrip delay decreased from 1,240ms to 280ms. All queued payment receipts verified successfully.
+              </p>
+<div class="mt-3 flex items-center gap-2.5">
+<button class="bg-surface-container-lowest border border-hairline text-on-surface px-3 py-1.5 rounded-lg text-label-md font-label-md hover:bg-[#F4F6FB] transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">monitoring</span>
+                  View Gateway Health
+                </button>
+</div>
+</div>
+</div>
+<!-- 6. Success Alert: Contract Regression Passed -->
+<div class="bg-surface-container-lowest border border-emerald-200 rounded-xl p-5 shadow-sm hover:border-emerald-400 transition-all border-l-4 border-l-emerald-600">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Automated contract regression suite passed (18/18 SKUs)</h2>
+<span class="h-6 inline-flex items-center gap-1.5 px-2.5 rounded-full bg-emerald-100 text-emerald-800 text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                      Contract Valid
+                    </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Reported 4 hours ago • Schema Validator Cron</p>
+</div>
+</div>
+<span class="text-body-sm font-body-sm text-outline shrink-0">4 hours ago</span>
+</div>
+<div class="mt-3.5 pl-12">
+<p class="text-body-md font-body-md text-on-surface-variant bg-[#F8FAFD] p-3 rounded-lg border border-hairline">
+                Shop2Topup and Reloadly JSON schemas verified with zero payload drift across all registered game catalog entries.
+              </p>
+</div>
+</div>
+<!-- ILLUSTRATED EMPTY STATE CONTAINER PREVIEW (When filtered or clear) -->
+<div class="mt-8 border border-dashed border-outline-variant/70 rounded-2xl p-8 bg-surface-container-lowest/60 text-center flex flex-col items-center justify-center">
+<div class="w-14 h-14 rounded-2xl bg-[#E6ECFF] text-[#1E3BCB] flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-[30px]">notifications_paused</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">No alerts in this view</h3>
+<p class="text-body-md font-body-md text-outline max-w-md mt-1">
+              No alerts. Stuck orders and low supplier balance will appear here when telemetry conditions trigger policy thresholds.
+            </p>
+<div class="mt-4 flex gap-2">
+<button class="px-3.5 py-1.5 text-label-md font-label-md rounded-lg border border-hairline bg-white hover:bg-[#F4F6FB] transition-colors text-on-surface">
+                Reset active filters
+              </button>
+</div>
+</div>
+</section>
+<!-- RIGHT RAIL / PREFERENCES & TELEMETRY (4 Columns) -->
+<aside class="xl:col-span-4 space-y-5">
+<!-- Card: Alert Notification Preferences -->
+<div class="bg-surface-container-lowest border border-hairline rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-hairline">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">notifications_active</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Alert Notification Preferences</h3>
+</div>
+<span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Active</span>
+</div>
+<!-- Preference Item: Slack -->
+<div class="flex items-start gap-3 p-3 rounded-xl bg-[#F4F6FB] border border-hairline">
+<div class="w-8 h-8 rounded-lg bg-[#4A154B] text-white flex items-center justify-center shrink-0 font-bold text-xs">
+                #
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface truncate">Slack ops-alerts</span>
+<span class="text-label-sm font-label-sm text-emerald-600">Active</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5 font-mono text-[11px] truncate">#zenaload-ops-alerts</p>
+<p class="text-[11px] text-on-surface-variant mt-1">Stuck orders, gateway down events, wallet deficits.</p>
+</div>
+</div>
+<!-- Preference Item: SMS -->
+<div class="flex items-start gap-3 p-3 rounded-xl bg-[#F4F6FB] border border-hairline">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">sms</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface">SMS Critical Escalation</span>
+<span class="text-label-sm font-label-sm text-emerald-600">Enabled</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5 font-mono text-[11px]">+234 803 123 4567</p>
+<p class="text-[11px] text-on-surface-variant mt-1">Triggers automatically for stuck orders &gt; 15 mins.</p>
+</div>
+</div>
+<!-- Preference Item: Email Digest -->
+<div class="flex items-start gap-3 p-3 rounded-xl bg-[#F4F6FB] border border-hairline">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface">Email Operational Digest</span>
+<span class="text-label-sm font-label-sm text-primary">Hourly/Instant</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5 font-mono text-[11px] truncate">ops-lead@zenaload.ng</p>
+<p class="text-[11px] text-on-surface-variant mt-1">Instant delivery for Critical, Hourly rollup for Warnings.</p>
+</div>
+</div>
+<!-- Action Link -->
+<div class="pt-2">
+<a class="text-label-md font-label-md text-primary hover:text-primary-container flex items-center justify-between group" href="#">
+<span>Edit notification channels</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Quick Summary Stats / Telemetry Card -->
+<div class="bg-surface-container-lowest border border-hairline rounded-xl p-5 shadow-sm space-y-4">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Incident Metrics (24h)</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="p-3 bg-[#F4F6FB] rounded-xl border border-hairline">
+<span class="text-body-sm font-body-sm text-outline">MTTR (Avg)</span>
+<p class="text-headline-md font-headline-md text-on-surface mt-1">4.2m</p>
+<span class="text-[11px] text-emerald-600 font-semibold">-18% vs yesterday</span>
+</div>
+<div class="p-3 bg-[#F4F6FB] rounded-xl border border-hairline">
+<span class="text-body-sm font-body-sm text-outline">Auto-Retries</span>
+<p class="text-headline-md font-headline-md text-on-surface mt-1">94.8%</p>
+<span class="text-[11px] text-emerald-600 font-semibold">142 resolved</span>
+</div>
+</div>
+<!-- System SLA Meter -->
+<div class="space-y-1.5 pt-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-outline">Top-up Fulfillment SLA</span>
+<span class="text-on-surface font-bold">99.94%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-[#E0E5F1] overflow-hidden flex">
+<div class="h-full bg-emerald-500" style="width: 98%;"></div>
+<div class="h-full bg-amber-400" style="width: 1.5%;"></div>
+<div class="h-full bg-red-500" style="width: 0.5%;"></div>
+</div>
+<div class="flex justify-between text-[10px] text-outline pt-0.5">
+<span>Healthy</span>
+<span>Warning</span>
+<span>Stuck</span>
+</div>
+</div>
+</div>
+<!-- Quick Actions Panel -->
+<div class="bg-surface-container-lowest border border-hairline rounded-xl p-5 shadow-sm space-y-3">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Operator Quick Actions</h3>
+<div class="space-y-2">
+<button class="w-full flex items-center justify-between p-2.5 rounded-lg border border-hairline hover:bg-[#F4F6FB] text-left transition-colors">
+<span class="text-body-sm font-body-sm font-medium text-on-surface">Ping Shop2Topup Gateway</span>
+<span class="material-symbols-outlined text-[16px] text-outline">network_ping</span>
+</button>
+<button class="w-full flex items-center justify-between p-2.5 rounded-lg border border-hairline hover:bg-[#F4F6FB] text-left transition-colors">
+<span class="text-body-sm font-body-sm font-medium text-on-surface">Force Drain Webhook Queue</span>
+<span class="material-symbols-outlined text-[16px] text-outline">fast_forward</span>
+</button>
+<button class="w-full flex items-center justify-between p-2.5 rounded-lg border border-hairline hover:bg-[#F4F6FB] text-left transition-colors">
+<span class="text-body-sm font-body-sm font-medium text-on-surface">Export Incident Log (CSV)</span>
+<span class="material-symbols-outlined text-[16px] text-outline">download</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<script>
+    // Lightweight vanilla micro-interactions for operational console
+    document.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        // Prevent accidental default anchor jumping
+        if (btn.innerText.includes('Dismiss') || btn.innerText.includes('Acknowledge')) {
+          const card = btn.closest('.border-l-4');
+          if (card) {
+            card.style.opacity = '0.4';
+            card.style.transform = 'scale(0.99)';
+            card.style.transition = 'all 0.2s ease';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 250);
+          }
+        }
+      });
+    });
+  </script>
+</body></html>

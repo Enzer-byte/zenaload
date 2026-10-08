@@ -1,0 +1,714 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Zenaload - Live Order Tracking</title>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#fbf8ff",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed-dim": "#c4c0ff",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#f3f2ff",
+            "surface-container-highest": "#dee1ff",
+            "on-error-container": "#93000a",
+            "surface-dim": "#d3d8ff",
+            "on-background": "#11193c",
+            "primary": "#0040df",
+            "surface-container-high": "#e5e6ff",
+            "tertiary": "#432dea",
+            "on-primary-fixed": "#001355",
+            "on-primary": "#ffffff",
+            "secondary-fixed-dim": "#70d2ff",
+            "primary-fixed": "#dde1ff",
+            "background": "#fbf8ff",
+            "surface-container": "#ececff",
+            "inverse-surface": "#272e53",
+            "outline": "#747688",
+            "on-surface": "#11193c",
+            "surface-bright": "#fbf8ff",
+            "surface-variant": "#dee1ff",
+            "secondary-fixed": "#c0e8ff",
+            "inverse-on-surface": "#f0efff",
+            "on-primary-container": "#efefff",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#004d66",
+            "primary-container": "#2d5bff",
+            "surface-tint": "#104af0",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#001e2b",
+            "on-tertiary-fixed": "#110068",
+            "on-tertiary-container": "#f2eeff",
+            "secondary": "#006686",
+            "tertiary-fixed": "#e3dfff",
+            "error": "#ba1a1a",
+            "secondary-container": "#05c4fe",
+            "outline-variant": "#c4c5d9",
+            "on-primary-fixed-variant": "#0035bd",
+            "on-secondary-fixed-variant": "#004d66",
+            "primary-fixed-dim": "#b8c3ff",
+            "on-tertiary-fixed-variant": "#330edd",
+            "error-container": "#ffdad6",
+            "on-surface-variant": "#434656",
+            "tertiary-container": "#5e50ff",
+            "inverse-primary": "#b8c3ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.25rem",
+            "space-xl": "2.25rem",
+            "margin": "1rem",
+            "space-lg": "1.5rem",
+            "margin-desktop": "3rem",
+            "space-md": "1rem",
+            "margin-tablet": "2rem",
+            "space-sm": "0.5rem",
+            "gutter-desktop": "1.5rem",
+            "gutter": "1rem"
+          },
+          "fontFamily": {
+            "display-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.025em", "fontWeight": "800" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "title-md": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "display-lg-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "body-lg": ["16px", { "lineHeight": "25px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+    .prismatic-gradient {
+      background: linear-gradient(135deg, #0BC5FF 0%, #2D5BFF 50%, #5A4BFF 100%);
+    }
+    .brand-glow {
+      box-shadow: 0px 8px 24px rgba(45, 91, 255, 0.35);
+    }
+    .stepper-glow {
+      box-shadow: 0 0 16px rgba(11, 197, 255, 0.55);
+    }
+    @keyframes progressPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .animate-progress-pulse {
+      animation: progressPulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased flex flex-col min-h-screen">
+<!-- TOP APP BAR (Shared Component JSON) -->
+<header class="bg-on-background dark:bg-on-background sticky top-0 z-50 flex items-center justify-between px-margin md:px-gutter-desktop w-full h-16 shadow-sm border-b border-surface-variant/20">
+<div class="flex items-center gap-space-md">
+<a class="flex items-center gap-space-xs text-surface-container-lowest focus:outline-none" href="#">
+<img alt="Zenaload" class="w-8 h-8 rounded-lg object-contain shadow-sm shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1VOFgqEf9RJagFErx2Kd_YEY4Z-oktKNnNMoWGKjdnO9GRutDbHOEdp-9seSmGIoFYEqZmxcXwHS4PPfrDeldTiOh_0NMgJpWIvk5bH0F-k66w3dGLJ1laXjq5X7X8ncByVApfXyT-PJkuJYbVxiaLqRq3lHzAv4_1L8gGUWmYHWU9-vA665unC5PfkJ3Daw3qmoGuKCcFUsn_SNp7hSdVTu3tbr6LCX9CYryxcmDmEScc9_PeTZ9I8f2Y">
+<span class="font-headline-sm text-headline-sm font-extrabold text-surface-container-lowest tracking-tight">Zenaload</span>
+</a>
+<!-- Desktop Nav Items -->
+<nav class="hidden md:flex items-center gap-space-md ml-6 text-label-md font-label-md">
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Games</a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">How it works</a>
+<a class="text-secondary-container font-bold transition-colors duration-150 flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-sm">search</span>
+          Track Order
+        </a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Support</a>
+</nav>
+</div>
+<!-- Right Status Pill & Actions -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container/15 text-secondary-container text-label-sm font-label-sm border border-secondary-container/30">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-ping"></span>
+<span class="">Live Order Tracking</span>
+</div>
+<button aria-label="Open menu" class="md:hidden text-outline-variant hover:text-surface-container-lowest focus:outline-none active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="flex-grow w-full max-w-5xl mx-auto px-margin md:px-gutter-desktop py-space-lg md:py-space-xl">
+<!-- Breadcrumb & Page Head -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-label-sm font-label-sm text-outline mb-space-md">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Orders</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="font-bold text-on-surface">ZL-20261005-A1B2C3D4</span>
+</nav>
+<!-- STATE SWITCHER PREVIEW BAR (Requirement #2: Preview 5 spec states) -->
+<section class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-sm md:p-space-md mb-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2 pb-2 border-b border-surface-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">tune</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">Interactive State Previewer (QA Spec)</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Click tabs to switch order lifecycle state</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5" id="state-tabs">
+<button class="px-2.5 py-2 text-left rounded-lg text-label-sm font-label-sm transition-all border border-outline-variant/30 bg-surface text-outline hover:text-on-surface" id="tab-waiting" onclick="setOrderStatus('waiting')">
+<div class="flex items-center gap-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Waiting
+          </div>
+<span class="text-[10px] text-outline block truncate">Payment pending</span>
+</button>
+<button class="px-2.5 py-2 text-left rounded-lg text-label-sm font-label-sm transition-all border border-primary bg-primary/10 text-primary font-bold shadow-sm" id="tab-delivering" onclick="setOrderStatus('delivering')">
+<div class="flex items-center gap-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+            Delivering
+          </div>
+<span class="text-[10px] text-primary/80 block truncate">~24s auto link</span>
+</button>
+<button class="px-2.5 py-2 text-left rounded-lg text-label-sm font-label-sm transition-all border border-outline-variant/30 bg-surface text-outline hover:text-on-surface" id="tab-delivered" onclick="setOrderStatus('delivered')">
+<div class="flex items-center gap-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Delivered
+          </div>
+<span class="text-[10px] text-outline block truncate">Success fulfillment</span>
+</button>
+<button class="px-2.5 py-2 text-left rounded-lg text-label-sm font-label-sm transition-all border border-outline-variant/30 bg-surface text-outline hover:text-on-surface" id="tab-review" onclick="setOrderStatus('review')">
+<div class="flex items-center gap-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+            Under review
+          </div>
+<span class="text-[10px] text-outline block truncate">Supplier verify</span>
+</button>
+<button class="px-2.5 py-2 text-left rounded-lg text-label-sm font-label-sm transition-all border border-outline-variant/30 bg-surface text-outline hover:text-on-surface" id="tab-failed" onclick="setOrderStatus('failed')">
+<div class="flex items-center gap-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+            Failed
+          </div>
+<span class="text-[10px] text-outline block truncate">ID verification</span>
+</button>
+</div>
+</section>
+<!-- TWO-COLUMN WORKFLOW GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Stepper & Dynamic Live Banner (7 Cols) -->
+<section class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- DYNAMIC STATUS HERO CARD -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-md md:p-space-lg shadow-sm relative overflow-hidden" id="status-hero">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Dynamic Header Info -->
+<div class="flex items-start justify-between gap-4 mb-space-md">
+<div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm border mb-2 bg-secondary-container/15 text-on-secondary-container border-secondary-container/30" id="status-badge">
+<span class="w-2 h-2 rounded-full bg-secondary-container" id="status-ping"></span>
+<span id="status-badge-text" class="">Delivering via Direct Gateway (~24s)</span>
+</div>
+<h1 class="font-headline-md text-headline-md text-on-surface font-extrabold tracking-tight" id="status-title">Dispensing Diamonds to Server</h1>
+<p class="font-body-md text-body-md text-outline mt-1" id="status-desc">Automated guest route active. Your Free Fire diamonds are transmitting to player ID 293****924.</p>
+</div>
+<div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-md prismatic-gradient text-white" id="status-icon-box">
+<span class="material-symbols-outlined text-2xl" id="status-main-icon">bolt</span>
+</div>
+</div>
+<!-- Real-time Delivery Progress Bar (Requirement #4) -->
+<div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30 mb-space-md" id="countdown-wrapper">
+<div class="flex items-center justify-between text-label-sm font-label-sm mb-1.5">
+<span class="text-on-surface font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span id="countdown-label" class="">Est. completion in ~14 seconds</span>
+</span>
+<span class="text-primary font-bold" id="progress-percent">76%</span>
+</div>
+<div class="w-full bg-surface-variant/40 rounded-full h-2.5 overflow-hidden">
+<div class="h-full rounded-full transition-all duration-500 prismatic-gradient animate-progress-pulse" id="progress-fill" style="width: 76%;"></div>
+</div>
+<div class="flex items-center justify-between mt-2 text-[11px] text-outline">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Auto-refreshes every 3s
+              </span>
+<span class="font-medium">Direct In-Game Crediting</span>
+</div>
+</div>
+<!-- Live State Specific Callout Alerts (Requirement #5) -->
+<div class="hidden rounded-xl p-3.5 border text-body-md font-body-md mb-space-md" id="state-callout">
+<!-- Populated via script based on QA State -->
+</div>
+<!-- STEPPER: Vertical Status Stepper (Requirement #4) -->
+<div class="pt-2 border-t border-surface-variant/30">
+<h2 class="font-label-md text-label-md text-outline uppercase tracking-wider mb-space-md">Fulfillment Milestones</h2>
+<div class="relative pl-6 space-y-6">
+<!-- Continuous timeline track -->
+<div class="absolute left-[11px] top-3 bottom-3 w-0.5 bg-outline-variant/30 -z-0"></div>
+<!-- Step 1: Order Placed -->
+<div class="relative flex items-start gap-3 z-10">
+<div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 ring-4 ring-white shadow-sm" id="step-1-icon">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Order Placed &amp; Guest Cart Locked</h3>
+<p class="font-body-md text-body-md text-outline text-xs mt-0.5">Reference ZL-20261005-A1B2C3D4 created with Garena Free Fire SKU</p>
+<span class="font-label-sm text-label-sm text-outline/80 mt-1 block">05:42:01 AM</span>
+</div>
+</div>
+<!-- Step 2: Payment Verified -->
+<div class="relative flex items-start gap-3 z-10">
+<div class="w-6 h-6 rounded-full text-white flex items-center justify-center shrink-0 ring-4 ring-white shadow-sm bg-emerald-500" id="step-2-icon"><span class="material-symbols-outlined text-sm font-bold">check</span></div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Payment Verified via Paystack</h3>
+<p class="font-body-md text-body-md text-outline text-xs mt-0.5">₦5,800 received via Instant Bank Transfer settlement</p>
+<span class="font-label-sm text-label-sm text-outline/80 mt-1 block">05:42:09 AM</span>
+</div>
+</div>
+<!-- Step 3: Top-up Delivery -->
+<div class="relative flex items-start gap-3 z-10">
+<div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 ring-4 ring-white shadow-sm bg-primary-container animate-spin text-white" id="step-3-icon"><span class="material-symbols-outlined text-sm font-bold">refresh</span></div>
+<div>
+<h3 class="font-label-lg text-label-lg text-primary font-bold" id="step-3-title">Transmitting Direct Diamonds</h3>
+<p class="font-body-md text-body-md text-outline text-xs mt-0.5" id="step-3-desc">Direct handshake with Garena SSA API server node #04</p>
+<span class="font-label-sm text-label-sm text-primary font-semibold mt-1 block" id="step-3-time">Processing in real time</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Dynamic Action CTAs (Requirement #5) -->
+
+</div>
+<!-- WhatsApp Notification Preference Toggle -->
+
+</section>
+<!-- RIGHT COLUMN: Masked Receipt Card & Trust (5 Cols) -->
+<section class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- MASKED RECEIPT CARD (Requirement #3) -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-md md:p-space-lg shadow-sm relative">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm border-b border-surface-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">receipt_long</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">Masked Order Receipt</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Guest Checkout</span>
+</div>
+<!-- Order Reference with Copy Trigger -->
+<div class="bg-surface rounded-xl p-3 border border-outline-variant/30 mb-space-md flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline block">Order Reference</span>
+<span class="font-title-md text-title-md font-mono font-bold text-on-surface select-all" id="order-ref-text">ZL-20261005-A1B2C3D4</span>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-variant/40 text-primary border border-outline-variant/30 transition-colors flex items-center gap-1 text-label-sm font-label-sm active:scale-95" onclick="copyOrderReference()" title="Copy reference">
+<span class="material-symbols-outlined text-base" id="copy-icon">content_copy</span>
+<span id="copy-status" class="">Copy</span>
+</button>
+</div>
+<!-- Receipt Key-Value Details -->
+<div class="space-y-3 font-body-md text-body-md">
+<div class="flex justify-between items-start py-1 border-b border-surface-variant/20">
+<span class="text-outline">Game &amp; Package</span>
+<div class="text-right">
+<span class="font-bold text-on-surface block">Garena Free Fire</span>
+<span class="text-xs text-primary font-bold">520 + 15 Bonus Diamonds</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-surface-variant/20">
+<span class="text-outline">Masked Player ID</span>
+<div class="text-right">
+<span class="font-mono font-bold text-on-surface">293****924</span>
+<span class="text-[11px] text-outline block">Server: Sub-Saharan Africa</span>
+</div>
+</div>
+
+<div class="flex justify-between items-center py-1 border-b border-surface-variant/20">
+<span class="text-outline">Masked Email</span>
+<span class="font-mono font-bold text-on-surface">sa********yo@gmail.com</span>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-surface-variant/20">
+<span class="text-outline">Payment Method</span>
+<div class="flex items-center gap-1.5 text-right font-medium text-on-surface">
+<span class="material-symbols-outlined text-sm text-emerald-600">account_balance</span>
+<span class="">Paystack - Bank Transfer</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-surface-variant/20">
+<span class="text-outline">Timestamp</span>
+<span class="font-medium text-on-surface">Oct 5, 2026, 05:42 AM</span>
+</div>
+<div class="pt-2 flex justify-between items-center">
+<span class="font-title-md text-title-md font-extrabold text-on-surface">Total Paid</span>
+<span class="font-headline-sm text-headline-sm font-extrabold text-primary">₦5,800</span>
+</div>
+</div>
+<!-- Fintech Security Ribbon -->
+<div class="mt-space-md pt-space-sm border-t border-surface-variant/30 flex items-center justify-between text-[11px] text-outline">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-emerald-600">verified_user</span>
+              Encrypted Ledger Protection
+            </span>
+<span class="">Zero Account Passwords Kept</span>
+</div>
+</div>
+<!-- TRUST & HELP SECTION (Requirement #6) -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-md shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-emerald-600">support_agent</span>
+<h3 class="font-label-lg text-label-lg font-bold text-on-surface">Need immediate assistance?</h3>
+</div>
+<p class="font-body-md text-body-md text-outline text-xs mb-space-md">
+            Our Lagos dispatch operators are standing by 24/7 with direct carrier routing.
+          </p>
+<!-- WhatsApp Chat Trigger -->
+<a class="w-full min-h-[48px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-98 transition-all flex items-center justify-center gap-2 text-white font-label-lg text-label-lg shadow-sm mb-3" href="https://wa.me/2348000000000?text=Hi%20Zenaload%20Support%2C%20tracking%20order%20ZL-20261005-A1B2C3D4" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-lg">chat</span>
+<span class="">WhatsApp support: +234 800 000 0000</span>
+</a>
+<!-- Paystack Business Identity Badge -->
+<div class="rounded-lg bg-surface p-2.5 border border-outline-variant/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">verified</span>
+<div class="text-[11px] leading-tight text-outline">
+<span class="font-bold text-on-surface">Paystack Verified Merchant:</span>
+<span class="block">Zenaload Technologies Limited (RC: 1892044)</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FOOTER (Shared Component JSON) -->
+<footer class="bg-on-background dark:bg-on-background text-secondary-container dark:text-secondary-container w-full py-space-xl px-margin md:px-gutter-desktop pb-24 md:pb-space-xl border-t border-surface-variant/20">
+<div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-space-lg">
+<div class="text-center md:text-left">
+<div class="flex items-center justify-center md:justify-start gap-2 mb-2">
+<img alt="Zenaload" class="w-6 h-6 rounded object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBzRrbZYWw3OdtBTBmwdYFay9oDxJxLa-UdQW-n9IM5rpgytU9P2IyRF1Qa9dyd2NMhcXmHB4srsc-Ktizrzg1knCAwVO-WT8aw-Sk7W7HMBnovqpZS_PCYf9nyMFdDoJJT4wkSzs97Icsdj8iiVq9iT8PPFgjvEVuDNYg4jP5yhFY21xYqBmALl1NLc8_X0CmyT-kJ8ggCxcoLDv2_WYmfeqQrrd0KtxfEgCUxNRSZc-JF0VBIRtoGP1hPE4qyl5yjQ">
+<span class="font-headline-md text-headline-md font-extrabold text-surface-container-lowest tracking-tight">Zenaload</span>
+</div>
+<p class="font-body-md text-body-md text-outline-variant max-w-md">
+          © 2025 Zenaload. Instant gaming top-ups across Nigeria. Powered by Paystack.
+        </p>
+</div>
+<!-- Links from JSON -->
+<nav class="flex flex-wrap justify-center md:justify-end gap-x-space-md gap-y-2 text-label-md font-label-md">
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Terms of Service</a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Privacy Policy</a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Refund Policy</a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">FAQ</a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors duration-150" href="#">Contact Support</a>
+</nav>
+</div>
+</footer>
+<!-- BOTTOM NAV BAR (Shared Component JSON for Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-space-sm md:hidden bg-on-background dark:bg-on-background shadow-lg border-t border-surface-variant/20">
+<!-- Games -->
+<a class="flex flex-col items-center justify-center text-outline-variant hover:text-surface-container-lowest transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl">sports_esports</span>
+<span class="font-label-sm text-label-sm">Games</span>
+</a>
+<!-- Track Order (ACTIVE: Intent Match to current page) -->
+<a class="flex flex-col items-center justify-center text-secondary-container font-bold active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-label-sm text-label-sm">Track Order</span>
+</a>
+<!-- Support -->
+<a class="flex flex-col items-center justify-center text-outline-variant hover:text-surface-container-lowest transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl">chat</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</a>
+<!-- FAQ -->
+<a class="flex flex-col items-center justify-center text-outline-variant hover:text-surface-container-lowest transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+<span class="font-label-sm text-label-sm">FAQ</span>
+</a>
+</nav>
+<!-- LOGIC SCRIPT: Realtime State Switcher & Copy Handler -->
+<script>
+    const orderStateConfig = {
+      waiting: {
+        badgeText: "Awaiting Bank Settlement",
+        badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+        pingClass: "bg-amber-500",
+        title: "Awaiting Confirmation from Paystack",
+        desc: "We are waiting for your bank transfer to clear. This usually takes 10 to 60 seconds on Nigerian NIP.",
+        icon: "hourglass_top",
+        iconBoxGradient: "bg-amber-500 text-white",
+        showCountdown: true,
+        countdownLabel: "Polling settlement gateway...",
+        percent: "35%",
+        progressWidth: "35%",
+        progressColor: "bg-amber-500",
+        callout: null,
+        step1: { icon: "check", bg: "bg-emerald-500" },
+        step2: { icon: "sync", bg: "bg-amber-500 animate-spin", title: "Verifying payment with bank", time: "Pending confirmation" },
+        step3: { icon: "radio_button_unchecked", bg: "bg-outline-variant text-outline", title: "Dispensing Diamonds", time: "Queued" },
+        actions: [
+          `<button onclick="alert('Checking Paystack settlement status...')" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-surface border border-outline-variant/50 text-on-surface font-label-lg text-label-lg hover:bg-surface-variant/30 flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-base">refresh</span>
+            <span>Check bank status</span>
+          </button>`
+        ]
+      },
+      delivering: {
+        badgeText: "Delivering via Direct Gateway (~24s)",
+        badgeClass: "bg-secondary-container/15 text-on-secondary-container border-secondary-container/30",
+        pingClass: "bg-secondary-container",
+        title: "Dispensing Diamonds to Server",
+        desc: "Automated guest route active. Your Free Fire diamonds are transmitting to player ID 293****924.",
+        icon: "bolt",
+        iconBoxGradient: "prismatic-gradient text-white",
+        showCountdown: true,
+        countdownLabel: "Est. completion in ~14 seconds",
+        percent: "76%",
+        progressWidth: "76%",
+        progressColor: "prismatic-gradient animate-progress-pulse",
+        callout: null,
+        step1: { icon: "check", bg: "bg-emerald-500" },
+        step2: { icon: "check", bg: "bg-emerald-500", title: "Payment Verified via Paystack", time: "05:42:09 AM" },
+        step3: { icon: "refresh", bg: "bg-primary-container animate-spin text-white", title: "Transmitting Direct Diamonds", time: "Processing in real time" },
+        actions: [
+          `<button class="w-full sm:w-auto px-5 py-3 rounded-xl bg-surface-container-low border border-outline-variant/30 text-on-surface font-label-lg text-label-lg flex items-center justify-center gap-2 cursor-wait">
+            <span class="w-2 h-2 rounded-full bg-secondary-container animate-ping"></span>
+            <span>Auto-linking Garena node...</span>
+          </button>`,
+          `<a href="https://wa.me/2348000000000?text=Order%20Status%20ZL-20261005-A1B2C3D4" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-surface text-outline hover:text-on-surface border border-outline-variant/40 font-label-lg text-label-lg flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-base">chat</span>
+            <span>WhatsApp status mirror</span>
+          </a>`
+        ]
+      },
+      delivered: {
+        badgeText: "Delivered Successfully",
+        badgeClass: "bg-emerald-100 text-emerald-800 border-emerald-300",
+        pingClass: "bg-emerald-500",
+        title: "Diamonds Credited to Player ID",
+        desc: "520 + 15 bonus diamonds have landed inside Garena Free Fire inventory for ID 293****924. Ready to equip!",
+        icon: "verified",
+        iconBoxGradient: "bg-emerald-500 text-white",
+        showCountdown: false,
+        callout: {
+          style: "bg-emerald-50 border-emerald-200 text-emerald-900",
+          html: `<div class="flex items-center gap-2 font-bold text-label-lg text-label-lg mb-1">
+                  <span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+                  <span>Direct Delivery Confirmed (0.8s)</span>
+                 </div>
+                 <p class="text-xs text-emerald-800">Diamonds were deposited directly to your game server account. If your game client was open, restart Free Fire to see your updated balance.</p>`
+        },
+        step1: { icon: "check", bg: "bg-emerald-500" },
+        step2: { icon: "check", bg: "bg-emerald-500", title: "Payment Verified via Paystack", time: "05:42:09 AM" },
+        step3: { icon: "check", bg: "bg-emerald-500 text-white", title: "Delivered to In-Game Account", time: "05:42:28 AM (Complete)" },
+        actions: [
+          `<button onclick="downloadReceipt()" class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/50 text-on-surface hover:border-primary font-label-lg text-label-lg flex items-center justify-center gap-2 active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-base">download</span>
+            <span>Download receipt</span>
+          </button>`,
+          `<a href="#" class="w-full sm:w-auto px-6 py-3.5 rounded-xl prismatic-gradient text-white font-label-lg text-label-lg font-bold brand-glow hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-base">bolt</span>
+            <span>Top up again</span>
+          </a>`
+        ]
+      },
+      review: {
+        badgeText: "Under Review (Supplier Confirmation)",
+        badgeClass: "bg-purple-100 text-purple-900 border-purple-300",
+        pingClass: "bg-purple-500",
+        title: "Order Held for Manual Sync",
+        desc: "The Garena direct API returned a momentary server handshake delay. Our Lagos operator has stepped in.",
+        icon: "hourglass_empty",
+        iconBoxGradient: "bg-purple-600 text-white",
+        showCountdown: false,
+        callout: {
+          style: "bg-purple-50 border-purple-200 text-purple-950",
+          html: `<div class="flex items-start gap-2.5">
+                   <span class="material-symbols-outlined text-purple-700 text-lg mt-0.5">security</span>
+                   <div>
+                     <p class="font-bold text-label-lg text-label-lg">Your payment is safe. We're confirming delivery with our supplier.</p>
+                     <p class="text-xs text-purple-800 mt-1">This usually takes a few minutes. You do not need to make another payment.</p>
+                   </div>
+                 </div>`
+        },
+        step1: { icon: "check", bg: "bg-emerald-500" },
+        step2: { icon: "check", bg: "bg-emerald-500", title: "Payment Verified via Paystack", time: "05:42:09 AM" },
+        step3: { icon: "sync_problem", bg: "bg-purple-500 text-white animate-pulse", title: "Handshake Manual Verification", time: "Operator dispatched (Avg 3-5m)" },
+        actions: [
+          `<a href="https://wa.me/2348000000000?text=Hi%20Zenaload%20Team%2C%20order%20ZL-20261005-A1B2C3D4%20is%20Under%20Review.%20Please%20assist." target="_blank" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-md">
+            <span class="material-symbols-outlined text-base">chat</span>
+            <span>Message support on WhatsApp</span>
+          </a>`,
+          `<button onclick="alert('Checking upstream status...')" class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-surface border border-outline-variant/40 text-on-surface font-label-lg text-label-lg flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-base">refresh</span>
+            <span>Check live queue</span>
+          </button>`
+        ]
+      },
+      failed: {
+        badgeText: "Delivery Failed (Verification)",
+        badgeClass: "bg-error-container text-on-error-container border-error/30",
+        pingClass: "bg-error",
+        title: "Top-Up Could Not Be Completed",
+        desc: "The Garena diamond server rejected the Player ID format for region Sub-Saharan Africa.",
+        icon: "error_outline",
+        iconBoxGradient: "bg-error text-white",
+        showCountdown: false,
+        callout: {
+          style: "bg-error-container/30 border-error/40 text-on-error-container",
+          html: `<div class="flex items-start gap-2.5">
+                   <span class="material-symbols-outlined text-error text-xl shrink-0 mt-0.5">warning</span>
+                   <div>
+                     <p class="font-bold text-label-lg text-label-lg text-error">Top-up failed. Your Player ID may be wrong. We'll refund you or retry it for you.</p>
+                     <p class="text-xs text-on-surface-variant mt-1">Player ID 293****924 was not recognized on SSA Free Fire server cluster. No wholesale funds were captured.</p>
+                   </div>
+                 </div>`
+        },
+        step1: { icon: "check", bg: "bg-emerald-500" },
+        step2: { icon: "check", bg: "bg-emerald-500", title: "Payment Verified via Paystack", time: "05:42:09 AM" },
+        step3: { icon: "close", bg: "bg-error text-white", title: "Top-up Failed (ID Discrepancy)", time: "05:42:30 AM" },
+        actions: [
+          `<button onclick="alert('Opening player ID correction dialog...')" class="w-full sm:w-auto px-6 py-3.5 rounded-xl prismatic-gradient text-white font-label-lg text-label-lg font-bold brand-glow flex items-center justify-center gap-2 active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-base">replay</span>
+            <span>Retry top-up</span>
+          </button>`,
+          `<a href="https://wa.me/2348000000000?text=URGENT%3A%20Order%20ZL-20261005-A1B2C3D4%20failed%20player%20ID%20verification" target="_blank" class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-surface border border-outline-variant/40 text-error font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-error-container/20 transition-all">
+            <span class="material-symbols-outlined text-base">support_agent</span>
+            <span>Contact Lagos support desk</span>
+          </a>`
+        ]
+      }
+    };
+
+    function setOrderStatus(stateKey) {
+      const config = orderStateConfig[stateKey];
+      if (!config) return;
+
+      // Update tabs styling
+      const tabs = ["waiting", "delivering", "delivered", "review", "failed"];
+      tabs.forEach(tab => {
+        const btn = document.getElementById("tab-" + tab);
+        if (tab === stateKey) {
+          btn.className = "px-2.5 py-2 text-left rounded-lg text-label-sm font-label-sm transition-all border border-primary bg-primary/10 text-primary font-bold shadow-sm";
+        } else {
+          btn.className = "px-2.5 py-2 text-left rounded-lg text-label-sm font-label-sm transition-all border border-outline-variant/30 bg-surface text-outline hover:text-on-surface";
+        }
+      });
+
+      // Update Hero badge & ping
+      const badge = document.getElementById("status-badge");
+      badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm border mb-2 " + config.badgeClass;
+      document.getElementById("status-badge-text").innerText = config.badgeText;
+      document.getElementById("status-ping").className = "w-2 h-2 rounded-full " + config.pingClass;
+
+      // Update title & description
+      document.getElementById("status-title").innerText = config.title;
+      document.getElementById("status-desc").innerText = config.desc;
+
+      // Update icon & gradient box
+      const iconBox = document.getElementById("status-icon-box");
+      iconBox.className = "w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-md " + config.iconBoxGradient;
+      document.getElementById("status-main-icon").innerText = config.icon;
+
+      // Update Countdown Progress
+      const countdownWrapper = document.getElementById("countdown-wrapper");
+      if (config.showCountdown) {
+        countdownWrapper.classList.remove("hidden");
+        document.getElementById("countdown-label").innerText = config.countdownLabel;
+        document.getElementById("progress-percent").innerText = config.percent;
+        const fill = document.getElementById("progress-fill");
+        fill.style.width = config.progressWidth;
+        fill.className = "h-full rounded-full transition-all duration-500 " + config.progressColor;
+      } else {
+        countdownWrapper.classList.add("hidden");
+      }
+
+      // Update Callout Box
+      const calloutEl = document.getElementById("state-callout");
+      if (config.callout) {
+        calloutEl.className = "rounded-xl p-3.5 border text-body-md font-body-md mb-space-md " + config.callout.style;
+        calloutEl.innerHTML = config.callout.html;
+        calloutEl.classList.remove("hidden");
+      } else {
+        calloutEl.classList.add("hidden");
+      }
+
+      // Update Stepper Step 2 & 3
+      if (config.step2) {
+        const s2Icon = document.getElementById("step-2-icon");
+        s2Icon.className = "w-6 h-6 rounded-full text-white flex items-center justify-center shrink-0 ring-4 ring-white shadow-sm " + config.step2.bg;
+        s2Icon.innerHTML = `<span class="material-symbols-outlined text-sm font-bold">${config.step2.icon}</span>`;
+      }
+
+      if (config.step3) {
+        const s3Icon = document.getElementById("step-3-icon");
+        s3Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 ring-4 ring-white shadow-sm " + config.step3.bg;
+        s3Icon.innerHTML = `<span class="material-symbols-outlined text-sm font-bold">${config.step3.icon}</span>`;
+        document.getElementById("step-3-title").innerText = config.step3.title;
+        document.getElementById("step-3-time").innerText = config.step3.time;
+      }
+
+      // Update Action Buttons
+      const actionsContainer = document.getElementById("action-buttons-container");
+      actionsContainer.innerHTML = config.actions.join("");
+    }
+
+    function copyOrderReference() {
+      const ref = "ZL-20261005-A1B2C3D4";
+      navigator.clipboard.writeText(ref).then(() => {
+        const copyStatus = document.getElementById("copy-status");
+        const copyIcon = document.getElementById("copy-icon");
+        copyStatus.innerText = "Copied!";
+        copyIcon.innerText = "done";
+        setTimeout(() => {
+          copyStatus.innerText = "Copy";
+          copyIcon.innerText = "content_copy";
+        }, 2000);
+      });
+    }
+
+    function downloadReceipt() {
+      alert("Downloading official cryptographically signed PDF receipt for Order ZL-20261005-A1B2C3D4...");
+    }
+
+    // Default load into "Delivering" state as specified
+    document.addEventListener("DOMContentLoaded", () => {
+      setOrderStatus("delivering");
+    });
+  </script>
+
+
+</body></html>

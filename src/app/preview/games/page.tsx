@@ -6,11 +6,11 @@ import { listGamesWithFrom } from "@/lib/gamesWithPrices";
 import { GameCardV2 } from "@/components/v2/GameCardV2";
 
 export const metadata = {
-  title: `All Games — ${config.brand} (V2 Preview)`,
-  description: "Browse all supported mobile games for instant Naira top-ups.",
+  title: `All Games & Top-Ups — ${config.brand} (Stitch Preview)`,
+  description: "Instant automated direct in-game top-ups for Nigerian gamers. Enter in-game ID and pay in Naira.",
 };
 
-const CATEGORIES = ["All", "Football", "Battle Royale", "FPS", "Mobile Games"];
+const CATEGORIES = ["All", "Battle Royale", "Sports & Football", "Shooter / FPS", "RPG / Strategy", "Gift Cards / Other"];
 
 export default async function PreviewGamesPage({
   searchParams,
@@ -23,8 +23,9 @@ export default async function PreviewGamesPage({
   const filteredGames = allGames.filter(({ game }) => {
     const matchesCat =
       cat === "All" ||
-      game.category.toLowerCase() === cat.toLowerCase() ||
-      (cat === "Mobile Games" && ["football", "battle royale", "fps", "mobile"].includes(game.category.toLowerCase()));
+      game.category.toLowerCase().includes(cat.toLowerCase().split(" ")[0]) ||
+      (cat === "Sports & Football" && ["football", "sports"].some((c) => game.category.toLowerCase().includes(c))) ||
+      (cat === "Shooter / FPS" && ["fps", "shooter"].some((c) => game.category.toLowerCase().includes(c)));
 
     const query = q.trim().toLowerCase();
     const matchesQuery =
@@ -37,73 +38,53 @@ export default async function PreviewGamesPage({
   });
 
   return (
-    <div className="space-y-8">
-      {/* Catalog Header & Search */}
-      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between border-b border-white/10 pb-8">
-        <div>
-          <nav aria-label="Breadcrumb" className="mb-2 flex items-center gap-2 text-xs text-mute">
-            <Link href="/preview" className="hover:text-white transition-colors">
-              Preview
-            </Link>
-            <span>/</span>
-            <span className="text-white font-medium">Games</span>
-          </nav>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            Browse All Games
-          </h1>
-          <p className="mt-1 text-sm text-ink2">
-            Instant credit delivery directly into your player account in Naira.
-          </p>
+    <div className="pb-16 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-6">
+      {/* HEADER SECTION: Centered title and subtitle verbatim from Stitch 8db6da78e3654233bd4a1fab4275d951 */}
+      <div className="text-center max-w-3xl mx-auto space-y-3 mb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/15 border border-secondary-container/30 text-secondary font-bold text-xs">
+          <span className="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+          <span>Automated Top-Up Engine</span>
         </div>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight">
+          All Games &amp; Top-Ups
+        </h1>
+        <p className="text-xs sm:text-sm text-on-surface-variant max-w-xl mx-auto">
+          Instant, automated direct in-game top-ups for Nigerian gamers. Enter in-game ID and pay in Naira via Paystack.
+        </p>
 
-        {/* Search input form */}
-        <form method="GET" action="/preview/games" className="w-full md:w-80">
-          {cat !== "All" && <input type="hidden" name="cat" value={cat} />}
-          <div className="relative flex items-center rounded-2xl border border-white/10 bg-card/80 p-1.5 backdrop-blur-md transition-all focus-within:border-brand/60 focus-within:ring-1 focus-within:ring-brand">
-            <span className="pl-3 text-mute">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </span>
-            <input
-              name="q"
-              defaultValue={q}
-              placeholder="Search by game name..."
-              className="w-full bg-transparent px-3 py-1.5 text-xs text-white placeholder-mute focus:outline-none"
-            />
-            {q && (
-              <Link
-                href={`/preview/games?cat=${encodeURIComponent(cat)}`}
-                className="mr-2 text-xs text-mute hover:text-white"
-                title="Clear search"
-              >
-                ✕
-              </Link>
-            )}
-            <button
-              type="submit"
-              className="rounded-xl bg-elevated px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand/40 transition-colors"
+        {/* Search Bar */}
+        <form method="GET" action="/preview/games" className="pt-2 max-w-xl mx-auto relative flex items-center">
+          <span className="material-symbols-outlined text-outline absolute left-4 pointer-events-none text-xl">
+            search
+          </span>
+          <input
+            name="q"
+            defaultValue={q}
+            placeholder="Search games (e.g. Free Fire, COD Mobile, eFootball)..."
+            className="w-full h-12 pl-11 pr-4 bg-surface-container-lowest rounded-xl border border-surface-variant text-on-surface placeholder:text-outline text-xs sm:text-sm focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 shadow-sm"
+          />
+          {q && (
+            <Link
+              href={`/preview/games?cat=${encodeURIComponent(cat)}`}
+              className="absolute right-4 text-xs text-outline hover:text-on-surface"
             >
-              Search
-            </button>
-          </div>
+              ✕
+            </Link>
+          )}
         </form>
-      </div>
 
-      {/* Category Pills & Active Counts */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Filter Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto justify-start sm:justify-center pt-2 pb-1">
           {CATEGORIES.map((category) => {
             const isActive = cat.toLowerCase() === category.toLowerCase();
             return (
               <Link
                 key={category}
                 href={`/preview/games?cat=${encodeURIComponent(category)}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
-                aria-current={isActive ? "page" : undefined}
-                className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-all duration-200 ${
+                className={`flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95 ${
                   isActive
-                    ? "bg-gradient-to-r from-brand to-brand2 text-white shadow-md shadow-brand/25 border border-brand/50 ring-1 ring-brand"
-                    : "border border-white/10 bg-card/60 text-ink2 hover:border-white/20 hover:bg-card hover:text-white"
+                    ? "bg-on-background text-surface-container-lowest shadow-sm"
+                    : "bg-surface-container-lowest border border-surface-variant text-on-surface-variant hover:border-primary-container hover:text-on-surface"
                 }`}
               >
                 {category}
@@ -112,49 +93,92 @@ export default async function PreviewGamesPage({
           })}
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-mute">
-          <span>Showing</span>
-          <span className="font-semibold text-white">{filteredGames.length}</span>
-          <span>{filteredGames.length === 1 ? "game" : "games"}</span>
-          {(cat !== "All" || q) && (
-            <>
-              <span>·</span>
-              <Link href="/preview/games" className="text-hi hover:underline">
-                Reset filters
-              </Link>
-            </>
-          )}
+        {/* Trust Status Strip */}
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-[11px] text-outline font-semibold">
+          <span className="flex items-center gap-1 text-emerald-700">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 24-Second Avg Delivery
+          </span>
+          <span>•</span>
+          <span className="flex items-center gap-1 text-on-surface">
+            <span className="material-symbols-outlined text-xs">verified</span> Official Publisher APIs
+          </span>
+          <span>•</span>
+          <span className="flex items-center gap-1 text-on-surface">
+            <span className="material-symbols-outlined text-xs">lock</span> Paystack Bank Settlement
+          </span>
         </div>
       </div>
 
-      {/* Bento Grid Games Listing */}
-      {filteredGames.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredGames.map(({ game, from }) => (
-            <GameCardV2 key={game.id} game={game} from={from} preview={true} />
-          ))}
+      {/* GAMES GRID */}
+      <div className="mt-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold text-on-surface">Available Games ({filteredGames.length})</h2>
+          <span className="text-xs text-outline font-medium">Select your game to configure denomination and Player ID</span>
         </div>
-      ) : (
-        <div className="rounded-3xl border border-white/10 bg-card/50 p-12 text-center backdrop-blur-sm max-w-xl mx-auto space-y-4">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-2xl">
-            🎮
+
+        {filteredGames.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            {filteredGames.map(({ game, from }) => (
+              <GameCardV2 key={game.id} game={game} from={from} preview={true} />
+            ))}
           </div>
-          <div>
-            <h3 className="text-lg font-bold text-white">No Games Found</h3>
-            <p className="mt-1 text-xs text-ink2">
-              We couldn&apos;t find any games matching {q ? `"${q}"` : "this category"}.
-            </p>
-          </div>
-          <div className="pt-2">
+        ) : (
+          <div className="bg-surface-container-lowest rounded-2xl p-8 border border-surface-variant text-center space-y-3">
+            <p className="text-on-surface-variant text-sm">No games matched your search query &quot;{q}&quot;.</p>
             <Link
               href="/preview/games"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-xs font-semibold text-white shadow-md transition-all hover:brightness-110"
+              className="inline-block px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold"
             >
-              Reset All Filters
+              Clear filters
             </Link>
           </div>
+        )}
+      </div>
+
+      {/* 3 STEPS INSTRUCTION STRIP verbatim from Stitch 8db6da78e3654233bd4a1fab4275d951 */}
+      <section className="bg-surface-container-low rounded-2xl p-6 sm:p-8 mt-16 border border-surface-variant">
+        <div className="text-center max-w-md mx-auto mb-6">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-primary">Direct Publisher Fulfillment</span>
+          <h3 className="text-xl font-extrabold text-on-surface mt-1">Top up in 3 simple steps</h3>
+          <p className="text-xs text-on-surface-variant mt-0.5">No mandatory accounts or password passwords. Enter your in-game UID and pay from Nigerian banks.</p>
         </div>
-      )}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-surface-container-lowest p-5 rounded-xl border border-surface-variant flex flex-col gap-2">
+            <span className="w-7 h-7 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs">1</span>
+            <h4 className="font-bold text-on-surface text-sm">Pick Game &amp; Player ID</h4>
+            <p className="text-xs text-on-surface-variant">Choose your denomination and enter your in-game UID or Game ID from your profile.</p>
+          </div>
+          <div className="bg-surface-container-lowest p-5 rounded-xl border border-surface-variant flex flex-col gap-2">
+            <span className="w-7 h-7 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs">2</span>
+            <h4 className="font-bold text-on-surface text-sm">Pay Securely via Paystack</h4>
+            <p className="text-xs text-on-surface-variant">Transfer from bank accounts, OPay, PalmPay, USSD, or Debit Card in Nigerian Naira.</p>
+          </div>
+          <div className="bg-surface-container-lowest p-5 rounded-xl border border-surface-variant flex flex-col gap-2">
+            <span className="w-7 h-7 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs">3</span>
+            <h4 className="font-bold text-on-surface text-sm">Direct In-Game Credit</h4>
+            <p className="text-xs text-on-surface-variant">Automated API credits your diamonds, CP, or coins right into your gaming account in ~24s.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* CAN'T FIND YOUR GAME CALLOUT verbatim from Stitch 8db6da78e3654233bd4a1fab4275d951 */}
+      <section className="bg-on-background rounded-2xl p-6 sm:p-8 mt-12 text-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <span className="text-[11px] font-bold text-secondary-container">Need a different game?</span>
+          <h3 className="text-xl font-extrabold text-surface-container-lowest mt-0.5">Can&apos;t find your game?</h3>
+          <p className="text-xs text-outline-variant mt-1">Looking for a game not listed here? Contact us on WhatsApp and we will add publisher distribution.</p>
+        </div>
+        <a
+          href={`https://wa.me/${config.whatsapp}?text=Hello+Zenaload+Support,+I+would+like+to+request+a+game+top-up:`}
+          target="_blank"
+          rel="noreferrer"
+          className="px-5 py-2.5 rounded-xl bg-secondary-container text-on-secondary-container font-extrabold text-xs flex items-center gap-1.5 whitespace-nowrap active:scale-95 transition-transform"
+        >
+          <span className="material-symbols-outlined text-sm">chat</span>
+          <span>Request Game on WhatsApp</span>
+        </a>
+      </section>
     </div>
   );
 }

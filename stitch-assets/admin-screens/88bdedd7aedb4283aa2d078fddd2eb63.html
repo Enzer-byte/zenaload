@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zenaload Admin - Sign In</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Plus Jakarta Sans Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-fixed": "#dee0ff",
+            "surface-variant": "#dee1ff",
+            "surface-bright": "#fbf8ff",
+            "surface-container-highest": "#dee1ff",
+            "secondary-container": "#05c4fe",
+            "on-background": "#11193c",
+            "primary-container": "#1e3bcb",
+            "outline": "#757686",
+            "on-error": "#ffffff",
+            "tertiary-fixed-dim": "#c4c0ff",
+            "on-tertiary-fixed": "#110068",
+            "on-surface-variant": "#444655",
+            "on-primary-container": "#b3bcff",
+            "outline-variant": "#c5c5d7",
+            "on-secondary-fixed-variant": "#004d66",
+            "primary-fixed-dim": "#bbc3ff",
+            "surface-container-high": "#e5e6ff",
+            "surface-tint": "#344edb",
+            "on-primary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-container": "#ececff",
+            "tertiary-container": "#3c22e4",
+            "on-tertiary-container": "#bdb9ff",
+            "on-primary-fixed-variant": "#0f31c3",
+            "tertiary": "#2600b9",
+            "secondary-fixed": "#c0e8ff",
+            "secondary-fixed-dim": "#70d2ff",
+            "on-secondary-fixed": "#001e2b",
+            "on-surface": "#11193c",
+            "inverse-on-surface": "#f0efff",
+            "primary": "#0023a6",
+            "inverse-primary": "#bbc3ff",
+            "on-primary-fixed": "#000f5d",
+            "background": "#fbf8ff",
+            "on-error-container": "#93000a",
+            "secondary": "#006686",
+            "on-tertiary-fixed-variant": "#330edd",
+            "tertiary-fixed": "#e3dfff",
+            "surface": "#fbf8ff",
+            "error": "#ba1a1a",
+            "inverse-surface": "#272e53",
+            "on-secondary-container": "#004d66",
+            "surface-dim": "#d3d8ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-low": "#f3f2ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "0.875rem",
+            "gutter": "1.25rem",
+            "margin": "1.5rem",
+            "space-xl": "1.75rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "table-data": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "kpi-display": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-md": ["13px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "table-data": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "headline-lg": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "kpi-display": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.03em", "fontWeight": "800" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .bg-grid-mesh {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(197, 197, 215, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(197, 197, 215, 0.08) 1px, transparent 1px);
+    }
+    .primary-btn-gradient {
+      background: linear-gradient(135deg, #1E3BCB 0%, #4B3FD6 100%);
+    }
+  </style>
+</head>
+<body class="bg-on-background text-surface-container-lowest min-h-screen flex flex-col justify-between font-body-md relative overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-fixed">
+<!-- Ambient Glow & Circuit Grid Overlay -->
+<div class="fixed inset-0 pointer-events-none z-0">
+<div class="absolute inset-0 bg-grid-mesh opacity-60"></div>
+<div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[620px] h-[580px] bg-primary-container/30 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="absolute -bottom-24 right-1/4 w-[480px] h-[480px] bg-secondary-container/10 rounded-full blur-[160px] pointer-events-none"></div>
+</div>
+<!-- Top Operational Status Bar (Linear / Auth context suppresses global nav as per Semantic Shell Mandate) -->
+<header class="relative z-10 w-full px-margin py-space-md flex items-center justify-between border-b border-outline-variant/15">
+<!-- Brand Anchor Mini Mark -->
+<div class="flex items-center gap-space-sm">
+<img alt="Zenaload Z logo mark" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U4eHPAz_DidanCtDnGI8WcFwGb-4tUrRRa9SHmRr4WlHL4aMTj62g7K1LjBL8nZm1kaBhbwSB5muta3Ley_dxyIidTc0i4cSaOYK0UKr_jPBTT7V8yZNCV51Nkt_cgte66xm401YQrCjlAZPga8-MAdpnA3VzyToXiFmXOpdmKTKsLf2aOYFTn82wpG7iSci0z1CqJCSAKyOPuXtcMABvcsP31GCWLTmHyRMX2jHXvFkkiIXS6BiQSobg"/>
+<span class="font-headline-sm text-headline-sm font-bold tracking-tight text-surface-container-lowest">Zenaload</span>
+<span class="text-label-sm font-label-sm px-space-xs py-0.5 rounded bg-surface-container-highest/15 text-outline-variant tracking-wider uppercase border border-outline-variant/20 ml-1">Terminal</span>
+</div>
+<!-- System Status & Controls -->
+<div class="flex items-center gap-gutter">
+<!-- Operational Telemetry Pill -->
+<div class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-highest/10 border border-outline-variant/20">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-surface-container-lowest tracking-wide">All systems normal</span>
+</div>
+<!-- Theme Switch (Cosmetic utility hook) -->
+<div class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-surface-container-highest/10 border border-outline-variant/20 text-outline-variant text-body-sm font-body-sm">
+<button class="p-1 rounded text-surface-container-lowest hover:bg-surface-container-highest/20 transition-colors" title="Dark Console Mode" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="dark_mode">dark_mode</span>
+</button>
+<span class="text-outline-variant/40">|</span>
+<button class="p-1 rounded hover:text-surface-container-lowest hover:bg-surface-container-highest/20 transition-colors" title="Switch to Light Theme" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="light_mode">light_mode</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Central Authentication Canvas -->
+<main class="relative z-10 flex-1 flex items-center justify-center px-space-md py-space-xl">
+<div class="w-full max-w-[440px]">
+<!-- Security Trust Tag Above Card -->
+<div class="flex justify-center mb-space-md">
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-surface-container-highest/10 border border-outline-variant/20 backdrop-blur-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+<span class="font-label-sm text-label-sm text-surface-container-lowest tracking-wider uppercase font-semibold">NGN Node • Sentinel Protected v3.4.1</span>
+</div>
+</div>
+<!-- Authentication Card (Elevation-0 / Crisp hairline border on #0A1236 / surface-container-lowest internal card) -->
+<div class="bg-surface-container-lowest rounded-[14px] p-space-lg sm:p-7 border border-outline-variant/30 shadow-[0_12px_40px_-8px_rgba(10,18,54,0.4)] text-on-surface">
+<!-- Logo & Header Group -->
+<div class="text-center mb-space-lg">
+<div class="flex justify-center mb-space-sm">
+<img alt="Official Zenaload Ribbon 'Z' logo icon" class="h-14 w-auto object-contain transition-transform duration-200 hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1U4eHPAz_DidanCtDnGI8WcFwGb-4tUrRRa9SHmRr4WlHL4aMTj62g7K1LjBL8nZm1kaBhbwSB5muta3Ley_dxyIidTc0i4cSaOYK0UKr_jPBTT7V8yZNCV51Nkt_cgte66xm401YQrCjlAZPga8-MAdpnA3VzyToXiFmXOpdmKTKsLf2aOYFTn82wpG7iSci0z1CqJCSAKyOPuXtcMABvcsP31GCWLTmHyRMX2jHXvFkkiIXS6BiQSobg"/>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-extrabold text-on-surface tracking-tight">Zenaload Admin</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Back office operations console for authorized personnel only.</p>
+</div>
+<!-- Prominent Error Alert Banner -->
+<div class="mb-space-lg p-3.5 rounded-[10px] bg-error-container/60 border border-error/40 flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5" data-icon="error">error</span>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-on-error-container font-semibold">Authentication failure</p>
+<p class="font-body-sm text-body-sm text-on-error-container/90 mt-0.5">Email or password is incorrect. 2 attempts remaining before 15-minute lock.</p>
+</div>
+</div>
+<!-- Login Form -->
+<form class="space-y-space-md" onsubmit="event.preventDefault();">
+<!-- Staff Email Input -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-1.5" for="email">Staff email address</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none" data-icon="mail">mail</span>
+<input autocomplete="email" class="w-full h-10 pl-9 pr-3 rounded-[10px] border border-outline-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all duration-150" id="email" placeholder="name@zenaload.ng" required="" type="email" value="tunde.b@zenaload.ng"/>
+</div>
+</div>
+<!-- Password Input with Show/Hide Toggle -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary-container hover:text-primary font-bold transition-colors" href="#">Forgot password?</a>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none" data-icon="lock">lock</span>
+<input autocomplete="current-password" class="w-full h-10 pl-9 pr-10 rounded-[10px] border border-outline-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface tracking-wider focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all duration-150" id="password" placeholder="Enter console password" required="" type="password" value="••••••••••••••"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 text-outline hover:text-on-surface transition-colors focus:outline-none" id="togglePassword" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Security Checkbox -->
+<div class="flex items-start gap-2 pt-0.5">
+<input checked="" class="mt-1 h-4 w-4 rounded border-outline-variant text-primary-container focus:ring-primary-container/20" id="remember" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer select-none" for="remember">
+              Keep me signed in for 12 hours on this trusted device
+            </label>
+</div>
+<!-- Primary Submit Action CTA -->
+<button class="w-full h-11 primary-btn-gradient text-on-primary rounded-[10px] font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 hover:opacity-95 active:scale-[0.99] transition-all shadow-[0_4px_16px_-2px_rgba(30,59,203,0.35)] cursor-pointer mt-1" type="submit">
+<span>Sign in to Console</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<!-- 2FA Multi-Factor Hint -->
+<div class="mt-space-lg pt-space-md border-t border-outline-variant/30 flex items-center justify-center gap-2 text-on-surface-variant text-center">
+<span class="material-symbols-outlined text-[18px] text-outline" data-icon="security">security</span>
+<span class="font-body-sm text-body-sm">Hardware key or Google Authenticator OTP will be prompted on next step.</span>
+</div>
+</div>
+<!-- Quick Escalation / Security Contact -->
+<div class="mt-space-md text-center">
+<p class="font-body-sm text-body-sm text-outline-variant">
+          Locked out of your account? 
+          <a class="text-secondary-fixed hover:underline font-medium" href="#">Contact SecOps Lead</a>
+</p>
+</div>
+</div>
+</main>
+<!-- Bottom Security & Compliance Footer -->
+<footer class="relative z-10 w-full px-margin py-space-md border-t border-outline-variant/15 text-center text-outline-variant">
+<div class="max-w-4xl mx-auto space-y-1">
+<p class="font-body-sm text-body-sm">
+        Protected by Zenaload Sentinel &amp; Paystack Infrastructure. Unauthorized access is monitored and logged with IP address and hardware fingerprint.
+      </p>
+<p class="font-label-sm text-label-sm text-outline font-mono tracking-normal">
+        Session IP: 102.89.34.120 (Lagos, NG) • TLS 1.3 Strict Enforced • Node NG-LAG-01
+      </p>
+</div>
+</footer>
+<!-- Micro-interaction for Password Toggle -->
+<script>
+    const toggleBtn = document.getElementById('togglePassword');
+    const pwdInput = document.getElementById('password');
+    if (toggleBtn && pwdInput) {
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = pwdInput.type === 'password';
+        pwdInput.type = isPassword ? 'text' : 'password';
+        const iconSpan = toggleBtn.querySelector('.material-symbols-outlined');
+        if (iconSpan) {
+          iconSpan.textContent = isPassword ? 'visibility_off' : 'visibility';
+        }
+      });
+    }
+  </script>
+</body></html>

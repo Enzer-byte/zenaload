@@ -1,46 +1,99 @@
 "use client";
+
+import { Lock } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-export default function Login() {
-  const r = useRouter(); const [pw, setPw] = useState(""), [err, setErr] = useState("");
-  async function go() { const res = await fetch("/api/admin/login", { method: "POST", body: JSON.stringify({ password: pw }) }); if (res.ok) r.push("/admin"); else setErr((await res.json()).error); }
+
+export default function AdminLoginPage() {
+  const router = useRouter();
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    
+    try {
+      const res = await fetch("/api/admin/login", { 
+        method: "POST", 
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }) 
+      });
+      
+      if (res.ok) {
+        router.push("/admin");
+      } else {
+        const data = await res.json();
+        setError(data.error || "Login failed");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <div className="flex min-h-[80vh] items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm rounded-2xl border border-line bg-card p-6 sm:p-8 shadow-2xl shadow-black/40">
-        <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand2 text-white shadow-lg shadow-brand/25">
-            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2 2 7l10 5 10-5-10-5Z" />
-              <path d="m2 17 10 5 10-5" />
-              <path d="m2 12 10 5 10-5" />
-            </svg>
+    <div className="min-h-screen bg-[#0A1236] flex items-center justify-center p-4 font-sans relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+        <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-[#1E3BCB] opacity-20 blur-[120px]"></div>
+        <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-[#4B3FD6] opacity-20 blur-[120px]"></div>
+      </div>
+
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl z-10 overflow-hidden">
+        <div className="p-8">
+          <div className="flex justify-center mb-8">
+            <div className="w-12 h-12 bg-[#F4F6FB] rounded-xl border border-[#E0E5F1] flex items-center justify-center">
+              <Lock className="text-[#0A1236]" size={24} />
+            </div>
           </div>
-          <h1 className="text-xl font-bold text-white">Admin Console</h1>
-          <p className="mt-1 text-xs text-mute">Authorized operators only</p>
+          
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold text-[#0A1236] tracking-tight">Admin Portal</h1>
+            <p className="text-slate-500 mt-2 text-sm">Sign in to access the operations console.</p>
+          </div>
+
+          <form className="space-y-5" onSubmit={handleLogin}>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5" htmlFor="password">
+                Master Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2.5 bg-slate-50 border border-[#E0E5F1] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3BCB] focus:border-transparent transition-shadow text-slate-900"
+                placeholder="Enter password..."
+                required
+              />
+            </div>
+            
+            {error && (
+              <p role="alert" className="text-sm font-medium text-red-500 mt-2">
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#1E3BCB] hover:bg-[#18246B] text-white font-medium py-2.5 rounded-lg transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? "Authenticating..." : "Authenticate"}
+            </button>
+          </form>
         </div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-ink2">
-          Master Password
-          <input
-            type="password"
-            autoFocus
-            className="mt-2 w-full rounded-xl border border-line bg-bg2 px-3.5 py-3 text-sm text-ink placeholder:text-mute focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
-            placeholder="Enter admin password"
-            value={pw}
-            onChange={(e) => setPw(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && go()}
-          />
-        </label>
-        {err && (
-          <p role="alert" className="mt-3 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-xs font-medium text-red-400">
-            {err}
+        
+        <div className="px-8 py-5 bg-slate-50 border-t border-[#E0E5F1] text-center">
+          <p className="text-xs text-slate-500">
+            Secure connection established. <br />
+            Unauthorized access is strictly prohibited.
           </p>
-        )}
-        <button
-          onClick={go}
-          className="mt-5 w-full rounded-xl bg-gradient-to-r from-brand to-brand2 py-3 text-sm font-bold text-white shadow-lg shadow-brand/25 transition-all hover:brightness-110 active:scale-[0.99]"
-        >
-          Sign In to Console
-        </button>
+        </div>
       </div>
     </div>
   );

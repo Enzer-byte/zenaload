@@ -1,0 +1,781 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Zenaload - Device Account Hub</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-surface": "#272e53",
+            "secondary-fixed-dim": "#70d2ff",
+            "on-surface": "#11193c",
+            "on-secondary-container": "#004d66",
+            "error-container": "#ffdad6",
+            "secondary-container": "#05c4fe",
+            "on-secondary-fixed": "#001e2b",
+            "surface": "#fbf8ff",
+            "tertiary-container": "#5e50ff",
+            "outline-variant": "#c4c5d9",
+            "surface-container-high": "#e5e6ff",
+            "primary-fixed": "#dde1ff",
+            "tertiary-fixed": "#e3dfff",
+            "on-tertiary-fixed-variant": "#330edd",
+            "on-error": "#ffffff",
+            "on-primary": "#ffffff",
+            "surface-container": "#ececff",
+            "surface-tint": "#104af0",
+            "tertiary-fixed-dim": "#c4c0ff",
+            "on-background": "#11193c",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed-variant": "#004d66",
+            "on-tertiary-fixed": "#110068",
+            "primary-fixed-dim": "#b8c3ff",
+            "primary": "#0040df",
+            "inverse-on-surface": "#f0efff",
+            "outline": "#747688",
+            "on-error-container": "#93000a",
+            "secondary-fixed": "#c0e8ff",
+            "on-surface-variant": "#434656",
+            "background": "#fbf8ff",
+            "inverse-primary": "#b8c3ff",
+            "on-primary-fixed": "#001355",
+            "on-tertiary-container": "#f2eeff",
+            "on-secondary": "#ffffff",
+            "on-primary-fixed-variant": "#0035bd",
+            "error": "#ba1a1a",
+            "surface-dim": "#d3d8ff",
+            "surface-container-low": "#f3f2ff",
+            "secondary": "#006686",
+            "primary-container": "#2d5bff",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#efefff",
+            "surface-bright": "#fbf8ff",
+            "surface-variant": "#dee1ff",
+            "surface-container-highest": "#dee1ff",
+            "tertiary": "#432dea"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-tablet": "2rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "gutter": "1rem",
+            "gutter-desktop": "1.5rem",
+            "margin": "1rem",
+            "space-xl": "2.25rem",
+            "space-sm": "0.5rem",
+            "margin-desktop": "3rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "label-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+            "title-md": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "25px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "display-lg-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.025em", "fontWeight": "800" }],
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-gradient-cta {
+      background: linear-gradient(135deg, #0BC5FF 0%, #2D5BFF 50%, #5A4BFF 100%);
+    }
+    .custom-gradient-card {
+      background: linear-gradient(145deg, #11193C 0%, #1A2454 100%);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopAppBar (Shared Component) -->
+<header class="bg-on-background sticky top-0 z-50 flex items-center justify-between px-margin md:px-gutter-desktop w-full h-16 shadow-sm border-b border-surface-variant/20">
+<div class="flex items-center gap- space-md">
+<a class="flex items-center gap-space-sm active:scale-95 transition-transform duration-100" href="/account">
+<img alt="Zenaload Logo" class="w-8 h-8 rounded-lg object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1VOFgqEf9RJagFErx2Kd_YEY4Z-oktKNnNMoWGKjdnO9GRutDbHOEdp-9seSmGIoFYEqZmxcXwHS4PPfrDeldTiOh_0NMgJpWIvk5bH0F-k66w3dGLJ1laXjq5X7X8ncByVApfXyT-PJkuJYbVxiaLqRq3lHzAv4_1L8gGUWmYHWU9-vA665unC5PfkJ3Daw3qmoGuKCcFUsn_SNp7hSdVTu3tbr6LCX9CYryxcmDmEScc9_PeTZ9I8f2Y">
+<span class="font-headline-sm text-headline-sm font-extrabold text-surface-container-lowest tracking-tight">Zenaload</span>
+</a>
+<div class="hidden md:flex items-center gap-space-xs ml-4 px-2 py-0.5 rounded-full bg-surface-container-lowest/10 text-secondary-fixed text-label-sm font-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+<span class="">Instant Top-Up Engine</span>
+</div>
+</div>
+<!-- Web Navigation Cluster -->
+<nav class="hidden md:flex items-center gap-space-lg">
+<a class="text-outline-variant hover:text-surface-container-lowest font-label-md text-label-md transition-colors duration-150" href="#games">Games</a>
+<a class="text-outline-variant hover:text-surface-container-lowest font-label-md text-label-md transition-colors duration-150" href="#how-it-works">How it works</a>
+<a class="text-outline-variant hover:text-surface-container-lowest font-label-md text-label-md transition-colors duration-150" href="#track-order">Track order</a>
+<a class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-container/20 border border-secondary-container/40 text-secondary-container font-label-md text-label-md font-bold shadow-sm" href="/account">
+<span class="material-symbols-outlined text-base">phonelink_lock</span>
+<span class="">Device Hub</span>
+</a>
+<a class="text-outline-variant hover:text-surface-container-lowest font-label-md text-label-md transition-colors duration-150" href="#support">Support</a>
+</nav>
+<!-- Top Right Actions & Currency Indicator -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-lowest/10 border border-surface-variant/20 text-surface-container-lowest font-label-sm text-label-sm">
+<span class="w-4 h-4 rounded-full bg-emerald-600 flex items-center justify-center text-[10px] text-white font-bold leading-none">₦</span>
+<span class="font-bold">NGN (Nigeria)</span>
+</div>
+<button class="md:hidden text-surface-container-lowest p-2 active:scale-95 transition-transform" onclick="toggleMobileQuickMenu()">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="flex-1 w-full max-w-[1200px] mx-auto px-margin md:px-gutter-desktop py-space-md md:py-space-xl flex flex-col gap-space-lg">
+<!-- Hero Banner: Deep Navy (#0F1B4D) with gradient accents -->
+<section class="relative overflow-hidden rounded-2xl bg-[#0F1B4D] border border-surface-variant/20 p-space-md md:p-space-xl text-surface-container-lowest shadow-lg">
+<div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-tertiary-container/20 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-space-xs max-w-xl">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container/15 text-secondary-container border border-secondary-container/30 font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-sm">offline_pin</span>
+<span class="">Zero Passwords • Local Browser Storage</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-extrabold tracking-tight text-white pt-1">
+            Device Account Hub
+          </h1>
+<p class="font-body-lg text-body-lg text-outline-variant">
+            Saved locally on this device. No passwords or registration needed. Instant access to transactions, player tags, and loyalty rewards.
+          </p>
+</div>
+<!-- Device Token Card -->
+<div class="bg-on-background/70 backdrop-blur-md border border-surface-variant/30 rounded-xl p-space-md flex flex-col gap-space-sm min-w-[280px] shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline-variant uppercase tracking-wider">Device Token Identity</span>
+<span class="inline-flex items-center gap-1 text-[11px] font-bold text-secondary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+              Encrypted
+            </span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest/5 rounded-lg px-3 py-2 border border-surface-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-container text-lg">smartphone</span>
+<span class="font-label-md text-label-md font-bold tracking-wide text-white" id="device-id-text">ZL-DEV-9924-LAGOS</span>
+</div>
+<button class="text-outline-variant hover:text-secondary-container active:scale-90 transition-transform" onclick="copyDeviceId()" title="Copy Device Token">
+<span class="material-symbols-outlined text-base" id="copy-icon">content_copy</span>
+</button>
+</div>
+<div class="flex items-center gap-space-sm pt-1">
+<button class="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 border border-surface-variant/20 text-surface-container-lowest font-label-sm text-label-sm font-semibold active:scale-95 transition-all" onclick="syncDeviceData()">
+<span class="material-symbols-outlined text-sm">sync</span>
+<span class="">Sync Cloud</span>
+</button>
+<button class="inline-flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 border border-surface-variant/20 text-surface-container-lowest font-label-sm text-label-sm font-semibold active:scale-95 transition-all" onclick="exportDeviceKey()">
+<span class="material-symbols-outlined text-sm">key</span>
+<span class="">Backup</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Toolbar: Tab Navigation & Empty State Toggle Switcher -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md border-b border-surface-variant/30 pb-space-sm">
+<!-- 3 Primary Tabs -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-variant/40 overflow-x-auto" role="tablist">
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg font-label-md text-label-md font-bold transition-all duration-150 bg-surface-container-lowest text-primary shadow-sm border border-surface-variant/20" id="tab-btn-orders" onclick="switchTab('orders')" role="tab">
+<span class="material-symbols-outlined text-lg">receipt_long</span>
+<span class="">Saved Orders</span>
+<span class="ml-1 text-[10px] font-extrabold bg-primary/10 text-primary px-1.5 py-0.2 rounded-full" id="orders-badge-count">3</span>
+</button>
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg font-label-md text-label-md font-bold text-on-surface-variant hover:text-on-surface transition-all duration-150" id="tab-btn-tags" onclick="switchTab('tags')" role="tab">
+<span class="material-symbols-outlined text-lg">badge</span>
+<span class="">Saved Player Tags</span>
+<span class="ml-1 text-[10px] font-extrabold bg-surface-container-high text-on-surface-variant px-1.5 py-0.2 rounded-full" id="tags-badge-count">2</span>
+</button>
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg font-label-md text-label-md font-bold text-on-surface-variant hover:text-on-surface transition-all duration-150" id="tab-btn-perks" onclick="switchTab('perks')" role="tab">
+<span class="material-symbols-outlined text-lg">military_tech</span>
+<span class="">Loyalty &amp; Perks</span>
+<span class="ml-1 text-[10px] font-extrabold bg-secondary-container/20 text-on-secondary-container px-1.5 py-0.2 rounded-full">New</span>
+</button>
+</div>
+<!-- Quick Switch State Toggle (Empty State Simulation) -->
+<div class="flex items-center gap-2 self-end sm:self-auto bg-surface-container-lowest px-3 py-1.5 rounded-xl border border-surface-variant/40 shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant cursor-pointer select-none" for="state-toggle">
+          Simulate Empty State:
+        </label>
+<button aria-checked="false" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-surface-variant" id="state-toggle" onclick="toggleEmptyState()" role="switch">
+<span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-surface-container-lowest shadow ring-0 transition duration-200 ease-in-out translate-x-0" id="state-toggle-knob"></span>
+</button>
+</div>
+</div>
+<!-- Empty State View (Toggled dynamically or via test switch) -->
+<div class="hidden py-space-xl flex-col items-center justify-center text-center bg-surface-container-lowest rounded-2xl border border-surface-variant/40 p-space-xl shadow-sm" id="view-empty">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-outline mb-space-md">
+<span class="material-symbols-outlined text-3xl">cloud_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-extrabold mb-space-xs">
+        No orders or player tags found on this device yet
+      </h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-space-lg">
+        Top-up any game instantly with your Nigerian bank card, transfer, or OPay. Your order receipt and player UID will automatically save to this browser.
+      </p>
+<a class="custom-gradient-cta text-white font-label-lg text-label-lg px-6 py-3 rounded-xl shadow-md hover:opacity-95 active:scale-95 transition-all inline-flex items-center gap-2" href="#games">
+<span class="material-symbols-outlined">sports_esports</span>
+<span class="">Explore Instant Games</span>
+</a>
+</div>
+<!-- Active Content Area -->
+<div id="content-container">
+<!-- TAB 1: SAVED ORDERS -->
+<section class="space-y-space-md" id="tab-orders">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Recent Browser Top-Ups</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Validated via Paystack gateway and instant server delivery</p>
+</div>
+<button class="hidden md:inline-flex items-center gap-1 text-primary font-label-md text-label-md font-bold hover:underline">
+<span class="material-symbols-outlined text-base">download</span>
+            Download Order Log
+          </button>
+</div>
+<div class="grid grid-cols-1 gap-space-md">
+<!-- Order Card 1: Free Fire 520 Diamonds - Delivered -->
+<div class="bg-surface-container-lowest border border-surface-variant/40 rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-orange-600 text-2xl">local_fire_department</span>
+</div>
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-bold">Free Fire</span>
+<span class="font-label-md text-label-md text-outline">•</span>
+<span class="font-title-md text-title-md text-primary font-bold">520 Diamonds</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    Delivered
+                  </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-on-surface-variant font-body-md text-body-md">
+<span class="">Player UID: <strong class="text-on-surface">782910****</strong></span>
+<span class="">Server: <strong>Global / Africa</strong></span>
+<span class="">Amount: <strong class="text-on-surface">₦4,250.00</strong></span>
+</div>
+<div class="text-[12px] text-outline font-label-sm">
+                  Ref: ZNL-FF-99421 • Oct 24, 2025 at 14:32 WAT • Instant Card
+                </div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm self-end md:self-center shrink-0">
+<button class="px-4 py-2 rounded-xl border border-surface-variant/60 bg-surface-container-lowest hover:border-primary text-on-surface font-label-md text-label-md font-bold active:scale-95 transition-all flex items-center gap-1.5" onclick="showReceiptModal('ZNL-FF-99421', 'Free Fire', '520 Diamonds', '₦4,250.00', 'Delivered')">
+<span class="material-symbols-outlined text-base">receipt</span>
+<span class="">Receipt</span>
+</button>
+<button class="custom-gradient-cta text-white px-4 py-2 rounded-xl font-label-md text-label-md font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">bolt</span>
+<span class="">Top up again</span>
+</button>
+</div>
+</div>
+<!-- Order Card 2: COD Mobile 420 CP - Delivered -->
+<div class="bg-surface-container-lowest border border-surface-variant/40 rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-blue-100 border border-blue-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-blue-700 text-2xl">military_tech</span>
+</div>
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-bold">Call of Duty: Mobile</span>
+<span class="font-label-md text-label-md text-outline">•</span>
+<span class="font-title-md text-title-md text-primary font-bold">420 CP</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    Delivered
+                  </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-on-surface-variant font-body-md text-body-md">
+<span class="">Player UID: <strong class="text-on-surface">672048****</strong></span>
+<span class="">Activision ID: <strong>NaijaSniper#99</strong></span>
+<span class="">Amount: <strong class="text-on-surface">₦3,600.00</strong></span>
+</div>
+<div class="text-[12px] text-outline font-label-sm">
+                  Ref: ZNL-COD-88123 • Oct 22, 2025 at 19:15 WAT • OPay Instant
+                </div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm self-end md:self-center shrink-0">
+<button class="px-4 py-2 rounded-xl border border-surface-variant/60 bg-surface-container-lowest hover:border-primary text-on-surface font-label-md text-label-md font-bold active:scale-95 transition-all flex items-center gap-1.5" onclick="showReceiptModal('ZNL-COD-88123', 'Call of Duty: Mobile', '420 CP', '₦3,600.00', 'Delivered')">
+<span class="material-symbols-outlined text-base">receipt</span>
+<span class="">Receipt</span>
+</button>
+<button class="custom-gradient-cta text-white px-4 py-2 rounded-xl font-label-md text-label-md font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">bolt</span>
+<span class="">Top up again</span>
+</button>
+</div>
+</div>
+<!-- Order Card 3: eFootball Coins - Processing -->
+<div class="bg-surface-container-lowest border-2 border-secondary-container/40 rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-purple-100 border border-purple-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-purple-700 text-2xl">sports_soccer</span>
+</div>
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-bold">eFootball 2026</span>
+<span class="font-label-md text-label-md text-outline">•</span>
+<span class="font-title-md text-title-md text-primary font-bold">1,050 eFootball Coins</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
+                    Processing
+                  </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-on-surface-variant font-body-md text-body-md">
+<span class="">Konami ID: <strong class="text-on-surface">KNM-910283****</strong></span>
+<span class="">Platform: <strong>Mobile (Android)</strong></span>
+<span class="">Amount: <strong class="text-on-surface">₦7,800.00</strong></span>
+</div>
+<div class="text-[12px] text-outline font-label-sm">
+                  Ref: ZNL-EF-44109 • Just now (2 mins ago) • PalmPay Gateway
+                </div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm self-end md:self-center shrink-0">
+<button class="px-4 py-2 rounded-xl border border-surface-variant/60 bg-surface-container-lowest hover:border-primary text-on-surface font-label-md text-label-md font-bold active:scale-95 transition-all flex items-center gap-1.5" onclick="showReceiptModal('ZNL-EF-44109', 'eFootball 2026', '1,050 eFootball Coins', '₦7,800.00', 'Processing')">
+<span class="material-symbols-outlined text-base">receipt</span>
+<span class="">Receipt</span>
+</button>
+<button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-xl font-label-md text-label-md font-bold shadow-sm cursor-not-allowed opacity-75 flex items-center gap-1.5" disabled="">
+<span class="material-symbols-outlined text-base animate-spin">refresh</span>
+<span class="">Dispensing...</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- TAB 2: SAVED PLAYER TAGS -->
+<section class="hidden space-y-space-md" id="tab-tags">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Device-Stored Gamer Profiles</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Click to instant-fill any checkout without typing game IDs</p>
+</div>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-primary text-primary font-label-md text-label-md font-bold hover:bg-primary/5 active:scale-95 transition-all self-start sm:self-auto">
+<span class="material-symbols-outlined text-base">add_circle</span>
+            Add New Player Tag
+          </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Tag Card 1 -->
+<div class="bg-surface-container-lowest border border-surface-variant/40 rounded-xl p-space-md shadow-sm hover:border-primary-container transition-all flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center font-extrabold text-orange-600 text-lg">
+                    FF
+                  </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">LagosGhost_99</h3>
+<p class="font-label-md text-label-md text-outline">Garena Free Fire</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] font-bold">
+                  Primary Tag
+                </span>
+</div>
+<div class="mt-space-md space-y-1.5 bg-surface-container-low/60 rounded-lg p-3">
+<div class="flex items-center justify-between text-body-md font-body-md">
+<span class="text-on-surface-variant">Masked UID:</span>
+<span class="font-bold text-on-surface tracking-wider font-mono">293847****</span>
+</div>
+<div class="flex items-center justify-between text-body-md font-body-md">
+<span class="text-on-surface-variant">Last Top-up:</span>
+<span class="font-semibold text-on-surface">Oct 24, 2025</span>
+</div>
+<div class="flex items-center justify-between text-body-md font-body-md">
+<span class="text-on-surface-variant">Total Loaded:</span>
+<span class="font-bold text-primary">₦18,400 (5 Orders)</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs border-t border-surface-variant/30">
+<button class="flex-1 custom-gradient-cta text-white py-2.5 px-4 rounded-xl font-label-md text-label-md font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-base">shopping_cart_checkout</span>
+<span class="">Direct Re-Order</span>
+</button>
+<button class="p-2.5 rounded-xl border border-surface-variant/40 hover:bg-error-container/20 text-on-surface-variant hover:text-error active:scale-90 transition-all" title="Remove Tag">
+<span class="material-symbols-outlined text-base">delete_outline</span>
+</button>
+</div>
+</div>
+<!-- Tag Card 2 -->
+<div class="bg-surface-container-lowest border border-surface-variant/40 rounded-xl p-space-md shadow-sm hover:border-primary-container transition-all flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center font-extrabold text-blue-700 text-lg">
+                    COD
+                  </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">NaijaSniper#99</h3>
+<p class="font-label-md text-label-md text-outline">Call of Duty: Mobile</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] font-bold">
+                  Verified ID
+                </span>
+</div>
+<div class="mt-space-md space-y-1.5 bg-surface-container-low/60 rounded-lg p-3">
+<div class="flex items-center justify-between text-body-md font-body-md">
+<span class="text-on-surface-variant">Masked UID:</span>
+<span class="font-bold text-on-surface tracking-wider font-mono">672048****</span>
+</div>
+<div class="flex items-center justify-between text-body-md font-body-md">
+<span class="text-on-surface-variant">Last Top-up:</span>
+<span class="font-semibold text-on-surface">Oct 22, 2025</span>
+</div>
+<div class="flex items-center justify-between text-body-md font-body-md">
+<span class="text-on-surface-variant">Total Loaded:</span>
+<span class="font-bold text-primary">₦11,200 (3 Orders)</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs border-t border-surface-variant/30">
+<button class="flex-1 custom-gradient-cta text-white py-2.5 px-4 rounded-xl font-label-md text-label-md font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-base">shopping_cart_checkout</span>
+<span class="">Direct Re-Order</span>
+</button>
+<button class="p-2.5 rounded-xl border border-surface-variant/40 hover:bg-error-container/20 text-on-surface-variant hover:text-error active:scale-90 transition-all" title="Remove Tag">
+<span class="material-symbols-outlined text-base">delete_outline</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- TAB 3: LOYALTY & PERKS -->
+<section class="hidden space-y-space-md" id="tab-perks">
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Device Rewards &amp; Squad Milestones</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Every guest order counts toward instant cashback without requiring personal signup</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Main 5th Top-Up Milestone Card (2 Cols on desktop) -->
+<div class="md:col-span-2 custom-gradient-card rounded-2xl p-space-md md:p-space-lg text-white border border-surface-variant/30 shadow-lg relative overflow-hidden flex flex-col justify-between">
+<div class="absolute right-0 top-0 w-64 h-64 bg-secondary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="space-y-space-sm z-10">
+<div class="flex items-center justify-between">
+<span class="px-3 py-1 rounded-full bg-secondary-container/20 border border-secondary-container/40 text-secondary-container font-label-sm text-label-sm font-extrabold uppercase tracking-wide">
+                  Top-up Milestone Tracker
+                </span>
+<span class="font-headline-sm text-headline-sm font-extrabold text-secondary-container">3 of 5 Completed</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-extrabold">
+                Get ₦1,000 Instant Top-Up Cashback on your 5th Order!
+              </h3>
+<p class="font-body-md text-body-md text-outline-variant max-w-lg">
+                Nigerian gamers get recognized through their device footprint. Load 2 more packages for any supported game on this device to claim your direct discount.
+              </p>
+<!-- Progress Bar -->
+<div class="pt-space-xs space-y-2">
+<div class="w-full bg-surface-container-lowest/20 rounded-full h-3 overflow-hidden p-0.5">
+<div class="bg-gradient-to-r from-secondary-container to-primary-container h-full rounded-full transition-all duration-500" style="width: 60%"></div>
+</div>
+<div class="flex justify-between text-xs text-outline-variant font-label-sm">
+<span class="">Order #1 (Done)</span>
+<span class="">Order #2 (Done)</span>
+<span class="">Order #3 (Done)</span>
+<span class="text-white font-bold">Order #4 (Next)</span>
+<span class="text-secondary-container font-extrabold">₦1,000 Bonus!</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md flex flex-wrap items-center gap-space-sm z-10 border-t border-surface-variant/20 mt-space-md">
+<button class="custom-gradient-cta text-white font-label-md text-label-md font-bold px-5 py-2.5 rounded-xl shadow-md active:scale-95 transition-all">
+                Make 4th Top-Up Now
+              </button>
+<span class="text-label-sm text-outline-variant">Auto-applied at Paystack checkout</span>
+</div>
+</div>
+<!-- Squad Referral Card (1 Col) -->
+<div class="bg-surface-container-lowest border border-surface-variant/40 rounded-2xl p-space-md md:p-space-lg flex flex-col justify-between shadow-sm">
+<div class="space-y-space-xs">
+<div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">groups</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-extrabold">Squad Referral Perks</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Share your unique device invite link with your gaming squad on WhatsApp or Discord.
+              </p>
+<div class="p-3 bg-surface-container-low rounded-xl border border-surface-variant/30 space-y-1">
+<span class="text-[11px] font-bold text-outline uppercase">Your Invite Token</span>
+<p class="font-mono text-xs font-bold text-primary break-all">zenaload.ng/ref/LAGOS-9924</p>
+</div>
+</div>
+<div class="pt-space-md border-t border-surface-variant/30">
+<button class="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-label-md text-label-md font-bold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-sm" onclick="shareSquadLink()">
+<span class="material-symbols-outlined text-lg">share</span>
+<span class="">Share via WhatsApp</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Security & Device Storage Notice Card -->
+<div class="bg-surface-container-low border border-surface-variant/50 rounded-2xl p-space-md flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-xl">shield_lock</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">100% Client-Side Privacy Guarantee</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Your payment card details are never stored. Only masked game IDs and delivery status hashes reside on this browser.
+          </p>
+</div>
+</div>
+<button class="text-error hover:bg-error-container/20 font-label-sm text-label-sm font-bold px-3 py-2 rounded-lg transition-colors shrink-0" onclick="clearDeviceData()">
+        Clear Device Cache
+      </button>
+</div>
+</main>
+<!-- Interactive Receipt Modal (Lightweight Pure JS) -->
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4" id="receipt-modal">
+<div class="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 shadow-2xl border border-surface-variant/40 space-y-4">
+<div class="flex items-center justify-between border-b border-surface-variant/30 pb-3">
+<div class="flex items-center gap-2">
+<img alt="Zenaload" class="w-6 h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAouzgp7D5FRmQAL-DzuTZmdrFWw-6FX1YJqkDpx7ywbBydWjcnwJDH63taG4iIYUSZcRWnXa_5uibFo9a6IEUUKeEBUAJi8J6EuXasYRNZ6P_lH09idcCVVzHh77ZPqc2zCpkSB-G5XwQsU3WWMtkq5J9vC6Bdbgh1BYovRhOUoiiZnGiYiz1Je_mAVzr7ILxqamxdhMjZhR2AUcFYHsL9paXudFcwblbEBqS1-Fy-Afk-NmzFPPSDXVqf8V654Zceag">
+<span class="font-title-md text-title-md text-on-surface font-extrabold">Instant Receipt</span>
+</div>
+<button class="text-outline hover:text-on-surface p-1 rounded-full" onclick="closeReceiptModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="text-center py-2 space-y-1">
+<div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 mb-1">
+<span class="material-symbols-outlined text-2xl">check_circle</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-bold" id="modal-game">Free Fire</h3>
+<p class="text-primary font-bold" id="modal-sku">520 Diamonds</p>
+<p class="font-headline-md text-headline-md font-extrabold text-on-surface" id="modal-price">₦4,250.00</p>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 space-y-2 text-xs font-label-md">
+<div class="flex justify-between text-on-surface-variant">
+<span class="">Transaction Ref:</span>
+<span class="font-mono font-bold text-on-surface" id="modal-ref">ZNL-FF-99421</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span class="">Status:</span>
+<span class="font-bold text-emerald-700" id="modal-status">Delivered</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span class="">Gateway Processor:</span>
+<span class="font-semibold text-on-surface">Paystack Payments Nigeria</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span class="">Timestamp:</span>
+<span class="text-on-surface">24 Oct 2025, 14:32:04 WAT</span>
+</div>
+</div>
+<div class="flex gap-2 pt-2">
+<button class="flex-1 py-2.5 rounded-xl border border-surface-variant text-on-surface font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" onclick="window.print()">
+<span class="material-symbols-outlined text-base">print</span>
+<span class="">Print / PDF</span>
+</button>
+<button class="flex-1 custom-gradient-cta text-white py-2.5 rounded-xl font-label-md text-label-md font-bold shadow-md hover:opacity-95 transition-opacity" onclick="closeReceiptModal()">
+          Done
+        </button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (Shared Component for Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-space-sm md:hidden bg-on-background shadow-lg">
+<a class="flex flex-col items-center justify-center text-outline-variant hover:text-surface-container-lowest transition-colors active:scale-95 transition-transform" href="#games">
+<span class="material-symbols-outlined text-xl">sports_esports</span>
+<span class="font-label-sm text-label-sm">Games</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant hover:text-surface-container-lowest transition-colors active:scale-95 transition-transform" href="#track-order">
+<span class="material-symbols-outlined text-xl">search</span>
+<span class="font-label-sm text-label-sm">Track Order</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary-container font-bold active:scale-95 transition-transform" href="/account">
+<span class="material-symbols-outlined text-xl">phonelink_lock</span>
+<span class="font-label-sm text-label-sm">Account Hub</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant hover:text-surface-container-lowest transition-colors active:scale-95 transition-transform" href="#support">
+<span class="material-symbols-outlined text-xl">chat</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant hover:text-surface-container-lowest transition-colors active:scale-95 transition-transform" href="#faq">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+<span class="font-label-sm text-label-sm">FAQ</span>
+</a>
+</nav>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-space-xl px-margin md:px-gutter-desktop pb-24 md:pb-space-xl bg-on-background text-surface-container-lowest mt-auto border-t border-surface-variant/20">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg">
+<div class="space-y-space-xs max-w-md">
+<div class="flex items-center gap-space-sm">
+<img alt="Zenaload" class="w-8 h-8 rounded-lg object-contain bg-surface-container-lowest/10 p-0.5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy165315CMw0wc2jpD1rLrirV4M_LyalzDChtfgSRduFDELCJyK_aVXvaSqSxS86q9w8I6r9HdUp8G7iaKG40RF9lXabHGbhIoGgo3gLx7uPPYLNIQYYvv003zp3GvYSBjo4enzwEPXhQ3A0wuT6B-MT-klxQ6mDRFNhCsaDHJ5j1aP7C6x_1d5g0w0ZJEZzYc5xOBBjxu9pfaMRcp9iQo_VTWUu6xzMRhis3zAKrl1sBbcGv7kXcGNSuPgIjRM4PQEA">
+<span class="font-headline-md text-headline-md font-extrabold text-surface-container-lowest">Zenaload</span>
+</div>
+<p class="font-body-md text-body-md text-outline-variant">
+          © 2025 Zenaload. Instant gaming top-ups across Nigeria. Powered by Paystack.
+        </p>
+<p class="text-xs text-outline-variant/80">
+          Licensed under Paystack Merchant APIs. Certified PCI-DSS Level 1 compliant infrastructure.
+        </p>
+</div>
+<!-- Quick WhatsApp & Direct Contact Badges -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+<a class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-600/30 font-label-md text-label-md font-bold transition-all" href="https://wa.me/2348000000000" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base">chat</span>
+<span class="">WhatsApp 24/7 Support</span>
+</a>
+<div class="flex flex-wrap gap-x-4 gap-y-2 font-label-md text-label-md">
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors" href="#terms">Terms of Service</a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors" href="#privacy">Privacy Policy</a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors" href="#refund">Refund Policy</a>
+<a class="text-outline-variant hover:text-surface-container-lowest transition-colors" href="#faq">FAQ</a>
+<a class="text-secondary-container hover:underline transition-colors" href="#support">Contact Support</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Micro Interaction Scripts -->
+<script>
+    let isEmptyState = false;
+
+    function switchTab(tabKey) {
+      if (isEmptyState) return;
+      const tabs = ['orders', 'tags', 'perks'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const sec = document.getElementById(`tab-${t}`);
+        if (t === tabKey) {
+          btn.className = "flex items-center gap-1.5 px-4 py-2 rounded-lg font-label-md text-label-md font-bold transition-all duration-150 bg-surface-container-lowest text-primary shadow-sm border border-surface-variant/20";
+          sec.classList.remove('hidden');
+        } else {
+          btn.className = "flex items-center gap-1.5 px-4 py-2 rounded-lg font-label-md text-label-md font-bold text-on-surface-variant hover:text-on-surface transition-all duration-150";
+          sec.classList.add('hidden');
+        }
+      });
+    }
+
+    function toggleEmptyState() {
+      isEmptyState = !isEmptyState;
+      const knob = document.getElementById('state-toggle-knob');
+      const toggle = document.getElementById('state-toggle');
+      const emptyView = document.getElementById('view-empty');
+      const contentContainer = document.getElementById('content-container');
+      const ordersCount = document.getElementById('orders-badge-count');
+      const tagsCount = document.getElementById('tags-badge-count');
+
+      if (isEmptyState) {
+        knob.classList.add('translate-x-5');
+        knob.classList.remove('translate-x-0');
+        toggle.classList.add('bg-primary');
+        toggle.classList.remove('bg-surface-variant');
+        emptyView.classList.remove('hidden');
+        emptyView.classList.add('flex');
+        contentContainer.classList.add('hidden');
+        ordersCount.textContent = '0';
+        tagsCount.textContent = '0';
+      } else {
+        knob.classList.remove('translate-x-5');
+        knob.classList.add('translate-x-0');
+        toggle.classList.remove('bg-primary');
+        toggle.classList.add('bg-surface-variant');
+        emptyView.classList.add('hidden');
+        emptyView.classList.remove('flex');
+        contentContainer.classList.remove('hidden');
+        ordersCount.textContent = '3';
+        tagsCount.textContent = '2';
+      }
+    }
+
+    function copyDeviceId() {
+      const text = document.getElementById('device-id-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const icon = document.getElementById('copy-icon');
+        icon.innerText = 'check';
+        icon.classList.add('text-secondary-container');
+        setTimeout(() => {
+          icon.innerText = 'content_copy';
+          icon.classList.remove('text-secondary-container');
+        }, 2000);
+      });
+    }
+
+    function syncDeviceData() {
+      alert("Device Token ZL-DEV-9924-LAGOS synced with Zenaload Edge Registry.");
+    }
+
+    function exportDeviceKey() {
+      alert("Local session backup key exported to browser downloads.");
+    }
+
+    function clearDeviceData() {
+      if (confirm("Are you sure you want to clear your saved player tags and recent order cache from this browser?")) {
+        toggleEmptyState();
+      }
+    }
+
+    function shareSquadLink() {
+      const url = "https://wa.me/?text=" + encodeURIComponent("Top-up Free Fire, CODM & eFootball instantly in Nigeria on Zenaload with no logins: https://zenaload.ng/ref/LAGOS-9924");
+      window.open(url, '_blank');
+    }
+
+    function showReceiptModal(ref, game, sku, price, status) {
+      document.getElementById('modal-ref').innerText = ref;
+      document.getElementById('modal-game').innerText = game;
+      document.getElementById('modal-sku').innerText = sku;
+      document.getElementById('modal-price').innerText = price;
+      document.getElementById('modal-status').innerText = status;
+      const modal = document.getElementById('receipt-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeReceiptModal() {
+      const modal = document.getElementById('receipt-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleMobileQuickMenu() {
+      alert("Zenaload Fast Menu: Top-up Games • Order Tracker • Support Active");
+    }
+  </script>
+</body></html>

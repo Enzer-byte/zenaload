@@ -5,14 +5,17 @@ import { PreviewBanner } from "@/components/v2/PreviewBanner";
 import { NavbarV2 } from "@/components/v2/NavbarV2";
 
 export const metadata = {
-  title: `${config.brand} (V2 Preview) — Next-Gen Gaming Top-Up`,
-  description: "Preview the next-generation game top-up experience on Zenaload.",
+  title: `${config.brand} (Stitch Preview) — Instant Game Top-Up Nigeria`,
+  description: "Preview the exact Google Stitch design system on Zenaload.",
 };
 
 export default function PreviewLayout({ children }: { children: ReactNode }) {
   return (
-    <div data-preview-root className="min-h-screen flex flex-col bg-bg text-ink selection:bg-brand selection:text-white">
-      {/* Hide the root layout nav, footer, and floaters on preview routes via CSS */}
+    <div
+      data-preview-root
+      className="min-h-screen flex flex-col bg-surface text-on-surface antialiased font-stitch selection:bg-secondary-container selection:text-on-background"
+    >
+      {/* Suppress original V1 shell elements */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -24,137 +27,56 @@ export default function PreviewLayout({ children }: { children: ReactNode }) {
         }}
       />
 
-      {/* V2 Preview Sticky Announcement Banner */}
+      {/* Floating Preview Banner */}
       <PreviewBanner />
 
-      {/* V2 Gaming Navigation Bar */}
+      {/* Exact Stitch Header Component */}
       <NavbarV2 />
 
-      {/* Main Content Area */}
+      {/* Main Content Area with fluid canvas */}
       <main className="flex-1 w-full">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-          {children}
-        </div>
+        {children}
       </main>
 
-      {/* V2 Polished Gaming Footer */}
-      <footer className="border-t border-white/10 bg-bg2/90 backdrop-blur-md mt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/5">
-            {/* Brand column */}
-            <div className="md:col-span-1 space-y-3">
-              <Link
-                href="/preview"
-                className="group flex items-center gap-2"
-                aria-label={`${config.brand} Preview Home`}
-              >
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand to-brand2 text-base font-black text-white shadow-md shadow-brand/30">
-                  Z
-                </span>
-                <span className="text-lg font-bold tracking-tight text-white">
-                  {config.brand}
-                  <span className="text-hi">.</span>
-                </span>
-              </Link>
-              <p className="text-xs text-mute leading-relaxed">
-                Nigeria&apos;s premier instant game credits gateway. Seamless Naira payments, zero account friction, direct in-game fulfillment.
-              </p>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[11px] text-emerald-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>All systems operational</span>
-              </div>
+      {/* Exact Stitch Footer Component (from Shared Components JSON) */}
+      <footer className="w-full py-8 md:py-12 px-4 sm:px-6 md:px-12 bg-on-background border-t border-surface-variant/20 text-surface-container-lowest">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <img
+                alt="Zenaload"
+                className="w-8 h-8 rounded-lg object-contain"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1VOFgqEf9RJagFErx2Kd_YEY4Z-oktKNnNMoWGKjdnO9GRutDbHOEdp-9seSmGIoFYEqZmxcXwHS4PPfrDeldTiOh_0NMgJpWIvk5bH0F-k66w3dGLJ1laXjq5X7X8ncByVApfXyT-PJkuJYbVxiaLqRq3lHzAv4_1L8gGUWmYHWU9-vA665unC5PfkJ3Daw3qmoGuKCcFUsn_SNp7hSdVTu3tbr6LCX9CYryxcmDmEScc9_PeTZ9I8f2Y"
+              />
+              <span className="text-xl font-extrabold text-surface-container-lowest tracking-tight">
+                {config.brand}
+              </span>
             </div>
-
-            {/* Quick Links */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-white">Navigation</h4>
-              <ul className="space-y-2 text-xs text-ink2">
-                <li>
-                  <Link href="/preview/games" className="hover:text-hi transition-colors">
-                    Browse All Games
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/how-it-works" className="hover:text-hi transition-colors">
-                    How It Works
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/track-order" className="hover:text-hi transition-colors">
-                    Track Your Order
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/faq" className="hover:text-hi transition-colors">
-                    Frequently Asked Questions
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Support & Contact */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-white">Customer Support</h4>
-              <ul className="space-y-2 text-xs text-ink2">
-                <li>
-                  <a
-                    href={`https://wa.me/${config.whatsapp}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
-                  >
-                    <span>💬</span> WhatsApp Instant Desk
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={`mailto:${config.supportEmail}`}
-                    className="hover:text-hi transition-colors flex items-center gap-1.5"
-                  >
-                    <span>✉️</span> {config.supportEmail}
-                  </a>
-                </li>
-                <li>
-                  <Link href="/support" className="hover:text-hi transition-colors">
-                    Submit Support Ticket
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal & Compliance */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-white">Legal & Security</h4>
-              <ul className="space-y-2 text-xs text-ink2">
-                <li>
-                  <Link href="/terms" className="hover:text-hi transition-colors">
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/privacy" className="hover:text-hi transition-colors">
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/refund-policy" className="hover:text-hi transition-colors">
-                    Refund & Guarantee Policy
-                  </Link>
-                </li>
-                <li className="pt-2 text-[11px] text-mute">
-                  Secured by Paystack · 256-bit SSL
-                </li>
-              </ul>
-            </div>
+            <p className="text-sm text-outline-variant max-w-md">
+              &copy; {new Date().getFullYear()} {config.brand}. Instant gaming top-ups across Nigeria. Powered by Paystack.
+            </p>
+            <p className="text-xs text-outline-variant/80">
+              Paystack business name: {config.legal.companyName} &bull; 24/7 WhatsApp: +{config.whatsapp}
+            </p>
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-mute">
-            <p>
-              {config.legal.companyName} · RC {config.legal.rcNumber} · Licensed Nigerian Entity
-            </p>
-            <p>
-              &copy; {new Date().getFullYear()} {config.brand}. All trademarks belong to their respective publishers.
-            </p>
+          {/* Footer Navigation Links */}
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs md:text-sm font-semibold">
+            <Link href="/terms" className="text-outline-variant hover:text-surface-container-lowest transition-colors">
+              Terms of Service
+            </Link>
+            <Link href="/privacy" className="text-outline-variant hover:text-surface-container-lowest transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/refund-policy" className="text-outline-variant hover:text-surface-container-lowest transition-colors">
+              Refund Policy
+            </Link>
+            <Link href="/faq" className="text-outline-variant hover:text-surface-container-lowest transition-colors">
+              FAQ
+            </Link>
+            <Link href="/support" className="text-outline-variant hover:text-surface-container-lowest transition-colors">
+              Contact Support
+            </Link>
           </div>
         </div>
       </footer>

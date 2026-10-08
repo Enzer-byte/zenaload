@@ -61,8 +61,8 @@ export function AdminHeaderBalance() {
     <div
       className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs transition-colors ${
         isLow
-          ? "border-amber-500/50 bg-amber-500/10 text-amber-300"
-          : "border-line bg-card/80 text-ink2"
+          ? "border-amber-300 bg-amber-50 text-amber-800"
+          : "border-[#E0E5F1] bg-white text-slate-700 shadow-sm"
       }`}
       title={
         isLow
@@ -71,17 +71,17 @@ export function AdminHeaderBalance() {
       }
     >
       <div className="flex items-center gap-1.5">
-        <span className="text-mute">Supplier Balance:</span>
-        <span className="font-semibold text-ink">
+        <span className={isLow ? "text-amber-700 font-medium" : "text-slate-500"}>Supplier Balance:</span>
+        <span className={`font-bold ${isLow ? "text-amber-900" : "text-slate-900"}`}>
           {loading && balance === null ? (
-            <span className="inline-block animate-pulse text-mute">Checking...</span>
+            <span className="inline-block animate-pulse text-slate-400">Checking...</span>
           ) : (
             formattedBalance
           )}
         </span>
         {isMock && (
           <span
-            className="rounded bg-elevated px-1.5 py-0.5 text-[10px] font-medium text-mute"
+            className="rounded bg-slate-100 border border-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600"
             title="Simulated sandbox balance"
           >
             MOCK
@@ -91,7 +91,7 @@ export function AdminHeaderBalance() {
 
       {isLow && !loading && (
         <span
-          className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-300"
+          className="rounded bg-amber-200 border border-amber-300 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-900"
           title="Low Balance (< $25 threshold)"
         >
           Low Balance
@@ -99,7 +99,7 @@ export function AdminHeaderBalance() {
       )}
 
       {error && !loading && (
-        <span className="text-[10px] text-red-400" title={error}>
+        <span className="text-[10px] font-medium text-red-600" title={error}>
           Offline
         </span>
       )}
@@ -110,10 +110,14 @@ export function AdminHeaderBalance() {
         disabled={loading}
         aria-label="Refresh supplier balance"
         title="Refresh live balance"
-        className="ml-0.5 rounded p-1 text-mute hover:bg-elevated hover:text-ink focus:outline-none focus:ring-1 focus:ring-brand disabled:opacity-50"
+        className={`ml-0.5 rounded p-1 focus:outline-none transition-colors ${
+          isLow
+            ? "text-amber-700 hover:text-amber-900 hover:bg-amber-100/60"
+            : "text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+        } disabled:opacity-50`}
       >
         <svg
-          className={`h-3.5 w-3.5 transition-transform ${loading ? "animate-spin text-hi" : ""}`}
+          className={`h-3.5 w-3.5 transition-transform ${loading ? "animate-spin text-[#1E3BCB]" : ""}`}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
